@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controller.ComplaintController">
+
+    <Label text="Registrar Reclamação"
+           style="-fx-font-size: 26px; -fx-font-weight: bold;" />
+
+    <ComboBox fx:id="categoryBox" prefWidth="250"/>
+
+    <TextField fx:id="locationField"
+               promptText="Local do problema"
+               prefWidth="250"/>
+
+    <TextArea fx:id="descriptionArea"
+              promptText="Descreva o problema"
+              prefHeight="120"
+              prefWidth="250"/>
+
+    <Button text="Enviar Reclamação"
+            onAction="#submitComplaint"/>
+
+</VBox>

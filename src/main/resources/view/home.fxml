@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.HomeController">
+
+    <center>
+
+        <VBox fx:id="contentArea"
+              alignment="CENTER"
+              spacing="30">
+
+            <Label text="Cidade Melhor"
+                   style="-fx-font-size: 36px; -fx-font-weight: bold;" />
+
+            <Label text="Sistema de Reclamações Urbanas"
+                   style="-fx-font-size: 18px;" />
+
+            <Button text="Nova Reclamação"
+                    prefWidth="200"
+                    onAction="#newComplaint"/>
+
+            <Button text="Ver Reclamações"
+                    prefWidth="200"
+                    onAction="#seeComplaints"/>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>

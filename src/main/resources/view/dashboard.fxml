@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controller.DashboardController">
+
+    <Label text="Sistema JavaFX 🚀"/>
+
+    <Button text="Carregar dados"
+            onAction="#loadData"/>
+
+</VBox>
