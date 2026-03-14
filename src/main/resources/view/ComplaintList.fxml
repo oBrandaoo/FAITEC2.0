@@ -10,7 +10,7 @@
     <Label text="Lista de Reclamações"
            style="-fx-font-size: 26px; -fx-font-weight: bold;" />
 
-    <TableView fx:id="complaintsTable" prefWidth="600">
+    <TableView fx:id="complaintsTable" prefWidth="600" maxWidth="600">
 
         <columns>
 

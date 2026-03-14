@@ -14,12 +14,14 @@
 
     <TextField fx:id="locationField"
                promptText="Local do problema"
-               prefWidth="250"/>
+               prefWidth="250"
+               maxWidth="250"/>
 
     <TextArea fx:id="descriptionArea"
               promptText="Descreva o problema"
               prefHeight="120"
-              prefWidth="250"/>
+              prefWidth="250"
+              maxWidth="250"/>
 
     <Button text="Enviar Reclamação"
             onAction="#submitComplaint"/>
