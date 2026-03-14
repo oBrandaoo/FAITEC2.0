@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controller.ComplaintController">
+
+    <Label text="Lista de Reclamações"
+           style="-fx-font-size: 26px; -fx-font-weight: bold;" />
+
+    <TableView fx:id="complaintsTable" prefWidth="600">
+
+        <columns>
+
+            <TableColumn fx:id="categoryColumn" text="Categoria" prefWidth="150"/>
+            <TableColumn fx:id="locationColumn" text="Local" prefWidth="150"/>
+            <TableColumn fx:id="descriptionColumn" text="Descrição" prefWidth="300"/>
+
+        </columns>
+
+    </TableView>
+
+    <Button text="Voltar"
+            onAction="#goHome"/>
+
+</VBox>
