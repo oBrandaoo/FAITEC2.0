@@ -1,11 +1,27 @@
 package org.example.controller;
 
+import javafx.scene.control.cell.PropertyValueFactory;
+import org.example.util.ScreenManager;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import org.example.model.Complaint;
+import org.example.service.ComplaintService;
 
 public class ComplaintController {
+
+    @FXML
+    private TableView<Complaint> complaintsTable;
+
+    @FXML
+    private TableColumn<Complaint, String> categoryColumn;
+
+    @FXML
+    private TableColumn<Complaint, String> locationColumn;
+
+    @FXML
+    private TableColumn<Complaint, String> descriptionColumn;
+
     @FXML
     private ComboBox<String> categoryBox;
 
@@ -18,13 +34,37 @@ public class ComplaintController {
     @FXML
     public void initialize() {
 
-        categoryBox.getItems().addAll(
-                "Buraco na rua",
-                "Iluminação pública",
-                "Lixo acumulado",
-                "Esgoto",
-                "Segurança"
-        );
+        if (categoryBox != null) {
+
+            categoryBox.getItems().addAll(
+                    "Buraco na rua",
+                    "Iluminação pública",
+                    "Lixo acumulado",
+                    "Esgoto",
+                    "Segurança"
+            );
+        }
+
+        if (complaintsTable != null) {
+
+            categoryColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("category")
+            );
+
+            locationColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("location")
+            );
+
+            descriptionColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("description")
+            );
+
+            complaintsTable.setItems(
+                    FXCollections.observableArrayList(
+                            ComplaintService.getAllComplaints()
+                    )
+            );
+        }
 
     }
 
@@ -34,10 +74,15 @@ public class ComplaintController {
         String location = locationField.getText();
         String description = descriptionArea.getText();
 
-        System.out.println("Categoria: " + category);
-        System.out.println("Local: " + location);
-        System.out.println("Descrição: " + description);
+        Complaint complaint = new Complaint(category, location, description);
 
+        ComplaintService.addComplaint(complaint);
+
+        System.out.println("Reclamação registrada!");
+    }
+
+    public void goHome() {
+        ScreenManager.loadScreen("Home.fxml");
     }
 
 }
