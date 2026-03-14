@@ -3,7 +3,6 @@ package org.example;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -12,7 +11,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/home.fxml")
+                getClass().getResource("/view/Home.fxml")
         );
 
         Scene scene = new Scene(loader.load());
