@@ -1,14 +1,20 @@
 package org.example.model;
 
+import java.time.LocalDate;
+
 public class Complaint {
     private String category;
-    private String description;
     private String location;
+    private String description;
+    private String status;
+    private LocalDate date;
 
-    public Complaint(String category, String description, String location) {
+    public Complaint(String category, String location, String description) {
         this.category = category;
-        this.description = description;
         this.location = location;
+        this.description = description;
+        this.status = "ABERTA";
+        this.date = LocalDate.now();
     }
 
     public String getCategory() {
@@ -21,5 +27,17 @@ public class Complaint {
 
     public String getLocation() {
         return location;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 }

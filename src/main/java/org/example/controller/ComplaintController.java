@@ -1,12 +1,15 @@
 package org.example.controller;
 
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import org.example.util.ScreenManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.example.model.Complaint;
 import org.example.service.ComplaintService;
+
+import java.time.LocalDate;
 
 public class ComplaintController {
 
@@ -21,6 +24,15 @@ public class ComplaintController {
 
     @FXML
     private TableColumn<Complaint, String> descriptionColumn;
+
+    @FXML
+    private TableColumn<Complaint, String> statusColumn;
+
+    @FXML
+    private TableColumn<Complaint, LocalDate> dateColumn;
+
+    @FXML
+    private TableColumn<Complaint, Void> actionColumn;
 
     @FXML
     private ComboBox<String> categoryBox;
@@ -59,11 +71,58 @@ public class ComplaintController {
                     new PropertyValueFactory<>("description")
             );
 
+            statusColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("status")
+            );
+
+            dateColumn.setCellValueFactory(
+                    new PropertyValueFactory<>("date")
+            );
+
             complaintsTable.setItems(
                     FXCollections.observableArrayList(
                             ComplaintService.getAllComplaints()
                     )
             );
+        }
+
+        if (actionColumn != null) {
+
+            actionColumn.setCellFactory(new Callback<>() {
+
+                @Override
+                public TableCell<Complaint, Void> call(final TableColumn<Complaint, Void> param) {
+
+                    return new TableCell<>() {
+
+                        private final Button btn = new Button("Resolver");
+
+                        {
+                            btn.setOnAction(event -> {
+
+                                Complaint complaint = getTableView().getItems().get(getIndex());
+
+                                complaint.setStatus("RESOLVIDA");
+
+                                complaintsTable.refresh();
+
+                            });
+                        }
+
+                        @Override
+                        protected void updateItem(Void item, boolean empty) {
+                            super.updateItem(item, empty);
+
+                            if (empty) {
+                                setGraphic(null);
+                            } else {
+                                setGraphic(btn);
+                            }
+                        }
+                    };
+                }
+            });
+
         }
 
     }
