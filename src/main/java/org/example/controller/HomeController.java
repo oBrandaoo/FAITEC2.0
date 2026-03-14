@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import javafx.scene.layout.StackPane;
+import org.example.util.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,23 +14,24 @@ import java.io.IOException;
 
 public class HomeController {
     @FXML
-    private VBox contentArea;
+    private StackPane contentArea;
+
+    @FXML
+    public void initialize() {
+
+        ScreenManager.setMainContainer(contentArea);
+
+    }
 
     public void newComplaint(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/complaint.fxml")
-        );
-
-        VBox complaintView = loader.load();
-
-        contentArea.getChildren().setAll(complaintView);
+        ScreenManager.loadScreen("ComplaintForm.fxml");
 
     }
 
     public void seeComplaints(ActionEvent event) {
 
-        System.out.println("Abrir lista de reclamações");
+        ScreenManager.loadScreen("ComplaintList.fxml");
 
     }
 
