@@ -1,0 +1,21 @@
+.title {
+    -fx-font-size:  100px;
+    -fx-font-family: Unica One;
+    -fx-text-fill: white;
+}
+.subtitle{
+    -fx-font-size: 70px;
+}
+.main-button{
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+    -fx-padding: 8 20 8 20;
+    -fx-background-radius: 10px;
+}
+.main-button:hover{
+    -fx-background-color: #2980b9;
+}
+.root{
+    -fx-background-color: #012a36
+}
