@@ -18,7 +18,6 @@ public class MainApp extends Application {
         );
 
         Font.loadFont(getClass().getResourceAsStream("/fonts/TextMeOne.ttf"),20);
-        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
         Parent root = loader.load();
 
         Scene scene = new Scene(root);

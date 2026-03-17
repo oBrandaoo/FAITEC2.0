@@ -16,11 +16,10 @@
     -fx-font-size: 30px;
     -fx-padding: 8 20 8 20;
     -fx-background-radius: 10px;
-    -fx-focus-color: yellow;
-    -fx-highlight-fill: black;
 }
 .main_button:hover{
-    -fx-background-color: #3498db;
+    -fx-focus-color: yellow;
+    -fx-highlight-fill: black;
 }
 .root{
     -fx-background-color: #012a36

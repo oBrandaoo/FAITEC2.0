@@ -7,7 +7,7 @@
             fx:controller="org.example.controller.HomeController">
     <top>
 
-        <VBox alignment="CENTER" spacing="10">
+        <VBox fx:id="textbox" spacing="10">
 
             <Label text="Cidade Melhor"
                    styleClass="title"/>
@@ -37,6 +37,5 @@
 
         <StackPane fx:id="contentArea"/>
 
-    </center>
-
+    </center> 
 </BorderPane>
