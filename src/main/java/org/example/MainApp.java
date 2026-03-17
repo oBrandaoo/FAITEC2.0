@@ -1,12 +1,8 @@
 package org.example;
 
-import atlantafx.base.theme.PrimerDark;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
-import javafx.scene.text.Font;
 
 public class MainApp extends Application {
 
@@ -17,14 +13,14 @@ public class MainApp extends Application {
                 getClass().getResource("/view/Home.fxml")
         );
 
-        Font.loadFont(getClass().getResourceAsStream("/fonts/TextMeOne.ttf"),20);
-        Parent root = loader.load();
+        //Font.loadFont(getClass().getResourceAsStream("/fonts/TextMeOne.ttf"),20);
+        //Parent root = loader.load();
 
-        Scene scene = new Scene(root);
-        String css = this.getClass().getResource("/css/style.css").toExternalForm();
-        scene.getStylesheets().add(css);
+        //Scene scene = new Scene(root);
+        //String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        //scene.getStylesheets().add(css);
         stage.setTitle("Cidade Melhor");
-        stage.setScene(scene);
+        //stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
 

@@ -5,37 +5,42 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.controller.HomeController">
+
+    <!-- TOPBAR -->
     <top>
 
-        <VBox fx:id="textbox" spacing="10">
+        <HBox alignment="CENTER_LEFT"
+              spacing="40"
+              style="-fx-padding: 15; -fx-background-color: #ecf0f1;">
 
+            <!-- LOGO / NOME -->
             <Label text="Cidade Melhor"
-                   styleClass="title"/>
+                   style="-fx-font-size: 22px; -fx-font-weight: bold;" />
 
-            <Label text="Sistema de Reclamações Urbanas"
-                   styleClass="subtitle" />
+            <!-- MENU -->
+            <HBox spacing="20">
 
-            <HBox alignment="BOTTOM_CENTER" spacing="80">
+                <Button text="🏠 Início"
+                        onAction="#goHome"/>
 
-                <Button text="Nova Reclamação"
-                        onAction="#newComplaint"
-                        fx:id="main_button"
-                        styleClass="main_button"/>
+                <Button text="📝 Nova Reclamação"
+                        onAction="#newComplaint"/>
 
-                <Button text="Ver Reclamações"
-                        onAction="#seeComplaints"
-                        styleClass="main_button"
-                        fx:id="main_button2"/>
+                <Button text="📋 Reclamações"
+                        onAction="#seeComplaints"/>
 
             </HBox>
 
-        </VBox>
+        </HBox>
 
     </top>
 
+    <!-- CONTEÚDO -->
     <center>
 
-        <StackPane fx:id="contentArea"/>
+        <StackPane fx:id="contentArea"
+                   style="-fx-padding: 30;" />
 
-    </center> 
+    </center>
+
 </BorderPane>
