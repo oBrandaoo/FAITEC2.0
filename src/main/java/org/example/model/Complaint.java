@@ -1,23 +1,25 @@
 package org.example.model;
 
+import org.example.model.enums.ComplaintCategory;
+
 import java.time.LocalDate;
 
 public class Complaint {
-    private String category;
+    private ComplaintCategory category;
     private String location;
     private String description;
     private String status;
     private LocalDate date;
 
-    public Complaint(String category, String location, String description) {
+    public Complaint(ComplaintCategory category, String location, String description) {
         this.category = category;
         this.location = location;
         this.description = description;
-        this.status = "ABERTA";
+        this.status = "PENDENTE";
         this.date = LocalDate.now();
     }
 
-    public String getCategory() {
+    public ComplaintCategory getCategory() {
         return category;
     }
 
