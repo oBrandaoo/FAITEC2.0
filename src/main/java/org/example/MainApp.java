@@ -1,10 +1,12 @@
 package org.example;
 
+import atlantafx.base.theme.PrimerDark;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
+import javafx.scene.text.Font;
 
 public class MainApp extends Application {
 
@@ -15,6 +17,8 @@ public class MainApp extends Application {
                 getClass().getResource("/view/Home.fxml")
         );
 
+        Font.loadFont(getClass().getResourceAsStream("/fonts/TextMeOne.ttf"),20);
+        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
         Parent root = loader.load();
 
         Scene scene = new Scene(root);

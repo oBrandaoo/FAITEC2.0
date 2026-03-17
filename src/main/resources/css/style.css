@@ -1,21 +1,28 @@
 .title {
     -fx-font-size:  100px;
-    -fx-font-family: Unica One;
+    -fx-font-family: "Open Sans";
     -fx-text-fill: white;
+    -fx-font-weight: bold;
 }
 .subtitle{
     -fx-font-size: 70px;
+    -fx-font-family: "Open Sans";
+    -fx-text-fill: white;
+
 }
-.main-button{
+.main_button{
     -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-size: 30px;
     -fx-padding: 8 20 8 20;
     -fx-background-radius: 10px;
+    -fx-focus-color: yellow;
+    -fx-highlight-fill: black;
 }
-.main-button:hover{
-    -fx-background-color: #2980b9;
+.main_button:hover{
+    -fx-background-color: #3498db;
 }
 .root{
     -fx-background-color: #012a36
+
 }
