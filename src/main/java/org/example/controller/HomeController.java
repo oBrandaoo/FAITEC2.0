@@ -49,7 +49,7 @@ public class HomeController {
         buttonBox.setAlignment(Pos.CENTER);
         buttonArea.setAlignment(Pos.CENTER);
         StackPane.setMargin(buttonBox, new Insets(200, 0, 0, 0));
-        buttonBox.setSpacing(50);
+        buttonBox.setSpacing(100);
 
         main_button.setOnMouseEntered(e -> {
             main_button.setScaleX(1.4);
