@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.scene.layout.HBox;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
@@ -22,9 +23,14 @@ public class HomeController {
     private StackPane contentArea;
     @FXML
     private VBox textbox;
+    @FXML
+    private StackPane buttonArea;
 
     @FXML
     private Label title;
+
+    @FXML
+    private HBox buttonBox;
 
     @FXML
     private Label subtitleL;
@@ -38,7 +44,12 @@ public class HomeController {
         ScreenManager.setMainContainer(contentArea);
 
         textbox.setAlignment(Pos.CENTER);
-        textbox.setPadding(new  Insets(300, 20, 10, 20));
+        textbox.setPadding(new  Insets(250, 20, 10, 20));
+
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonArea.setAlignment(Pos.CENTER);
+        StackPane.setMargin(buttonBox, new Insets(200, 0, 0, 0));
+        buttonBox.setSpacing(50);
 
         main_button.setOnMouseEntered(e -> {
             main_button.setScaleX(1.4);

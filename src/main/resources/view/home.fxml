@@ -14,20 +14,21 @@
 
             <Label text="Sistema de Reclamações Urbanas"
                    styleClass="subtitle" />
+            <StackPane fx:id="buttonArea">
+                <HBox fx:id="buttonBox">
 
-            <HBox alignment="BOTTOM_CENTER" spacing="80">
+                    <Button text="Nova Reclamação"
+                            onAction="#newComplaint"
+                            fx:id="main_button"
+                            styleClass="main_button"/>
 
-                <Button text="Nova Reclamação"
-                        onAction="#newComplaint"
-                        fx:id="main_button"
-                        styleClass="main_button"/>
+                    <Button text="Ver Reclamações"
+                            onAction="#seeComplaints"
+                            styleClass="main_button"
+                            fx:id="main_button2"/>
 
-                <Button text="Ver Reclamações"
-                        onAction="#seeComplaints"
-                        styleClass="main_button"
-                        fx:id="main_button2"/>
-
-            </HBox>
+                </HBox>
+            </StackPane>
 
         </VBox>
 
