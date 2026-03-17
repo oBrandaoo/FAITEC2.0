@@ -10,13 +10,28 @@
     -fx-text-fill: white;
 
 }
-.main_button{
+.botaoInicio{
     -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-size: 30px;
     -fx-padding: 8 20 8 20;
     -fx-background-radius: 10px;
 }
+.botaoReclamaçao{
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+    -fx-padding: 8 20 8 20;
+    -fx-background-radius: 10px;
+}
+.botaoReclamaçoes{
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+    -fx-padding: 8 20 8 20;
+    -fx-background-radius: 10px;
+}
+
 .main_button:hover{
     -fx-focus-color: yellow;
     -fx-highlight-fill: black;

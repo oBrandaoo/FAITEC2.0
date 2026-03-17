@@ -6,6 +6,7 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.controller.HomeController">
 
+
     <!-- TOPBAR -->
     <top>
 
@@ -21,12 +22,19 @@
             <HBox spacing="20">
 
                 <Button text="🏠 Início"
+                        fx:id="Inicio"
+                        styleClass="botaoInicio"
                         onAction="#goHome"/>
 
+
                 <Button text="📝 Nova Reclamação"
+                        fx:id="Reclamaçao"
+                        styleClass="botaoReclamaçao"
                         onAction="#newComplaint"/>
 
                 <Button text="📋 Reclamações"
+                        fx:id="Reclamaçoes"
+                        styleClass="botaoReclamaçoes"
                         onAction="#seeComplaints"/>
 
             </HBox>
@@ -37,7 +45,6 @@
 
     <!-- CONTEÚDO -->
     <center>
-
         <StackPane fx:id="contentArea"
                    style="-fx-padding: 30;" />
 
