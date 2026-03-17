@@ -26,4 +26,7 @@
     <Button text="Enviar Reclamação"
             onAction="#submitComplaint"/>
 
+    <Button text="Voltar"
+            onAction="#goHome"/>
+
 </VBox>

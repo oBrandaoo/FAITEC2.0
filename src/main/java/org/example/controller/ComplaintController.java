@@ -141,7 +141,7 @@ public class ComplaintController {
     }
 
     public void goHome() {
-        ScreenManager.loadScreen("Home.fxml");
+        ScreenManager.loadScreen("HomeContent.fxml");
     }
 
 }

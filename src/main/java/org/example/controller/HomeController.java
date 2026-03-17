@@ -21,6 +21,8 @@ public class HomeController {
 
         ScreenManager.setMainContainer(contentArea);
 
+        ScreenManager.loadScreen("HomeContent.fxml");
+
     }
 
     public void newComplaint(ActionEvent event) throws IOException {
