@@ -2,6 +2,7 @@ package org.example.controller;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import org.example.model.enums.ComplaintCategory;
 import org.example.util.ScreenManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -35,7 +36,7 @@ public class ComplaintController {
     private TableColumn<Complaint, Void> actionColumn;
 
     @FXML
-    private ComboBox<String> categoryBox;
+    private ComboBox<ComplaintCategory> categoryBox;
 
     @FXML
     private TextField locationField;
@@ -48,13 +49,7 @@ public class ComplaintController {
 
         if (categoryBox != null) {
 
-            categoryBox.getItems().addAll(
-                    "Buraco na rua",
-                    "Iluminação pública",
-                    "Lixo acumulado",
-                    "Esgoto",
-                    "Segurança"
-            );
+            categoryBox.getItems().addAll(ComplaintCategory.values());
         }
 
         if (complaintsTable != null) {
@@ -129,7 +124,7 @@ public class ComplaintController {
 
     public void submitComplaint() {
 
-        String category = categoryBox.getValue();
+        ComplaintCategory category = categoryBox.getValue();
         String location = locationField.getText();
         String description = descriptionArea.getText();
 
@@ -141,7 +136,7 @@ public class ComplaintController {
     }
 
     public void goHome() {
-        ScreenManager.loadScreen("Home.fxml");
+        ScreenManager.loadScreen("HomeContent.fxml");
     }
 
 }
