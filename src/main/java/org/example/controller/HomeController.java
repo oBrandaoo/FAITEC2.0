@@ -37,4 +37,10 @@ public class HomeController {
 
     }
 
+    public void goHome() {
+
+        ScreenManager.loadScreen("HomeContent.fxml");
+
+    }
+
 }
