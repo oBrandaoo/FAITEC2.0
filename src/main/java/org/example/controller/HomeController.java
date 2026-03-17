@@ -1,21 +1,17 @@
 package org.example.controller;
 
-import javafx.scene.layout.StackPane;
-import org.example.util.ScreenManager;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.event.ActionEvent;
-
 import java.io.IOException;
+
+import org.example.util.ScreenManager;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class HomeController {
     @FXML
     private StackPane contentArea;
-
+    
     @FXML
     public void initialize() {
 
@@ -34,7 +30,6 @@ public class HomeController {
     public void seeComplaints(ActionEvent event) {
 
         ScreenManager.loadScreen("ComplaintList.fxml");
-
     }
 
     public void goHome() {
@@ -42,5 +37,5 @@ public class HomeController {
         ScreenManager.loadScreen("HomeContent.fxml");
 
     }
-
+    
 }
