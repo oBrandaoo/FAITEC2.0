@@ -8,7 +8,7 @@
       fx:controller="org.example.controller.ComplaintController">
 
     <Label text="Lista de Reclamações"
-           style="-fx-font-size: 26px; -fx-font-weight: bold;" />
+           styleClass="listaReclamacao"/>
 
     <TableView fx:id="complaintsTable" prefWidth="860" maxWidth="860">
 
@@ -26,6 +26,8 @@
     </TableView>
 
     <Button text="Voltar"
+            styleClass="botaoVoltar"
+            fx:id="voltar"
             onAction="#goHome"/>
 
 </VBox>

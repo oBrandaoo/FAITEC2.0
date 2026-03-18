@@ -45,6 +45,9 @@ public class ComplaintController {
     private TextArea descriptionArea;
 
     @FXML
+    private Button voltar;
+
+    @FXML
     public void initialize() {
 
         if (categoryBox != null) {
