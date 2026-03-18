@@ -48,6 +48,9 @@ public class ComplaintController {
     private Button voltar;
 
     @FXML
+    private Button regisReclamacao;
+
+    @FXML
     public void initialize() {
 
         if (categoryBox != null) {
@@ -122,6 +125,14 @@ public class ComplaintController {
             });
 
         }
+        voltar.setOnMouseEntered(e -> {
+            voltar.setScaleX(1.1);
+            voltar.setScaleY(1.1);
+        });
+        voltar.setOnMouseExited(e -> {
+            voltar.setScaleX(1.0);
+            voltar.setScaleY(1.0);
+        });
 
     }
 
@@ -136,6 +147,7 @@ public class ComplaintController {
         ComplaintService.addComplaint(complaint);
 
         System.out.println("Reclamação registrada!");
+
     }
 
     public void goHome() {

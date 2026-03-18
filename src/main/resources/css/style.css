@@ -42,6 +42,13 @@
     -fx-padding: 8 20 8 20;
     -fx-background-radius: 10px;
 }
+.botaoRegisReclamacao{
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+    -fx-padding: 8 20 8 20;
+    -fx-background-radius: 10px;
+}
 .titulo{
     -fx-font-size: 50px;
     -fx-text-fill: white;
@@ -58,12 +65,12 @@
     -fx-font-weight: bold;
     -fx-font-family: "Open Sans"
 }
-.botaoRegisReclamacao{
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
-    -fx-font-size: 30px;
-    -fx-padding: 8 20 8 20;
-    -fx-background-radius: 10px;
+.RegisReclamacao{
+    -fx-text-fill:white;
+    -fx-font-size: 50px;
+    -fx-font-family: "Open Sans";
+    -fx-font-weight: bold;
+
 }
 .root{
     -fx-background-color: #012a36;

@@ -8,7 +8,7 @@
       fx:controller="org.example.controller.ComplaintController">
 
     <Label text="Registrar Reclamação"
-           styleClass="botaoRegisReclamacao"/>
+           styleClass="RegisReclamacao"/>
 
     <ComboBox fx:id="categoryBox" prefWidth="250"/>
 
@@ -24,9 +24,13 @@
               maxWidth="250"/>
 
     <Button text="Enviar Reclamação"
+            styleClass="botaoRegisReclamacao"
+            fx:id="regisReclamacao"
             onAction="#submitComplaint"/>
 
     <Button text="Voltar"
+            styleClass="botaoVoltar"
+            fx:id="voltar"
             onAction="#goHome"/>
 
 </VBox>
