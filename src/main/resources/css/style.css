@@ -1,13 +1,9 @@
-.title {
-    -fx-font-size:  100px;
+.logo{
+    -fx-font-size:  50px;
     -fx-font-family: "Open Sans";
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-font-weight: bold;
 }
-.subtitle{
-    -fx-font-size: 70px;
-    -fx-font-family: "Open Sans";
-    -fx-text-fill: white;
 
 }
 .botaoInicio{
@@ -17,26 +13,42 @@
     -fx-padding: 8 20 8 20;
     -fx-background-radius: 10px;
 }
-.botaoReclamaçao{
+.botaoInicio:hover{
+
+}
+.botaoReclamacao{
     -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-size: 30px;
     -fx-padding: 8 20 8 20;
     -fx-background-radius: 10px;
 }
-.botaoReclamaçoes{
+.botaoReclamacao:hover{
+
+}
+.botaoReclamacoes{
     -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-size: 30px;
     -fx-padding: 8 20 8 20;
     -fx-background-radius: 10px;
+}
+.botaoReclamacoes:hover{
+
 }
 
-.main_button:hover{
-    -fx-focus-color: yellow;
-    -fx-highlight-fill: black;
+.titulo{
+    -fx-font-size: 50px;
+    -fx-text-fill: white;
+    -fx-text-weight: bold;
+}
+.subtitulo{
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+    -fx-text-weight: bold;
 }
 .root{
-    -fx-background-color: #012a36
+    -fx-background-color: #012a36;
+    -fx-background-blend-mode;
 
 }

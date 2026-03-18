@@ -16,7 +16,7 @@
 
             <!-- LOGO / NOME -->
             <Label text="Cidade Melhor"
-                   style="-fx-font-size: 22px; -fx-font-weight: bold;" />
+                   styleClass="logo" />
 
             <!-- MENU -->
             <HBox spacing="20">
@@ -28,13 +28,13 @@
 
 
                 <Button text="📝 Nova Reclamação"
-                        fx:id="Reclamaçao"
-                        styleClass="botaoReclamaçao"
+                        fx:id="Reclamacao"
+                        styleClass="botaoReclamacao"
                         onAction="#newComplaint"/>
 
                 <Button text="📋 Reclamações"
-                        fx:id="Reclamaçoes"
-                        styleClass="botaoReclamaçoes"
+                        fx:id="Reclamacoes"
+                        styleClass="botaoReclamacoes"
                         onAction="#seeComplaints"/>
 
             </HBox>
