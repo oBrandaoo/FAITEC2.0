@@ -125,14 +125,33 @@ public class ComplaintController {
             });
 
         }
-        voltar.setOnMouseEntered(e -> {
-            voltar.setScaleX(1.1);
-            voltar.setScaleY(1.1);
-        });
-        voltar.setOnMouseExited(e -> {
-            voltar.setScaleX(1.0);
-            voltar.setScaleY(1.0);
-        });
+        if (voltar != null) {
+
+            voltar.setOnMouseEntered(e -> {
+                voltar.setScaleX(1.1);
+                voltar.setScaleY(1.1);
+            });
+
+            voltar.setOnMouseExited(e -> {
+                voltar.setScaleX(1.0);
+                voltar.setScaleY(1.0);
+            });
+
+        }
+
+        if (regisReclamacao != null) {
+
+            regisReclamacao.setOnMouseEntered(e -> {
+                regisReclamacao.setScaleX(1.1);
+                regisReclamacao.setScaleY(1.1);
+            });
+
+            regisReclamacao.setOnMouseExited(e -> {
+                regisReclamacao.setScaleX(1.0);
+                regisReclamacao.setScaleY(1.0);
+            });
+
+        }
 
     }
 
