@@ -9,46 +9,88 @@
     -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-size: 30px;
-    -fx-padding: 8 20 8 20;
+    -fx-padding: 8 16 8 16;
     -fx-background-radius: 10px;
+    -fx-border-color: black;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
 }
 .botaoInicio:hover{
-
+    -fx-background-color: blue;
+    -fx-border-color: #1b2631;
 }
 .botaoReclamacao{
     -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-size: 30px;
-    -fx-padding: 8 20 8 20;
+    -fx-padding: 8 16 8 16;
     -fx-background-radius: 10px;
+    -fx-border-color: black;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
 }
 .botaoReclamacao:hover{
-
+    -fx-background-color: blue;
+    -fx-border-color: #1b2631;
 }
 .botaoReclamacoes{
     -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-size: 30px;
-    -fx-padding: 8 20 8 20;
+    -fx-padding: 8 16 8 16;
     -fx-background-radius: 10px;
+    -fx-border-color: black;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
 }
 .botaoReclamacoes:hover{
-
+    -fx-background-color: blue;
+    -fx-border-color: #1b2631;
 }
 .botaoVoltar{
     -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-size: 30px;
-    -fx-padding: 8 20 8 20;
+    -fx-padding: 8 16 8 16;
     -fx-background-radius: 10px;
+    -fx-border-color: black;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
+}
+.botaoVoltar:hover{
+    -fx-background-color: blue;
+    -fx-border-color: #1b2631;
 }
 .botaoRegisReclamacao{
     -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-size: 30px;
-    -fx-padding: 8 20 8 20;
+    -fx-padding: 8 16 8 16;
     -fx-background-radius: 10px;
+    -fx-border-color: black;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
 }
+.botaoRegisReclamacao:hover{
+    -fx-background-color: blue;
+    -fx-border-color: #1b2631;
+}
+.mapa{
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 10px;
+    -fx-border-color: black;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
+}
+.mapa:hover{
+    -fx-background-color: blue;
+    -fx-border-color: #1b2631;
+}
+
+
 .titulo{
     -fx-font-size: 50px;
     -fx-text-fill: white;

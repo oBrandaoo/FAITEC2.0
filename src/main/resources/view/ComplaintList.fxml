@@ -5,7 +5,8 @@
 
 <VBox spacing="20" alignment="CENTER"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.controller.ComplaintController">
+      fx:controller="org.example.controller.ComplaintController"
+      fx:id="root">
 
     <Label text="Lista de Reclamações"
            styleClass="listaReclamacao"/>

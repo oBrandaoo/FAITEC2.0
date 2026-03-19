@@ -4,8 +4,8 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.controller.HomeController">
-
+            fx:controller="org.example.controller.HomeController"
+            fx:id="root">
 
     <!-- TOPBAR -->
     <top>
@@ -36,6 +36,9 @@
                         fx:id="Reclamacoes"
                         styleClass="botaoReclamacoes"
                         onAction="#seeComplaints"/>
+                <Button text="🗺 Mapa"
+                        fx:id="mapa"
+                        styleClass="mapa"/>
 
             </HBox>
 

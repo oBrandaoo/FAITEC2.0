@@ -1,7 +1,11 @@
 package org.example.controller;
 
+import javafx.animation.ScaleTransition;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import org.example.model.enums.ComplaintCategory;
 import org.example.util.ScreenManager;
 import javafx.collections.FXCollections;
@@ -45,13 +49,14 @@ public class ComplaintController {
     private TextArea descriptionArea;
 
     @FXML
-    private Button voltar;
+    private Parent root;
 
-    @FXML
-    private Button regisReclamacao;
+
 
     @FXML
     public void initialize() {
+
+        aplicarEmTodos(root);
 
         if (categoryBox != null) {
 
@@ -125,36 +130,33 @@ public class ComplaintController {
             });
 
         }
-        if (voltar != null) {
-
-            voltar.setOnMouseEntered(e -> {
-                voltar.setScaleX(1.1);
-                voltar.setScaleY(1.1);
-            });
-
-            voltar.setOnMouseExited(e -> {
-                voltar.setScaleX(1.0);
-                voltar.setScaleY(1.0);
-            });
-
-        }
-
-        if (regisReclamacao != null) {
-
-            regisReclamacao.setOnMouseEntered(e -> {
-                regisReclamacao.setScaleX(1.1);
-                regisReclamacao.setScaleY(1.1);
-            });
-
-            regisReclamacao.setOnMouseExited(e -> {
-                regisReclamacao.setScaleX(1.0);
-                regisReclamacao.setScaleY(1.0);
-            });
-
-        }
 
     }
 
+    private void aplicarEmTodos(Node node) {
+        if (node instanceof Button) {
+            aplicarEfeito((Button) node);
+        }
+
+        if (node instanceof Parent parent) {
+            for (Node child : parent.getChildrenUnmodifiable()) {
+                aplicarEmTodos(child);
+            }
+        }
+    }
+
+    private void aplicarEfeito(Button botao) {
+        ScaleTransition aumentar = new ScaleTransition(Duration.millis(150), botao);
+        aumentar.setToX(1.1);
+        aumentar.setToY(1.1);
+
+        ScaleTransition diminuir = new ScaleTransition(Duration.millis(150), botao);
+        diminuir.setToX(1.0);
+        diminuir.setToY(1.0);
+
+        botao.setOnMouseEntered(e -> aumentar.playFromStart());
+        botao.setOnMouseExited(e -> diminuir.playFromStart());
+    }
     public void submitComplaint() {
 
         ComplaintCategory category = categoryBox.getValue();
