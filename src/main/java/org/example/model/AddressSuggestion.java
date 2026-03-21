@@ -12,7 +12,7 @@ public class AddressSuggestion {
         this.lon = lon;
     }
 
-    public String getDisplayName() {
+    public String getName() {
         return displayName;
     }
 

@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,18 +21,24 @@ public class AddressSearchService {
 
         try {
 
+            String encoded = URLEncoder.encode(query, StandardCharsets.UTF_8);
+
             String urlString =
                     "https://nominatim.openstreetmap.org/search?q="
-                            + query.replace(" ", "%20")
-                            + "&format=json&limit=5";
+                            + encoded
+                            + "&format=json"
+                            + "&limit=5"
+                            + "&countrycodes=br";
 
             URL url = new URL(urlString);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("User-Agent", "JavaFX-App");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
 
             BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream())
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)
             );
 
             StringBuilder response = new StringBuilder();
@@ -47,8 +55,8 @@ public class AddressSearchService {
                 JSONObject obj = array.getJSONObject(i);
 
                 String name = obj.getString("display_name");
-                double lat = obj.getDouble("lat");
-                double lon = obj.getDouble("lon");
+                double lat = Double.parseDouble(obj.getString("lat"));
+                double lon = Double.parseDouble(obj.getString("lon"));
 
                 results.add(new AddressSuggestion(name, lat, lon));
             }
