@@ -46,6 +46,10 @@ public class HomeController {
 
     }
 
+    public void seeMap() {
+        ScreenManager.loadScreen("MapView.fxml");
+    }
+
     private void aplicarEmTodos(Parent parent) {
         for (Node node : parent.getChildrenUnmodifiable()) {
 

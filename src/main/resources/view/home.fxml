@@ -38,7 +38,8 @@
                         onAction="#seeComplaints"/>
                 <Button text="🗺 Mapa"
                         fx:id="mapa"
-                        styleClass="mapa"/>
+                        styleClass="mapa"
+                        onAction="#seeMap"/>
 
             </HBox>
 

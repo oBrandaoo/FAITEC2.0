@@ -6,7 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import org.example.model.AddressSuggestion;
 import org.example.model.enums.ComplaintCategory;
+import org.example.util.AddressSearchService;
+import org.example.util.GeocodingService;
 import org.example.util.ScreenManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -45,7 +48,7 @@ public class ComplaintController {
     private ComboBox<ComplaintCategory> categoryBox;
 
     @FXML
-    private TextField locationField;
+    private ComboBox<AddressSuggestion> locationField;
 
     @FXML
     private TextArea descriptionArea;
@@ -59,6 +62,18 @@ public class ComplaintController {
     public void initialize() {
 
         aplicarEmTodos(root);
+
+        locationField.getEditor().textProperty().addListener((obs, oldText, newText) -> {
+
+            if(newText.length() < 3) return;
+
+            var results = AddressSearchService.search(newText);
+
+            locationField.getItems().setAll(results);
+
+            locationField.show();
+
+        });
 
         if (categoryBox != null) {
 
@@ -162,14 +177,29 @@ public class ComplaintController {
     public void submitComplaint() {
 
         ComplaintCategory category = categoryBox.getValue();
-        String location = locationField.getText();
+        AddressSuggestion selected = locationField.getValue();
+
+        double lat = selected.getLat();
+        double lon = selected.getLon();
+
+        String location = selected.getDisplayName();
         String description = descriptionArea.getText();
+
+        double[] coords = GeocodingService.getCoordinates(location);
+
+        if(coords != null){
+
+            lat = coords[0];
+            lon = coords[1];
+
+            System.out.println("Latitude: " + lat);
+            System.out.println("Longitude: " + lon);
+
+        }
 
         Complaint complaint = new Complaint(category, location, description, PENDENTE);
 
         ComplaintService.addComplaint(complaint);
-
-        System.out.println("Reclamação registrada!");
 
     }
 
