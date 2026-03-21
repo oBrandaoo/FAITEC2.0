@@ -1,15 +1,15 @@
 package org.example.controller;
 
+import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 import org.example.model.AddressSuggestion;
 import org.example.model.enums.ComplaintCategory;
-import org.example.util.AddressSearchService;
-import org.example.util.GeocodingService;
 import org.example.util.ScreenManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -20,6 +20,7 @@ import org.example.service.ComplaintService;
 import java.time.LocalDate;
 
 import static org.example.model.enums.ComplaintStatus.*;
+import static org.example.util.AddressSearchService.search;
 
 public class ComplaintController {
 
@@ -56,24 +57,45 @@ public class ComplaintController {
     @FXML
     private Parent root;
 
-
+    private PauseTransition debounce = new PauseTransition(Duration.seconds(1));
 
     @FXML
     public void initialize() {
 
         aplicarEmTodos(root);
 
-        locationField.getEditor().textProperty().addListener((obs, oldText, newText) -> {
+        if (locationField != null) {
 
-            if(newText.length() < 3) return;
+            locationField.getEditor().textProperty().addListener((obs, oldText, newText) -> {
 
-            var results = AddressSearchService.search(newText);
+                if (newText.length() < 4) return;
 
-            locationField.getItems().setAll(results);
+                debounce.setOnFinished(e -> {
 
-            locationField.show();
+                    var results = search(newText);
 
-        });
+                    locationField.getItems().setAll(results);
+
+                    locationField.show();
+
+                });
+                debounce.playFromStart();
+            });
+
+            locationField.setConverter(new StringConverter<>() {
+
+                @Override
+                public String toString(AddressSuggestion address) {
+                    if (address == null) return "";
+                    return address.getName();
+                }
+
+                @Override
+                public AddressSuggestion fromString(String string) {
+                    return null;
+                }
+            });
+        }
 
         if (categoryBox != null) {
 
@@ -174,33 +196,31 @@ public class ComplaintController {
         botao.setOnMouseEntered(e -> aumentar.playFromStart());
         botao.setOnMouseExited(e -> diminuir.playFromStart());
     }
+    
     public void submitComplaint() {
 
         ComplaintCategory category = categoryBox.getValue();
-        AddressSuggestion selected = locationField.getValue();
 
-        double lat = selected.getLat();
-        double lon = selected.getLon();
+        String typedText = locationField.getEditor().getText();
+        AddressSuggestion address = locationField.getValue();
 
-        String location = selected.getDisplayName();
-        String description = descriptionArea.getText();
+        String location;
+        double lat = 0;
+        double lon = 0;
 
-        double[] coords = GeocodingService.getCoordinates(location);
-
-        if(coords != null){
-
-            lat = coords[0];
-            lon = coords[1];
-
-            System.out.println("Latitude: " + lat);
-            System.out.println("Longitude: " + lon);
-
+        if (address != null) {
+            location = address.getName();
+            lat = address.getLat();
+            lon = address.getLon();
+        } else {
+            location = typedText;
         }
+
+        String description = descriptionArea.getText();
 
         Complaint complaint = new Complaint(category, location, description, PENDENTE);
 
         ComplaintService.addComplaint(complaint);
-
     }
 
     public void goHome() {
