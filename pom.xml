@@ -29,6 +29,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.miglayout</groupId>
             <artifactId>miglayout-javafx</artifactId>
             <version>11.0</version>
@@ -46,6 +52,11 @@
             <version>11.17.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
+        </dependency>
 
 
     </dependencies>
