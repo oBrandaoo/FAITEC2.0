@@ -16,6 +16,8 @@ import org.example.service.ComplaintService;
 
 import java.time.LocalDate;
 
+import static org.example.model.enums.ComplaintStatus.*;
+
 public class ComplaintController {
 
     @FXML
@@ -108,7 +110,7 @@ public class ComplaintController {
 
                                 Complaint complaint = getTableView().getItems().get(getIndex());
 
-                                complaint.setStatus("RESOLVIDA");
+                                complaint.setStatus(RESOLVIDO);
 
                                 complaintsTable.refresh();
 
@@ -163,7 +165,7 @@ public class ComplaintController {
         String location = locationField.getText();
         String description = descriptionArea.getText();
 
-        Complaint complaint = new Complaint(category, location, description);
+        Complaint complaint = new Complaint(category, location, description, PENDENTE);
 
         ComplaintService.addComplaint(complaint);
 

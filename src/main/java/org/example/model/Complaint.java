@@ -1,6 +1,7 @@
 package org.example.model;
 
 import org.example.model.enums.ComplaintCategory;
+import org.example.model.enums.ComplaintStatus;
 
 import java.time.LocalDate;
 
@@ -8,14 +9,22 @@ public class Complaint {
     private ComplaintCategory category;
     private String location;
     private String description;
-    private String status;
+    private ComplaintStatus status;
     private LocalDate date;
 
-    public Complaint(ComplaintCategory category, String location, String description) {
+    public void setCategory(ComplaintCategory category) {
+        this.category = category;
+    }
+
+    public void setStatus(ComplaintStatus status) {
+        this.status = status;
+    }
+
+    public Complaint(ComplaintCategory category, String location, String description, ComplaintStatus status) {
         this.category = category;
         this.location = location;
         this.description = description;
-        this.status = "PENDENTE";
+        this.status = status;
         this.date = LocalDate.now();
     }
 
@@ -31,12 +40,8 @@ public class Complaint {
         return location;
     }
 
-    public String getStatus() {
+    public ComplaintStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public LocalDate getDate() {
