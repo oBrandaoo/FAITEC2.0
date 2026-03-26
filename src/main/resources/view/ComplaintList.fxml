@@ -3,32 +3,47 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="20" alignment="CENTER"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.controller.ComplaintController"
-      fx:id="root">
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.ComplaintController"
+            fx:id ="root">
+    <left>
+        <VBox spacing="10"
+              style="-fx-background-color: #2c3e50; -fx-padding: 10;"
+              prefWidth="150">
 
-    <Label text="Lista de Reclamações"
-           styleClass="listaReclamacao"/>
+            <Label text="Menu" style="-fx-text-fill: white;"/>
 
-    <TableView fx:id="complaintsTable" prefWidth="860" maxWidth="860">
+            <Button text="Dashboard"/>
+            <Button text="Minhas Reclamações"/>
+            <Button text="Configurações"/>
+        </VBox>
+    </left>
 
-        <columns>
+    <center>
+        <VBox spacing="20" alignment="CENTER">
 
-            <TableColumn fx:id="categoryColumn" text="Categoria" prefWidth="150"/>
-            <TableColumn fx:id="locationColumn" text="Local" prefWidth="150"/>
-            <TableColumn fx:id="descriptionColumn" text="Descrição" prefWidth="250"/>
-            <TableColumn fx:id="statusColumn" text="Status" prefWidth="90"/>
-            <TableColumn fx:id="dateColumn" text="Data" prefWidth="110"/>
-            <TableColumn fx:id="actionColumn" text="Ações" prefWidth="120"/>
+            <Label text="Lista de Reclamações"
+                   styleClass="listaReclamacao"/>
 
-        </columns>
+            <TableView fx:id="complaintsTable" prefWidth="860" maxWidth="860">
 
-    </TableView>
+                <columns>
+                    <TableColumn fx:id="categoryColumn" text="Categoria" prefWidth="150"/>
+                    <TableColumn fx:id="locationColumn" text="Local" prefWidth="150"/>
+                    <TableColumn fx:id="descriptionColumn" text="Descrição" prefWidth="250"/>
+                    <TableColumn fx:id="statusColumn" text="Status" prefWidth="90"/>
+                    <TableColumn fx:id="dateColumn" text="Data" prefWidth="110"/>
+                    <TableColumn fx:id="actionColumn" text="Ações" prefWidth="120"/>
+                </columns>
 
-    <Button text="Voltar"
-            styleClass="botaoVoltar"
-            fx:id="voltar"
-            onAction="#goHome"/>
+            </TableView>
 
-</VBox>
+            <Button text="Voltar"
+                    styleClass="botaoVoltar"
+                    fx:id="voltar"
+                    onAction="#goHome"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>
