@@ -2,6 +2,8 @@ package org.example.controller;
 
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -56,6 +58,8 @@ public class ComplaintController {
 
     @FXML
     private Parent root;
+
+    private ObservableList<Complaint> listaComplaints;
 
     private PauseTransition debounce = new PauseTransition(Duration.seconds(1));
 
@@ -124,11 +128,11 @@ public class ComplaintController {
                     new PropertyValueFactory<>("date")
             );
 
-            complaintsTable.setItems(
-                    FXCollections.observableArrayList(
-                            ComplaintService.getAllComplaints()
-                    )
+            listaComplaints = FXCollections.observableArrayList(
+                    ComplaintService.getAllComplaints()
             );
+
+            complaintsTable.setItems(listaComplaints);
         }
 
         if (actionColumn != null) {
@@ -221,6 +225,14 @@ public class ComplaintController {
         Complaint complaint = new Complaint(category, location, description, PENDENTE);
 
         ComplaintService.addComplaint(complaint);
+    }
+
+    @FXML
+    private void seeGraphs() {
+        GraphsController controller = ScreenManager.loadScreen("GraphsView.fxml");
+        if (controller != null) {
+            controller.setData(listaComplaints);
+        }
     }
 
     public void goHome() {
