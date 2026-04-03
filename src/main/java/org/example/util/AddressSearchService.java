@@ -1,6 +1,5 @@
 package org.example.util;
 
-import org.example.model.AddressSuggestion;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
