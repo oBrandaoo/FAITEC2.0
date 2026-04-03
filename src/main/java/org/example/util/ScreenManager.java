@@ -12,21 +12,24 @@ public class ScreenManager {
         mainContainer = container;
     }
 
-    public static void loadScreen(String fxml) {
-
+    public static <T> T loadScreen(String fxml) {
         try {
-
             FXMLLoader loader = new FXMLLoader(
                     ScreenManager.class.getResource("/view/" + fxml)
             );
 
             Pane view = loader.load();
-
             mainContainer.getChildren().setAll(view);
+
+            return loader.getController();
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
+    }
 
+    public interface DataReceiver<T> {
+        void setData(T data);
     }
 }
