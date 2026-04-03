@@ -7,8 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import javafx.util.Duration;
-import javafx.util.StringConverter;
-import org.example.model.AddressSuggestion;
 import org.example.model.enums.ComplaintCategory;
 import org.example.util.ScreenManager;
 import javafx.collections.FXCollections;
@@ -20,7 +18,6 @@ import org.example.service.ComplaintService;
 import java.time.LocalDate;
 
 import static org.example.model.enums.ComplaintStatus.*;
-import static org.example.util.AddressSearchService.search;
 
 public class ComplaintController {
 
@@ -49,7 +46,7 @@ public class ComplaintController {
     private ComboBox<ComplaintCategory> categoryBox;
 
     @FXML
-    private ComboBox<AddressSuggestion> locationField;
+    private ComboBox<String> locationField;
 
     @FXML
     private TextArea descriptionArea;
@@ -62,40 +59,7 @@ public class ComplaintController {
     @FXML
     public void initialize() {
 
-        aplicarEmTodos(root);
-
-        if (locationField != null) {
-
-            locationField.getEditor().textProperty().addListener((obs, oldText, newText) -> {
-
-                if (newText.length() < 4) return;
-
-                debounce.setOnFinished(e -> {
-
-                    var results = search(newText);
-
-                    locationField.getItems().setAll(results);
-
-                    locationField.show();
-
-                });
-                debounce.playFromStart();
-            });
-
-            locationField.setConverter(new StringConverter<>() {
-
-                @Override
-                public String toString(AddressSuggestion address) {
-                    if (address == null) return "";
-                    return address.getName();
-                }
-
-                @Override
-                public AddressSuggestion fromString(String string) {
-                    return null;
-                }
-            });
-        }
+        ComplaintService.aplicarEmTodos(root);
 
         if (categoryBox != null) {
 
@@ -171,50 +135,14 @@ public class ComplaintController {
         }
 
     }
-
-    private void aplicarEmTodos(Node node) {
-        if (node instanceof Button) {
-            aplicarEfeito((Button) node);
-        }
-
-        if (node instanceof Parent parent) {
-            for (Node child : parent.getChildrenUnmodifiable()) {
-                aplicarEmTodos(child);
-            }
-        }
-    }
-
-    private void aplicarEfeito(Button botao) {
-        ScaleTransition aumentar = new ScaleTransition(Duration.millis(150), botao);
-        aumentar.setToX(1.1);
-        aumentar.setToY(1.1);
-
-        ScaleTransition diminuir = new ScaleTransition(Duration.millis(150), botao);
-        diminuir.setToX(1.0);
-        diminuir.setToY(1.0);
-
-        botao.setOnMouseEntered(e -> aumentar.playFromStart());
-        botao.setOnMouseExited(e -> diminuir.playFromStart());
-    }
     
     public void submitComplaint() {
 
         ComplaintCategory category = categoryBox.getValue();
 
         String typedText = locationField.getEditor().getText();
-        AddressSuggestion address = locationField.getValue();
 
-        String location;
-        double lat = 0;
-        double lon = 0;
-
-        if (address != null) {
-            location = address.getName();
-            lat = address.getLat();
-            lon = address.getLon();
-        } else {
-            location = typedText;
-        }
+        String location = null;
 
         String description = descriptionArea.getText();
 
