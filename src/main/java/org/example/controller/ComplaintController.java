@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.example.model.Complaint;
 import org.example.service.ComplaintService;
+import org.example.util.StreetLoader;
 
 import java.time.LocalDate;
 
@@ -60,6 +61,30 @@ public class ComplaintController {
     public void initialize() {
 
         ComplaintService.aplicarEmTodos(root);
+
+        if (locationField != null) {
+
+            locationField.setEditable(true);
+
+            locationField.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+
+                debounce.setOnFinished(e -> {
+
+                    locationField.getItems();
+
+                    for (String street : StreetLoader.loadStreets()) {
+
+                        if (street.toLowerCase().contains(newValue.toLowerCase())) {
+                            locationField.getItems().add(street);
+                        }
+                    }
+
+                    locationField.show();
+                });
+
+                debounce.playFromStart();
+            });
+        }
 
         if (categoryBox != null) {
 
@@ -140,9 +165,7 @@ public class ComplaintController {
 
         ComplaintCategory category = categoryBox.getValue();
 
-        String typedText = locationField.getEditor().getText();
-
-        String location = null;
+        String location = locationField.getEditor().getText();
 
         String description = descriptionArea.getText();
 
