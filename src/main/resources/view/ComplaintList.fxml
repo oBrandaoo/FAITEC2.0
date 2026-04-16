@@ -13,7 +13,8 @@
 
             <Label text="Menu" style="-fx-text-fill: white;"/>
 
-            <Button text="Dashboard"/>
+            <Button text="Gráficos"
+                    onAction="#seeGraphs"/>
             <Button text="Minhas Reclamações"/>
             <Button text="Configurações"/>
         </VBox>
