@@ -32,6 +32,6 @@
     <Button text="Voltar"
             styleClass="botaoVoltar"
             fx:id="voltar"
-            onAction="#goHome"/>
+            onAction="#goStart"/>
 
 </VBox>

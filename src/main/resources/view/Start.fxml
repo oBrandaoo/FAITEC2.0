@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.controller.StartController"
-            fx:id="root1">
+<BorderPane fx:controller="org.example.controller.StartController"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:id="root">
 
     <!-- TOPBAR -->
     <top>
@@ -24,7 +24,7 @@
                 <Button text="🏠 Início"
                         fx:id="Inicio"
                         styleClass="botaoInicio"
-                        onAction="#goHome"/>
+                        onAction="#goStart"/>
 
 
                 <Button text="📝 Nova Reclamação"
@@ -46,12 +46,5 @@
         </HBox>
 
     </top>
-
-    <!-- CONTEÚDO -->
-    <center>
-        <StackPane fx:id="contentArea"
-                   style="-fx-padding: 30;" />
-
-    </center>
 
 </BorderPane>

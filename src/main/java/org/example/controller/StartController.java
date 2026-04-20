@@ -17,12 +17,12 @@ public class StartController {
     @FXML
     private StackPane contentArea;
     @FXML
-    private Parent root1;
+    private Parent root;
 
     @FXML
     public void initialize(){
-        ScreenManager.setMainContainer(contentArea);
-        aplicarEmTodos(root1);
+        ScreenManager.loadScreen("Start.fxml");
+        aplicarEmTodos(root);
     }
 
     public void newComplaint(ActionEvent event) throws IOException {
@@ -36,9 +36,9 @@ public class StartController {
         ScreenManager.loadScreen("ComplaintList.fxml");
     }
 
-    public void goHome() {
+    public void goStart() {
 
-        ScreenManager.loadScreen("HomeContent.fxml");
+        ScreenManager.loadScreen("Start.fxml");
 
     }
 

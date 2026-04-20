@@ -4,19 +4,20 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.controller.HomeController"
-            fx:id="root">
-    <HBox alignment="CENTER"
-          spacing="1000">
-        <Button fx:id="iniciar"
+          fx:controller="org.example.controller.HomeController"
+          fx:id="root">
+    <top>
+        <HBox alignment="CENTER"
+            spacing="40">
+            <Button fx:id="iniciar"
                 text="Iniciar"
                 styleClass="botaoIniciar"
                 onAction="#goStart"
-        />
-
-
-
-    </HBox>
-
-
+            />
+        </HBox>
+    </top>
+    <center>
+        <StackPane fx:id="contentArea"
+               style="-fx-padding: 30;" />
+    </center>
 </BorderPane>
