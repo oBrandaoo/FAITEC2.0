@@ -80,7 +80,7 @@
 }
 .root{
     -fx-background-image: url("/images/fundo.png");
-    -fx-background-size: cover;
+    -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
-    -fx-background-position: center center;
+    -fx-background-position: center;
 }
