@@ -26,9 +26,7 @@ public class GraphsController {
         WebEngine engine = webView.getEngine();
 
         engine.load(
-                getClass()
-                        .getResource("/web/graph/graphs.html")
-                        .toExternalForm()
+                getClass().getResource("/web/graph/graphs.html").toExternalForm()
         );
 
         engine.getLoadWorker().stateProperty().addListener(

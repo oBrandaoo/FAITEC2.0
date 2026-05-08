@@ -3,9 +3,13 @@ package org.example.controller;
 import java.io.IOException;
 
 import javafx.animation.ScaleTransition;
+import javafx.concurrent.Worker;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.util.Duration;
+import netscape.javascript.JSObject;
 import org.example.util.ScreenManager;
 
 import javafx.event.ActionEvent;
@@ -15,49 +19,28 @@ import javafx.scene.control.Button;
 
 public class HomeController {
     @FXML
-    private StackPane contentArea;
-    @FXML
-    private Parent root;
+    private WebView mapView;
 
     @FXML
     public void initialize() {
 
-        ScreenManager.setMainContainer(contentArea);
+        WebEngine engine = mapView.getEngine();
 
-        ScreenManager.loadScreen("HomeContent.fxml");
+        engine.load(
+                getClass().getResource("/web/home/home.html").toExternalForm()
+        );
 
-        aplicarEmTodos(root);
+        engine.getLoadWorker().stateProperty().addListener(
+                (obs, oldState, newState) -> {
+
+                    if (newState == Worker.State.SUCCEEDED) {
+
+                        JSObject window =
+                                (JSObject) engine.executeScript("window");
+
+                        window.setMember("javaApp", this);
+                    }
+                }
+        );
     }
-
-    public void goStart(){
-        ScreenManager.loadScreen("Start.fxml");
-    }
-
-    private void aplicarEmTodos(Parent parent) {
-        for (Node node : parent.getChildrenUnmodifiable()) {
-
-            if (node instanceof Button) {
-                aplicarEfeito((Button) node);
-            }
-
-            if (node instanceof Parent) {
-                aplicarEmTodos((Parent) node);
-            }
-        }
-    }
-
-    public void aplicarEfeito(Button botao) {
-
-        ScaleTransition aumentar = new ScaleTransition(Duration.millis(150), botao);
-        aumentar.setToX(1.1);
-        aumentar.setToY(1.1);
-
-        ScaleTransition diminuir = new ScaleTransition(Duration.millis(150), botao);
-        diminuir.setToX(1.0);
-        diminuir.setToY(1.0);
-
-        botao.setOnMouseEntered(e -> aumentar.playFromStart());
-        botao.setOnMouseExited(e -> diminuir.playFromStart());
-    }
-
 }
