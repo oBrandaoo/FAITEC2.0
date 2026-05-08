@@ -16,14 +16,14 @@ import java.util.Map;
 public class GraphsController {
 
     @FXML
-    private WebView graphsView;
+    private WebView webView;
 
     private ObservableList<Complaint> complaintsList;
 
     @FXML
     public void initialize() {
 
-        WebEngine engine = graphsView.getEngine();
+        WebEngine engine = webView.getEngine();
 
         engine.load(
                 getClass()
@@ -83,7 +83,7 @@ public class GraphsController {
 
         jsArray.append("]");
 
-        graphsView.getEngine().executeScript(
+        webView.getEngine().executeScript(
                 "renderChart(" + jsArray + ")"
         );
     }

@@ -7,7 +7,7 @@
             fx:controller="org.example.controller.GraphsController">
 
     <center>
-        <WebView fx:id="graphsView"/>
+        <WebView fx:id="webView"/>
     </center>
 
 </BorderPane>
