@@ -2,6 +2,7 @@ package org.example.controller;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -15,35 +16,37 @@ import java.util.Map;
 public class GraphsController {
 
     @FXML
-    private WebView webView;
+    private WebView graphsView;
 
     private ObservableList<Complaint> complaintsList;
 
     @FXML
     public void initialize() {
 
-        WebEngine engine = webView.getEngine();
+        WebEngine engine = graphsView.getEngine();
 
         engine.load(
                 getClass()
-                        .getResource("/web/graphs.html")
+                        .getResource("/web/graph/graphs.html")
                         .toExternalForm()
         );
 
-        engine.documentProperty().addListener((obs, oldDoc, newDoc) -> {
+        engine.getLoadWorker().stateProperty().addListener(
+            (obs, oldState, newState) -> {
 
-            if (newDoc != null) {
+                if (newState == Worker.State.SUCCEEDED) {
 
-                JSObject window = (JSObject)
-                        engine.executeScript("window");
+                    JSObject window = (JSObject)
+                            engine.executeScript("window");
 
-                window.setMember("javaApp", this);
+                    window.setMember("javaApp", this);
 
-                if (complaintsList != null) {
-                    enviarDadosGrafico();
+                    if (complaintsList != null) {
+                        enviarDadosGrafico();
+                    }
                 }
             }
-        });
+        );
     }
 
     public void setData(ObservableList<Complaint> lista) {
@@ -80,7 +83,7 @@ public class GraphsController {
 
         jsArray.append("]");
 
-        webView.getEngine().executeScript(
+        graphsView.getEngine().executeScript(
                 "renderChart(" + jsArray + ")"
         );
     }
