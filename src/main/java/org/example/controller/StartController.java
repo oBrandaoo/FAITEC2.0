@@ -1,77 +1,49 @@
 package org.example.controller;
 
-import javafx.animation.ScaleTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
+import org.example.bridge.JavaBridgeSingleton;
 import org.example.util.ScreenManager;
-
-import java.io.IOException;
 
 public class StartController {
 
     @FXML
-    private StackPane contentArea;
-    @FXML
-    private Parent root;
+    private WebView webView;
 
     @FXML
-    public void initialize(){
-        ScreenManager.loadScreen("Start.fxml");
-        aplicarEmTodos(root);
+    public void initialize() {
+
+        WebEngine engine = webView.getEngine();
+
+        engine.load(
+                getClass()
+                        .getResource("/web/start/start.html")
+                        .toExternalForm()
+        );
+
+        engine.documentProperty().addListener((obs, oldDoc, newDoc) -> {
+
+            if (newDoc != null) {
+
+                JSObject window = (JSObject)
+                        engine.executeScript("window");
+
+                window.setMember("javaApp", JavaBridgeSingleton.get());
+            }
+        });
     }
 
-    public void newComplaint(ActionEvent event) throws IOException {
-
+    public void newComplaint() {
         ScreenManager.loadScreen("ComplaintForm.fxml");
-
     }
 
-    public void seeComplaints(ActionEvent event) {
-
+    public void seeComplaints() {
         ScreenManager.loadScreen("ComplaintList.fxml");
     }
 
-    public void goStart() {
-
-        ScreenManager.loadScreen("Start.fxml");
-
-    }
-
     public void seeMap() {
-        ScreenManager.loadScreen("MapView.fxml");
+        ScreenManager.loadScreen("Map.fxml");
     }
-
-    private void aplicarEmTodos(Parent parent) {
-        for (Node node : parent.getChildrenUnmodifiable()) {
-
-            if (node instanceof Button) {
-                aplicarEfeito((Button) node);
-            }
-
-            if (node instanceof Parent) {
-                aplicarEmTodos((Parent) node);
-            }
-        }
-    }
-
-    public void aplicarEfeito(Button botao) {
-
-        ScaleTransition aumentar = new ScaleTransition(Duration.millis(150), botao);
-        aumentar.setToX(1.1);
-        aumentar.setToY(1.1);
-
-        ScaleTransition diminuir = new ScaleTransition(Duration.millis(150), botao);
-        diminuir.setToX(1.0);
-        diminuir.setToY(1.0);
-
-        botao.setOnMouseEntered(e -> aumentar.playFromStart());
-        botao.setOnMouseExited(e -> diminuir.playFromStart());
-    }
-
 }
-

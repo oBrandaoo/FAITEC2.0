@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #ecf0f1;
+}
+
+/* TOPBAR */
+.topbar {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px 30px;
+
+    background: #ecf0f1;
+
+    border-bottom: 1px solid #dcdcdc;
+}
+
+/* LOGO */
+.logo {
+
+    font-size: 20px;
+    font-weight: bold;
+
+    color: #2c3e50;
+}
+
+/* MENU */
+.menu {
+
+    display: flex;
+    gap: 15px;
+}
+
+/* BOTÕES */
+.menu button {
+
+    border: none;
+
+    padding: 10px 15px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    background: #34495e;
+    color: white;
+
+    transition: 0.2s;
+}
+
+.menu button:hover {
+
+    transform: scale(1.05);
+    background: #2c3e50;
+}

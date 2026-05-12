@@ -15,7 +15,7 @@ public class MapController {
         WebEngine engine = mapView.getEngine();
 
         engine.load(
-                getClass().getResource("/map/map.html").toExternalForm()
+                getClass().getResource("/web/map/map.html").toExternalForm()
         );
     }
 }

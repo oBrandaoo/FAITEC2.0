@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Lista de Reclamações</title>
+
+    <link rel="stylesheet"
+          href="complaint-list.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <aside class="sidebar">
+
+        <h2>Menu</h2>
+
+        <button onclick="seeGraphs()">
+            Gráficos
+        </button>
+
+        <button>
+            Minhas Reclamações
+        </button>
+
+        <button>
+            Configurações
+        </button>
+
+    </aside>
+
+    <main class="content">
+
+        <h1>Lista de Reclamações</h1>
+
+        <table id="complaintsTable">
+
+            <thead>
+
+            <tr>
+
+                <th>Categoria</th>
+                <th>Local</th>
+                <th>Descrição</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Ações</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+
+        <button class="voltar"
+                onclick="goStart()">
+
+            Voltar
+
+        </button>
+
+    </main>
+
+</div>
+
+<script src="complaint-list.js"></script>
+
+</body>
+</html>

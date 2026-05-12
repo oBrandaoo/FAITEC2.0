@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>Registrar Reclamação</title>
+
+  <link rel="stylesheet" href="complaint.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <h1>Registrar Reclamação</h1>
+
+    <select id="category"></select>
+
+    <input type="text"
+           id="location"
+           placeholder="Digite o endereço">
+
+    <textarea id="description"
+              placeholder="Descreva o problema"></textarea>
+
+    <button class="primary"
+            onclick="submitComplaint()">
+
+      Enviar Reclamação
+
+    </button>
+
+    <button class="secondary"
+            onclick="goStart()">
+
+      Voltar
+
+    </button>
+
+    <p id="complaintForm"></p>
+
+  </div>
+
+</div>
+
+<script src="complaint.js"></script>
+
+</body>
+</html>

@@ -1,50 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.web.WebView?>
 
-<BorderPane fx:controller="org.example.controller.StartController"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:id="root">
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.StartController">
 
-    <!-- TOPBAR -->
     <top>
-
-        <HBox alignment="CENTER_LEFT"
-              spacing="40"
-              style="-fx-padding: 15; -fx-background-color: #ecf0f1;">
-
-            <!-- LOGO / NOME -->
-            <Label text="Cidade Melhor"
-                   styleClass="logo" />
-
-            <!-- MENU -->
-            <HBox spacing="20">
-
-                <Button text="🏠 Início"
-                        fx:id="Inicio"
-                        styleClass="botaoInicio"
-                        onAction="#goStart"/>
-
-
-                <Button text="📝 Nova Reclamação"
-                        fx:id="Reclamacao"
-                        styleClass="botaoReclamacao"
-                        onAction="#newComplaint"/>
-
-                <Button text="📋 Reclamações"
-                        fx:id="Reclamacoes"
-                        styleClass="botaoReclamacoes"
-                        onAction="#seeComplaints"/>
-                <Button text="🗺 Mapa"
-                        fx:id="mapa"
-                        styleClass="mapa"
-                        onAction="#seeMap"/>
-
-            </HBox>
-
-        </HBox>
-
+        <WebView fx:id="webView" />
     </top>
 
 </BorderPane>

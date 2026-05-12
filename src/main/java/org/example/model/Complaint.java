@@ -20,7 +20,7 @@ public class Complaint {
         this.status = status;
     }
 
-    public Complaint(ComplaintCategory category, String location, String description, ComplaintStatus status) {
+    public Complaint(ComplaintCategory category, String location, String description) {
         this.category = category;
         this.location = location;
         this.description = description;

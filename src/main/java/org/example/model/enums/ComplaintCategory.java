@@ -22,4 +22,19 @@ public enum ComplaintCategory {
     public String toString() {
         return description;
     }
+
+    public static ComplaintCategory fromText(String text) {
+
+        for (ComplaintCategory c : values()) {
+            if (c.name().equalsIgnoreCase(text)) {
+                return c;
+            }
+
+            if (c.getDescription().equalsIgnoreCase(text)) {
+                return c;
+            }
+        }
+
+        throw new IllegalArgumentException("Categoria inválida: " + text);
+    }
 }
