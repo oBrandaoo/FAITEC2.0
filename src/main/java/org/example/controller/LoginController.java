@@ -7,7 +7,7 @@ import netscape.javascript.JSObject;
 import org.example.bridge.JavaBridgeSingleton;
 import org.example.util.ScreenManager;
 
-public class StartController {
+public class LoginController {
 
     @FXML
     private WebView webView;
@@ -19,7 +19,7 @@ public class StartController {
 
         engine.load(
                 getClass()
-                        .getResource("/web/start/start.html")
+                        .getResource("/web/login/login.html")
                         .toExternalForm()
         );
 

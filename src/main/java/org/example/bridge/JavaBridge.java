@@ -5,7 +5,7 @@ import org.example.util.ScreenManager;
 public class JavaBridge {
 
     public void goStart() {
-        ScreenManager.loadScreen("Start.fxml");
+        ScreenManager.loadScreen("Login.fxml");
     }
 
     public void newComplaint() {
