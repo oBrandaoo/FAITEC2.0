@@ -78,9 +78,4 @@ public class ComplaintFormController {
                 "showSuccess()"
         );
     }
-
-    public void goStart() {
-
-        //ScreenManager.loadScreen("Home.fxml");
-    }
 }

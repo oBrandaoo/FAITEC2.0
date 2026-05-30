@@ -21,7 +21,7 @@ public class JavaBridge {
     public void newComplaint() {
         engine.load(
                 getClass()
-                        .getResource("/web/complaintForm/complaintForm.html")
+                        .getResource("/web/complaintForm/complaint.html")
                         .toExternalForm()
         );
     }
@@ -29,7 +29,7 @@ public class JavaBridge {
     public void seeComplaints() {
         engine.load(
                 getClass()
-                        .getResource("/web/complaintList/complaintList.html")
+                        .getResource("/web/complaintList/complaint.html")
                         .toExternalForm()
         );
     }

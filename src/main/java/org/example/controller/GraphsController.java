@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
+import org.example.bridge.JavaBridge;
 import org.example.model.Complaint;
 
 import java.util.HashMap;
@@ -36,7 +37,10 @@ public class GraphsController {
                     JSObject window = (JSObject)
                             engine.executeScript("window");
 
-                    window.setMember("javaApp", this);
+                    window.setMember(
+                            "javaApp",
+                            new JavaBridge(engine)
+                    );
 
                     if (complaintsList != null) {
                         enviarDadosGrafico();
@@ -83,12 +87,5 @@ public class GraphsController {
         webView.getEngine().executeScript(
                 "renderChart(" + jsArray + ")"
         );
-    }
-
-    public void seeComplaints() {
-
-       // Platform.runLater(() ->
-                //ScreenManager.loadScreen("ComplaintList.fxml")
-       // );
     }
 }

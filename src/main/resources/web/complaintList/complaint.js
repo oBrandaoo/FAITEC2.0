@@ -39,13 +39,3 @@ function resolver(index) {
 
     javaApp.resolver(index);
 }
-
-function seeGraphs() {
-
-    javaApp.seeGraphs();
-}
-
-function goStart() {
-
-    javaApp.goStart();
-}

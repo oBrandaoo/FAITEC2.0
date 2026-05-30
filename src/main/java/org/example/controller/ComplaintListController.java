@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
+import org.example.bridge.JavaBridge;
 import org.example.model.Complaint;
 import org.example.model.enums.ComplaintStatus;
 import org.example.service.ComplaintService;
@@ -35,7 +36,10 @@ public class ComplaintListController {
                 JSObject window = (JSObject)
                         engine.executeScript("window");
 
-                window.setMember("javaApp", this);
+                window.setMember(
+                        "javaApp",
+                        new JavaBridge(engine)
+                );
 
                 carregarTabela();
             }
@@ -77,15 +81,5 @@ public class ComplaintListController {
         );
 
         carregarTabela();
-    }
-
-    public void seeGraphs() {
-
-        //ScreenManager.loadScreen("Graphs.fxml");
-    }
-
-    public void goStart() {
-
-        //ScreenManager.loadScreen("Home.fxml");
     }
 }

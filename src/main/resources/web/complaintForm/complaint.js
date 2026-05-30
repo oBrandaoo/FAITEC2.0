@@ -31,11 +31,6 @@ function submitComplaint() {
     );
 }
 
-function goStart() {
-
-    javaApp.goStart();
-}
-
 function showSuccess() {
 
     document.getElementById(
