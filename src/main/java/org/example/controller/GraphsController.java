@@ -8,7 +8,6 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 import org.example.model.Complaint;
-import org.example.util.ScreenManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,8 +87,8 @@ public class GraphsController {
 
     public void seeComplaints() {
 
-        Platform.runLater(() ->
-                ScreenManager.loadScreen("ComplaintList.fxml")
-        );
+       // Platform.runLater(() ->
+                //ScreenManager.loadScreen("ComplaintList.fxml")
+       // );
     }
 }

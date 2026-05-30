@@ -9,7 +9,6 @@ import netscape.javascript.JSObject;
 import org.example.model.Complaint;
 import org.example.model.enums.ComplaintStatus;
 import org.example.service.ComplaintService;
-import org.example.util.ScreenManager;
 
 public class ComplaintListController {
 
@@ -82,11 +81,11 @@ public class ComplaintListController {
 
     public void seeGraphs() {
 
-        ScreenManager.loadScreen("Graphs.fxml");
+        //ScreenManager.loadScreen("Graphs.fxml");
     }
 
     public void goStart() {
 
-        ScreenManager.loadScreen("Home.fxml");
+        //ScreenManager.loadScreen("Home.fxml");
     }
 }

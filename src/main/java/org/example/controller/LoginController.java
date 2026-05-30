@@ -1,11 +1,11 @@
 package org.example.controller;
 
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
-import org.example.bridge.JavaBridgeSingleton;
-import org.example.util.ScreenManager;
+import org.example.bridge.JavaBridge;
 
 public class LoginController {
 
@@ -17,33 +17,24 @@ public class LoginController {
 
         WebEngine engine = webView.getEngine();
 
+        engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+
+            if (newState == Worker.State.SUCCEEDED) {
+
+                JSObject window =
+                        (JSObject) engine.executeScript("window");
+
+                window.setMember(
+                        "javaApp",
+                        new JavaBridge(engine)
+                );
+            }
+        });
+
         engine.load(
                 getClass()
                         .getResource("/web/login/login.html")
                         .toExternalForm()
         );
-
-        engine.documentProperty().addListener((obs, oldDoc, newDoc) -> {
-
-            if (newDoc != null) {
-
-                JSObject window = (JSObject)
-                        engine.executeScript("window");
-
-                window.setMember("javaApp", JavaBridgeSingleton.get());
-            }
-        });
-    }
-
-    public void newComplaint() {
-        ScreenManager.loadScreen("ComplaintForm.fxml");
-    }
-
-    public void seeComplaints() {
-        ScreenManager.loadScreen("ComplaintList.fxml");
-    }
-
-    public void seeMap() {
-        ScreenManager.loadScreen("Map.fxml");
     }
 }

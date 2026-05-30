@@ -4,9 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
+import org.example.bridge.JavaBridge;
 import org.example.model.Complaint;
 import org.example.model.enums.ComplaintCategory;
-import org.example.util.ScreenManager;
 
 public class ComplaintFormController {
 
@@ -31,7 +31,10 @@ public class ComplaintFormController {
                 JSObject window = (JSObject)
                         engine.executeScript("window");
 
-                window.setMember("javaApp", this);
+                window.setMember(
+                        "javaApp",
+                        new JavaBridge(engine)
+                );
 
                 carregarCategorias();
             }
@@ -78,6 +81,6 @@ public class ComplaintFormController {
 
     public void goStart() {
 
-        ScreenManager.loadScreen("Home.fxml");
+        //ScreenManager.loadScreen("Home.fxml");
     }
 }
