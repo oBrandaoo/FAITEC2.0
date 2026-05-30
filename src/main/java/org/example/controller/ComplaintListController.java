@@ -25,7 +25,7 @@ public class ComplaintListController {
 
         engine.load(
                 getClass()
-                        .getResource("/web/complaint-list.html")
+                        .getResource("/web/complaintList/complaint.html")
                         .toExternalForm()
         );
 
