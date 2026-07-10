@@ -5,7 +5,8 @@
 
 <BorderPane fx:controller="org.example.controller.StartController"
             xmlns:fx="http://javafx.com/fxml"
-            fx:id="root">
+            fx:id="root"
+            stylesheets="@../css/common.css,@../css/start.css">
 
     <!-- TOPBAR -->
     <top>

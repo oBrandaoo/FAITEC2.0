@@ -5,7 +5,8 @@
 
 <VBox alignment="CENTER"
       spacing="30"
-      xmlns:fx="http://javafx.com/fxml">
+      xmlns:fx="http://javafx.com/fxml"
+      stylesheets="@../css/common.css,@../css/home.css">
 
     <Label text="Bem-vindo ao Sistema"
            styleClass="titulo" />
