@@ -187,7 +187,7 @@ public class ComplaintController {
     }
 
     public void goStart() {
-        ScreenManager.loadScreen("Main.fxml");
+        ScreenManager.loadScreen("Home.fxml");
     }
 
 }

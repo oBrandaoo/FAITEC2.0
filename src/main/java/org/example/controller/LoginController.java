@@ -37,6 +37,7 @@ public class LoginController {
                         .getScene().getWindow();
 
                 stage.setScene(scene);
+                stage.setFullScreen(true);
 
             } catch (Exception e) {
                 e.printStackTrace();
