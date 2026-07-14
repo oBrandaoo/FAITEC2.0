@@ -1,49 +1,33 @@
 package org.example.controller;
 
 import javafx.animation.ScaleTransition;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.example.util.ScreenManager;
 
-import java.io.IOException;
+import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
 
 public class StartController {
-
     @FXML
     private StackPane contentArea;
     @FXML
     private Parent root;
 
     @FXML
-    public void initialize(){
-        ScreenManager.loadScreen("Start.fxml");
+    public void initialize() {
+
+        ScreenManager.setMainContainer(contentArea);
+
+        ScreenManager.loadScreen("StartContent.fxml");
+
         aplicarEmTodos(root);
     }
 
-    public void newComplaint(ActionEvent event) throws IOException {
-
-        ScreenManager.loadScreen("ComplaintForm.fxml");
-
-    }
-
-    public void seeComplaints(ActionEvent event) {
-
-        ScreenManager.loadScreen("ComplaintList.fxml");
-    }
-
-    public void goStart() {
-
+    public void goStart(){
         ScreenManager.loadScreen("Start.fxml");
-
-    }
-
-    public void seeMap() {
-        ScreenManager.loadScreen("MapView.fxml");
     }
 
     private void aplicarEmTodos(Parent parent) {
@@ -74,4 +58,3 @@ public class StartController {
     }
 
 }
-

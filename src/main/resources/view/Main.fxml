@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.MainController"
+            stylesheets="@../css/common.css,@../css/main.css">
+
+    <left>
+
+        <VBox spacing="12"
+              prefWidth="240"
+              styleClass="sidebar">
+
+            <padding>
+                <Insets top="20" right="15" bottom="20" left="15"/>
+            </padding>
+
+            <Label text="Cidade Melhor"
+                   styleClass="logo"/>
+
+            <Separator/>
+
+            <Button text="🏠 Início"
+                    onAction="#goHome"
+                    styleClass="menuButton"/>
+
+            <Button text="📝 Nova Reclamação"
+                    onAction="#goComplaint"
+                    styleClass="menuButton"/>
+
+            <Button text="📋 Reclamações"
+                    onAction="#goComplaints"
+                    styleClass="menuButton"/>
+
+            <Button text="🗺 Mapa"
+                    onAction="#goMap"
+                    styleClass="menuButton"/>
+
+            <Pane VBox.vgrow="ALWAYS"/>
+
+            <Label text="Cidade Melhor v1.0"
+                   styleClass="footer"/>
+
+        </VBox>
+
+    </left>
+
+    <center>
+
+        <StackPane fx:id="contentArea"/>
+
+    </center>
+
+</BorderPane>

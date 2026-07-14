@@ -12,13 +12,10 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/Home.fxml")
+                getClass().getResource("/view/Main.fxml")
         );
 
-        //Font.loadFont(getClass().getResourceAsStream("/fonts/TextMeOne.ttf"),20);
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(loader.load());
         stage.setTitle("Cidade Melhor");
         stage.setScene(scene);
         stage.setFullScreen(true);

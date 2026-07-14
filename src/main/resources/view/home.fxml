@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-          fx:controller="org.example.controller.HomeController"
-          fx:id="root"
-          stylesheets="@../css/common.css,@../css/home.css">
-    <top>
-        <HBox alignment="CENTER"
-            spacing="40">
-            <Button fx:id="iniciar"
-                text="Iniciar"
-                styleClass="botaoIniciar"
-                onAction="#goStart"
-            />
-        </HBox>
-    </top>
-    <center>
-        <StackPane fx:id="contentArea"
-               style="-fx-padding: 30;" />
-    </center>
-</BorderPane>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER"
+      spacing="20"
+      stylesheets="@../css/home.css">
+
+    <Label text="Bem-vindo"
+           styleClass="title"/>
+
+    <Label text="Sistema Cidade Melhor"/>
+
+</VBox>
