@@ -59,3 +59,34 @@
 .secondary-button:hover {
     -fx-background-color: #EEF4FF;
 }
+
+.table-view {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #E5E7EB;
+}
+
+.table-view .column-header {
+    -fx-background-color: #2563EB;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #2563EB;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-cell-size: 45;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: #DCE9FF;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #F4F8FF;
+}
