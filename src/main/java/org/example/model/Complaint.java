@@ -12,20 +12,20 @@ public class Complaint {
     private ComplaintStatus status;
     private LocalDate date;
 
-    public void setCategory(ComplaintCategory category) {
-        this.category = category;
-    }
-
-    public void setStatus(ComplaintStatus status) {
-        this.status = status;
-    }
-
     public Complaint(ComplaintCategory category, String location, String description, ComplaintStatus status) {
         this.category = category;
         this.location = location;
         this.description = description;
         this.status = status;
         this.date = LocalDate.now();
+    }
+
+    public void setCategory(ComplaintCategory category) {
+        this.category = category;
+    }
+
+    public void setStatus(ComplaintStatus status) {
+        this.status = status;
     }
 
     public ComplaintCategory getCategory() {

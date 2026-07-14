@@ -38,7 +38,7 @@ public class HomeController {
 
     public void goStart() {
 
-        ScreenManager.loadScreen("Start.fxml");
+        ScreenManager.loadScreen("Main.fxml");
 
     }
 
