@@ -12,7 +12,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/Main.fxml")
+                getClass().getResource("/view/Login.fxml")
         );
 
         Scene scene = new Scene(loader.load());
@@ -20,7 +20,6 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
-
     }
 
     public static void main(String[] args) {
