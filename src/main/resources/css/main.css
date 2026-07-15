@@ -1,0 +1,103 @@
+.sidebar{
+    -fx-background-color:#1E293B;
+}
+
+.content{
+    -fx-background-color:#F3F6FA;
+}
+
+.logoCircle{
+
+    -fx-background-color:#2563EB;
+
+    -fx-min-width:54;
+    -fx-min-height:54;
+
+    -fx-max-width:54;
+    -fx-max-height:54;
+
+    -fx-background-radius:27;
+}
+
+.logoInitials{
+
+    -fx-text-fill:white;
+    -fx-font-size:20px;
+    -fx-font-weight:bold;
+
+}
+
+.logo{
+
+    -fx-font-size:21px;
+    -fx-font-weight:bold;
+    -fx-text-fill:white;
+
+}
+
+.logoSubtitle{
+
+    -fx-text-fill:#CBD5E1;
+    -fx-font-size:12px;
+
+}
+
+.sectionTitle{
+
+    -fx-text-fill:#94A3B8;
+    -fx-font-size:11px;
+    -fx-font-weight:bold;
+
+}
+
+.menuButton{
+
+    -fx-background-color:transparent;
+
+    -fx-text-fill:#E2E8F0;
+
+    -fx-font-size:15px;
+
+    -fx-font-weight:bold;
+
+    -fx-background-radius:10;
+
+    -fx-padding:14 18;
+
+    -fx-alignment:CENTER_LEFT;
+
+    -fx-cursor:hand;
+
+}
+
+.menuButton:hover{
+
+    -fx-background-color:#334155;
+
+}
+
+.menuButton:pressed{
+
+    -fx-background-color:#2563EB;
+
+}
+
+.separator *.line{
+
+    -fx-border-color:#334155;
+
+}
+
+.footerTitle{
+
+    -fx-text-fill:#E2E8F0;
+    -fx-font-size:13px;
+
+}
+
+.footer{
+
+    -fx-text-fill:#94A3B8;
+    -fx-font-size:11px;
+
+}

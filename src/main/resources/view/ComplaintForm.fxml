@@ -6,8 +6,6 @@
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
            fx:controller="org.example.controller.ComplaintController"
-           fx:id="root"
-           styleClass="background"
            stylesheets="@../css/common.css,@../css/complaint.css">
 
     <VBox alignment="CENTER">

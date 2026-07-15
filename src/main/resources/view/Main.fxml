@@ -10,39 +10,67 @@
 
     <left>
 
-        <VBox spacing="12"
-              prefWidth="240"
+        <VBox prefWidth="260"
+              spacing="18"
               styleClass="sidebar">
 
             <padding>
-                <Insets top="20" right="15" bottom="20" left="15"/>
+                <Insets top="25" right="18" bottom="20" left="18"/>
             </padding>
 
-            <Label text="Cidade Melhor"
-                   styleClass="logo"/>
+            <HBox spacing="12" alignment="CENTER_LEFT">
 
-            <Separator/>
+                <StackPane styleClass="logoCircle">
+                    <Label text="CM"
+                           styleClass="logoInitials"/>
+                </StackPane>
 
-            <Button text="🏠 Início"
+                <VBox spacing="2">
+
+                    <Label text="Cidade Melhor"
+                           styleClass="logo"/>
+
+                    <Label text="Gestão de Reclamações"
+                           styleClass="logoSubtitle"/>
+
+                </VBox>
+
+            </HBox>
+
+            <Separator styleClass="separator"/>
+
+            <Label text="NAVEGAÇÃO"
+                   styleClass="sectionTitle"/>
+
+            <Button text="🏠   Início"
                     onAction="#goHome"
                     styleClass="menuButton"/>
 
-            <Button text="📝 Nova Reclamação"
+            <Button text="📝   Nova Reclamação"
                     onAction="#goComplaint"
                     styleClass="menuButton"/>
 
-            <Button text="📋 Reclamações"
+            <Button text="📋   Reclamações"
                     onAction="#goComplaints"
                     styleClass="menuButton"/>
 
-            <Button text="🗺 Mapa"
+            <Button text="🗺   Mapa"
                     onAction="#goMap"
                     styleClass="menuButton"/>
 
             <Pane VBox.vgrow="ALWAYS"/>
 
-            <Label text="Cidade Melhor v1.0"
-                   styleClass="footer"/>
+            <Separator styleClass="separator"/>
+
+            <VBox spacing="3">
+
+                <Label text="Sistema Cidade Melhor"
+                       styleClass="footerTitle"/>
+
+                <Label text="Versão 1.0"
+                       styleClass="footer"/>
+
+            </VBox>
 
         </VBox>
 
@@ -50,7 +78,8 @@
 
     <center>
 
-        <StackPane fx:id="contentArea"/>
+        <StackPane fx:id="contentArea"
+                   styleClass="content"/>
 
     </center>
 
