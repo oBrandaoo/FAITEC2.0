@@ -10,24 +10,25 @@
 
     <VBox alignment="CENTER"
           spacing="15"
-          styleClass="loginCard"
-          maxWidth="350">
+          styleClass="loginCard">
 
         <padding>
             <Insets top="30" right="30" bottom="30" left="30"/>
         </padding>
 
-        <Label text="Cidade Melhor"
+        <Label text="Cidade em Dia"
                styleClass="logo"/>
 
         <Label text="Entrar no sistema"
                styleClass="subtitle"/>
 
         <TextField fx:id="userField"
-                   promptText="Usuário"/>
+                   promptText="Usuário"
+                    maxWidth="350"/>
 
         <PasswordField fx:id="passwordField"
-                       promptText="Senha"/>
+                       promptText="Senha"
+                       maxWidth="350"/>
 
         <Button text="Entrar"
                 onAction="#login"
