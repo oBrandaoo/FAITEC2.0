@@ -3,13 +3,16 @@ package org.example.controller;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import org.example.model.Location;
 import org.example.model.enums.ComplaintCategory;
+import org.example.util.MapDialog;
 import org.example.util.ScreenManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -23,6 +26,8 @@ import java.time.LocalDate;
 import static org.example.model.enums.ComplaintStatus.*;
 
 public class ComplaintController {
+
+    private Location selectedLocation;
 
     @FXML
     private TableView<Complaint> complaintsTable;
@@ -49,7 +54,7 @@ public class ComplaintController {
     private ComboBox<ComplaintCategory> categoryBox;
 
     @FXML
-    private ComboBox<String> locationField;
+    private TextField addressField;
 
     @FXML
     private TextArea descriptionArea;
@@ -66,30 +71,6 @@ public class ComplaintController {
 
         ComplaintService.aplicarEmTodos(root);
 
-        if (locationField != null) {
-
-            locationField.setEditable(true);
-
-            locationField.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-
-                debounce.setOnFinished(e -> {
-
-                    locationField.getItems();
-
-                    for (String street : StreetLoader.loadStreets()) {
-
-                        if (street.toLowerCase().contains(newValue.toLowerCase())) {
-                            locationField.getItems().add(street);
-                        }
-                    }
-
-                    locationField.show();
-                });
-
-                debounce.playFromStart();
-            });
-        }
-
         if (categoryBox != null) {
 
             categoryBox.getItems().addAll(ComplaintCategory.values());
@@ -101,8 +82,8 @@ public class ComplaintController {
                     new PropertyValueFactory<>("category")
             );
 
-            locationColumn.setCellValueFactory(
-                    new PropertyValueFactory<>("location")
+            locationColumn.setCellValueFactory(cell ->
+                    new SimpleStringProperty(cell.getValue().getLocation().getAddress())
             );
 
             descriptionColumn.setCellValueFactory(
@@ -143,7 +124,6 @@ public class ComplaintController {
                                 complaint.setStatus(RESOLVIDO);
 
                                 complaintsTable.refresh();
-
                             });
                         }
 
@@ -160,22 +140,61 @@ public class ComplaintController {
                     };
                 }
             });
-
         }
-
     }
-    
+
+    @FXML
+    private void selectLocation() {
+
+        Location location = MapDialog.show();
+
+        if (location != null) {
+
+            selectedLocation = location;
+
+            addressField.setText(location.getAddress());
+        }
+    }
+
+    @FXML
     public void submitComplaint() {
 
         ComplaintCategory category = categoryBox.getValue();
 
-        String location = locationField.getEditor().getText();
-
         String description = descriptionArea.getText();
 
-        Complaint complaint = new Complaint(category, location, description, PENDENTE);
+        if (selectedLocation == null) {
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setContentText("Selecione uma localização no mapa.");
+
+            alert.showAndWait();
+
+            return;
+        }
+
+        Complaint complaint = new Complaint(
+                category,
+                selectedLocation,
+                description,
+                PENDENTE
+        );
 
         ComplaintService.addComplaint(complaint);
+
+        clearForm();
+    }
+
+    private void clearForm() {
+
+        categoryBox.getSelectionModel().clearSelection();
+
+        descriptionArea.clear();
+
+        addressField.clear();
+
+        selectedLocation = null;
     }
 
     @FXML
