@@ -29,11 +29,15 @@
             </VBox>
 
             <VBox spacing="5">
+
                 <Label text="Local"/>
-                <ComboBox fx:id="locationField"
-                          editable="true"
-                          promptText="Digite o endereço"
-                          prefWidth="360"/>
+
+                <TextField fx:id="addressField"
+                           editable="false"/>
+
+                <Button text="📍 Selecionar no mapa"
+                        onAction="#selectLocation"/>
+
             </VBox>
 
             <VBox spacing="5">
