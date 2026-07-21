@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane xmlns:fx="http://javafx.com/fxml"
-           fx:controller="org.example.controller.ComplaintController"
+           fx:controller="org.example.controller.complaint.ComplaintFormController"
            stylesheets="@../css/common.css,@../css/complaint.css">
 
     <VBox alignment="CENTER">
