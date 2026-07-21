@@ -90,3 +90,35 @@
 .table-row-cell:hover {
     -fx-background-color: #F4F8FF;
 }
+
+.status-badge{
+    -fx-padding:6 12;
+    -fx-background-radius:25;
+    -fx-font-weight:bold;
+    -fx-font-size:12px;
+}
+
+.status-pending{
+    -fx-background-color:#FFF3CD;
+    -fx-text-fill:#856404;
+}
+
+.status-analysis{
+    -fx-background-color:#D1ECF1;
+    -fx-text-fill:#0C5460;
+}
+
+.status-execution{
+    -fx-background-color:#FFE5B4;
+    -fx-text-fill:#A65E00;
+}
+
+.status-resolved{
+    -fx-background-color:#D4EDDA;
+    -fx-text-fill:#155724;
+}
+
+.status-cancelled{
+    -fx-background-color:#F8D7DA;
+    -fx-text-fill:#721C24;
+}

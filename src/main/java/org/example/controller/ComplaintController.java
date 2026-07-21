@@ -5,6 +5,7 @@ import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -12,6 +13,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import org.example.model.Location;
 import org.example.model.enums.ComplaintCategory;
+import org.example.model.enums.ComplaintStatus;
 import org.example.util.MapDialog;
 import org.example.util.ScreenManager;
 import javafx.collections.FXCollections;
@@ -30,6 +32,15 @@ public class ComplaintController {
     private Location selectedLocation;
 
     @FXML
+    private TextField searchField;
+
+    @FXML
+    private ComboBox<ComplaintCategory> categoryFilter;
+
+    @FXML
+    private ComboBox<ComplaintStatus> statusFilter;
+
+    @FXML
     private TableView<Complaint> complaintsTable;
 
     @FXML
@@ -42,7 +53,7 @@ public class ComplaintController {
     private TableColumn<Complaint, String> descriptionColumn;
 
     @FXML
-    private TableColumn<Complaint, String> statusColumn;
+    private TableColumn<Complaint, ComplaintStatus> statusColumn;
 
     @FXML
     private TableColumn<Complaint, LocalDate> dateColumn;
@@ -94,6 +105,53 @@ public class ComplaintController {
                     new PropertyValueFactory<>("status")
             );
 
+            statusColumn.setCellFactory(column -> new TableCell<>() {
+
+                @Override
+                protected void updateItem(ComplaintStatus status, boolean empty) {
+
+                    super.updateItem(status, empty);
+
+                    if (empty || status == null) {
+                        setGraphic(null);
+                        return;
+                    }
+
+                    Label badge = new Label();
+                    badge.getStyleClass().add("status-badge");
+
+                    switch (status) {
+
+                        case PENDENTE:
+                            badge.setText("⏳ Pendente");
+                            badge.getStyleClass().add("status-pending");
+                            break;
+
+                        case EM_ANALISE:
+                            badge.setText("🔎 Em análise");
+                            badge.getStyleClass().add("status-analysis");
+                            break;
+
+                        case EM_EXECUCAO:
+                            badge.setText("🛠 Em execução");
+                            badge.getStyleClass().add("status-execution");
+                            break;
+
+                        case RESOLVIDO:
+                            badge.setText("✅ Resolvido");
+                            badge.getStyleClass().add("status-resolved");
+                            break;
+
+                        case CANCELADO:
+                            badge.setText("❌ Cancelado");
+                            badge.getStyleClass().add("status-cancelled");
+                            break;
+                    }
+
+                    setGraphic(badge);
+                }
+            });
+
             dateColumn.setCellValueFactory(
                     new PropertyValueFactory<>("date")
             );
@@ -102,42 +160,61 @@ public class ComplaintController {
                     ComplaintService.getAllComplaints()
             );
 
-            complaintsTable.setItems(listaComplaints);
+            FilteredList<Complaint> filteredList =
+                    new FilteredList<>(listaComplaints, complaint -> true);
+
+            complaintsTable.setItems(filteredList);
+
+            categoryFilter.getItems().setAll(ComplaintCategory.values());
+
+            statusFilter.getItems().setAll(ComplaintStatus.values());
+
+            searchField.textProperty().addListener((obs, oldValue, newValue) ->
+                    applyFilters(filteredList));
+
+            categoryFilter.valueProperty().addListener((obs, oldValue, newValue) ->
+                    applyFilters(filteredList));
+
+            statusFilter.valueProperty().addListener((obs, oldValue, newValue) ->
+                    applyFilters(filteredList));
         }
 
         if (actionColumn != null) {
 
-            actionColumn.setCellFactory(new Callback<>() {
+            actionColumn.setCellFactory(column -> new TableCell<>() {
+
+                private final MenuButton menu = new MenuButton("Status");
 
                 @Override
-                public TableCell<Complaint, Void> call(final TableColumn<Complaint, Void> param) {
+                protected void updateItem(Void item, boolean empty) {
 
-                    return new TableCell<>() {
+                    super.updateItem(item, empty);
 
-                        private final Button btn = new Button("Resolver");
+                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                        setGraphic(null);
+                        return;
+                    }
 
-                        {
-                            btn.setOnAction(event -> {
+                    Complaint complaint = getTableRow().getItem();
 
-                                Complaint complaint = getTableView().getItems().get(getIndex());
+                    menu.getItems().clear();
 
-                                complaint.setStatus(RESOLVIDO);
+                    for (ComplaintStatus status : ComplaintStatus.values()) {
 
-                                complaintsTable.refresh();
-                            });
-                        }
+                        MenuItem menuItem = new MenuItem(status.toString());
 
-                        @Override
-                        protected void updateItem(Void item, boolean empty) {
-                            super.updateItem(item, empty);
+                        menuItem.setOnAction(e -> {
 
-                            if (empty) {
-                                setGraphic(null);
-                            } else {
-                                setGraphic(btn);
-                            }
-                        }
-                    };
+                            complaint.setStatus(status);
+
+                            complaintsTable.refresh();
+
+                        });
+
+                        menu.getItems().add(menuItem);
+                    }
+
+                    setGraphic(menu);
                 }
             });
         }
@@ -183,6 +260,10 @@ public class ComplaintController {
 
         ComplaintService.addComplaint(complaint);
 
+        if (listaComplaints != null) {
+            listaComplaints.add(complaint);
+        }
+
         clearForm();
     }
 
@@ -198,11 +279,64 @@ public class ComplaintController {
     }
 
     @FXML
+    private void clearFilters() {
+
+        searchField.clear();
+
+        categoryFilter.setValue(null);
+
+        statusFilter.setValue(null);
+
+    }
+
+    @FXML
     private void seeGraphs() {
         GraphsController controller = ScreenManager.loadScreen("GraphsView.fxml");
         if (controller != null) {
             controller.setData(listaComplaints);
         }
+    }
+
+    private void applyFilters(FilteredList<Complaint> filtered) {
+
+        filtered.setPredicate(complaint -> {
+
+            boolean matchesSearch = true;
+            boolean matchesCategory = true;
+            boolean matchesStatus = true;
+
+            String text = searchField.getText();
+
+            if (text != null && !text.isBlank()) {
+
+                String search = text.toLowerCase();
+
+                matchesSearch =
+                        complaint.getDescription().toLowerCase().contains(search)
+                                || complaint.getLocation().getAddress().toLowerCase().contains(search)
+                                || complaint.getCategory().toString().toLowerCase().contains(search);
+
+            }
+
+            if (categoryFilter.getValue() != null) {
+
+                matchesCategory =
+                        complaint.getCategory() == categoryFilter.getValue();
+
+            }
+
+            if (statusFilter.getValue() != null) {
+
+                matchesStatus =
+                        complaint.getStatus() == statusFilter.getValue();
+
+            }
+
+            return matchesSearch
+                    && matchesCategory
+                    && matchesStatus;
+
+        });
     }
 
     public void goStart() {

@@ -24,6 +24,25 @@
             <Label text="Acompanhe o andamento das reclamações registradas."
                    styleClass="subtitle"/>
 
+            <HBox spacing="12" alignment="CENTER_LEFT">
+
+                <TextField fx:id="searchField"
+                           promptText="Pesquisar reclamação..."
+                           HBox.hgrow="ALWAYS"/>
+
+                <ComboBox fx:id="categoryFilter"
+                          promptText="Categoria"
+                          prefWidth="170"/>
+
+                <ComboBox fx:id="statusFilter"
+                          promptText="Status"
+                          prefWidth="170"/>
+
+                <Button text="Limpar"
+                        onAction="#clearFilters"/>
+
+            </HBox>
+
             <TableView fx:id="complaintsTable"
                        VBox.vgrow="ALWAYS">
 
