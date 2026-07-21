@@ -17,12 +17,11 @@ public class MapBridge {
 
     public void onLocationSelected(double lat, double lng) {
 
-        System.out.println("Clique recebido: " + lat + ", " + lng);
-
-        if (controller.getMode() != org.example.model.enums.MapMode.SELECT) {
+        if (controller.isLoading()) {
             return;
         }
 
+        controller.setLoading(true);
         controller.showLoading();
 
         CompletableFuture
@@ -32,6 +31,7 @@ public class MapBridge {
                     Platform.runLater(() -> {
 
                         controller.hideLoading();
+                        controller.setLoading(false);
 
                         if (location != null) {
                             controller.notifyLocation(location);
