@@ -1,5 +1,9 @@
 package org.example.controller;
 
+import java.io.IOException;
+
+import org.example.util.ScreenManager;
+
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,9 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import org.example.util.ScreenManager;
-
-import java.io.IOException;
 
 public class HomeController {
 
@@ -43,7 +44,7 @@ public class HomeController {
     }
 
     public void seeMap() {
-        ScreenManager.loadScreen("MapView.fxml");
+        ScreenManager.loadScreen("map/MapView.fxml");
     }
 
     private void aplicarEmTodos(Parent parent) {

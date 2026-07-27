@@ -1,8 +1,9 @@
 package org.example.controller;
 
+import org.example.util.ScreenManager;
+
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
-import org.example.util.ScreenManager;
 
 public class MainController {
 
@@ -34,7 +35,7 @@ public class MainController {
 
     @FXML
     private void goMap() {
-        ScreenManager.loadScreen("MapView.fxml");
+        ScreenManager.loadScreen("map/MapView.fxml");
     }
 
 }
