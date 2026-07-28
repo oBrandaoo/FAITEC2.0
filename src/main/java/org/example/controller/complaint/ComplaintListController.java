@@ -14,6 +14,8 @@ import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintStatus;
 import org.example.service.ComplaintService;
 import org.example.util.ScreenManager;
+import org.example.model.User;
+import org.example.util.UserSession;
 
 import java.time.LocalDate;
 
@@ -62,12 +64,19 @@ public class ComplaintListController {
         ComplaintService.aplicarEmTodos(root);
 
         configureColumns();
+        configurePermissions();
 
         loadComplaints();
 
         configureFilters();
 
         configureActions();
+    }
+
+    private void configurePermissions() {
+        User user = UserSession.getLoggedUser();
+        boolean canManage = user != null && user.getRole().canManageComplaints();
+        actionColumn.setVisible(canManage);
     }
 
     private void configureColumns() {

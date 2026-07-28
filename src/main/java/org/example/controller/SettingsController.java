@@ -16,6 +16,7 @@ public class SettingsController {
     @FXML private Label nameLabel;
     @FXML private Label idLabel;
     @FXML private Label statusLabel;
+    @FXML private Label roleLabel;
 
     @FXML
     public void initialize() {
@@ -24,6 +25,7 @@ public class SettingsController {
             nameLabel.setText("Nenhum usuário autenticado");
             idLabel.setText("-");
             statusLabel.setText("-");
+            roleLabel.setText("-");
             avatarLabel.setText("?");
             return;
         }
@@ -31,6 +33,7 @@ public class SettingsController {
         nameLabel.setText(user.getName());
         idLabel.setText(user.getId());
         statusLabel.setText(user.getStatus().toString());
+        roleLabel.setText(user.getRole().toString());
         avatarLabel.setText(initialsOf(user.getName()));
     }
 

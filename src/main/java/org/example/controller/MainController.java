@@ -1,8 +1,12 @@
 package org.example.controller;
 
 import org.example.util.ScreenManager;
+import org.example.model.User;
+import org.example.util.UserSession;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
 public class MainController {
@@ -10,12 +14,36 @@ public class MainController {
     @FXML
     private StackPane contentArea;
 
+    @FXML private Button newComplaintButton;
+    @FXML private Button complaintsButton;
+    @FXML private Button mapButton;
+    @FXML private Label loggedUserLabel;
+    @FXML private Label loggedUserRoleLabel;
+
     @FXML
     public void initialize() {
 
         ScreenManager.setMainContainer(contentArea);
 
+        configurePermissions();
         ScreenManager.loadScreen("Home.fxml");
+    }
+
+    private void configurePermissions() {
+        User user = UserSession.getLoggedUser();
+        if (user == null) {
+            return;
+        }
+
+        setAvailable(newComplaintButton, user.getRole().canCreateComplaint());
+        setAvailable(mapButton, user.getRole().canViewMap());
+        loggedUserLabel.setText(user.getName());
+        loggedUserRoleLabel.setText(user.getRole().toString());
+    }
+
+    private void setAvailable(Button button, boolean available) {
+        button.setVisible(available);
+        button.setManaged(available);
     }
 
     @FXML

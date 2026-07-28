@@ -7,10 +7,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.model.User;
+import org.example.model.enums.UserRole;
 import org.example.model.enums.UserStatus;
 import org.example.util.UserSession;
 
+import java.util.List;
+
 public class LoginController {
+
+    private static final List<User> USERS = List.of(
+            new User("USR-001", "Administrador", "1234", UserStatus.ATIVA, UserRole.ADMINISTRADOR),
+            new User("USR-002", "Atendente Municipal", "1234", UserStatus.ATIVA, UserRole.ATENDENTE),
+            new User("USR-003", "Cidadão", "1234", UserStatus.ATIVA, UserRole.CIDADAO)
+    );
 
     @FXML
     private TextField userField;
@@ -24,18 +33,14 @@ public class LoginController {
     @FXML
     private void login(ActionEvent event) {
 
-        String user = userField.getText();
+        String username = userField.getText().trim();
         String password = passwordField.getText();
+        User authenticatedUser = authenticate(username, password);
 
-        if (user.equals("admin") && password.equals("1234")) {
+        if (authenticatedUser != null) {
 
             try {
-                UserSession.login(new User(
-                        "USR-001",
-                        "Administrador",
-                        password,
-                        UserStatus.ATIVA
-                ));
+                UserSession.login(authenticatedUser);
 
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/view/Main.fxml"));
@@ -57,6 +62,23 @@ public class LoginController {
             messageLabel.setText("Usuário ou senha inválidos.");
 
         }
+    }
+
+    private User authenticate(String username, String password) {
+        return USERS.stream()
+                .filter(user -> username.equals(usernameOf(user)))
+                .filter(user -> user.passwordMatches(password))
+                .filter(user -> user.getStatus() == UserStatus.ATIVA)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private String usernameOf(User user) {
+        return switch (user.getRole()) {
+            case ADMINISTRADOR -> "admin";
+            case ATENDENTE -> "atendente";
+            case CIDADAO -> "cidadao";
+        };
     }
 
 }
