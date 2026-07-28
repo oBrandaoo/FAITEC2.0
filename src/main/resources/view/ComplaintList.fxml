@@ -41,6 +41,9 @@
                 <Button text="Limpar"
                         onAction="#clearFilters"/>
 
+                <Button text="Exportar CSV"
+                        onAction="#exportCsv"/>
+
             </HBox>
 
             <TableView fx:id="complaintsTable"

@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import org.example.controller.GraphsController;
 import org.example.model.Complaint;
 import org.example.model.enums.ComplaintCategory;
@@ -18,6 +19,11 @@ import org.example.model.User;
 import org.example.util.UserSession;
 
 import java.time.LocalDate;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 public class ComplaintListController {
 
@@ -285,6 +291,90 @@ public class ComplaintListController {
         categoryFilter.setValue(null);
 
         statusFilter.setValue(null);
+    }
+
+    @FXML
+    private void exportCsv() {
+        if (filteredList == null || filteredList.isEmpty()) {
+            showAlert(
+                    Alert.AlertType.INFORMATION,
+                    "Exportação",
+                    "Não há reclamações para exportar."
+            );
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Exportar reclamações");
+        fileChooser.setInitialFileName("reclamacoes-" + LocalDate.now() + ".csv");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Arquivo CSV (*.csv)", "*.csv")
+        );
+
+        File selectedFile = fileChooser.showSaveDialog(complaintsTable.getScene().getWindow());
+        if (selectedFile == null) {
+            return;
+        }
+
+        File destination = ensureCsvExtension(selectedFile);
+        try {
+            writeCsv(destination);
+            showAlert(
+                    Alert.AlertType.INFORMATION,
+                    "Exportação concluída",
+                    filteredList.size() + " reclamação(ões) exportada(s) com sucesso."
+            );
+        } catch (IOException exception) {
+            showAlert(
+                    Alert.AlertType.ERROR,
+                    "Erro na exportação",
+                    "Não foi possível salvar o arquivo:\n" + exception.getMessage()
+            );
+        }
+    }
+
+    private void writeCsv(File destination) throws IOException {
+        try (BufferedWriter writer = Files.newBufferedWriter(
+                destination.toPath(),
+                StandardCharsets.UTF_8
+        )) {
+            // BOM facilita a identificação de UTF-8 pelo Excel.
+            writer.write('\uFEFF');
+            writer.write("Categoria;Endereço;Descrição;Status;Data");
+            writer.newLine();
+
+            for (Complaint complaint : filteredList) {
+                writer.write(String.join(";",
+                        csvValue(complaint.getCategory().toString()),
+                        csvValue(complaint.getLocation().getAddress()),
+                        csvValue(complaint.getDescription()),
+                        csvValue(complaint.getStatus().toString()),
+                        csvValue(complaint.getDate().toString())
+                ));
+                writer.newLine();
+            }
+        }
+    }
+
+    private String csvValue(String value) {
+        String safeValue = value == null ? "" : value;
+        return "\"" + safeValue.replace("\"", "\"\"") + "\"";
+    }
+
+    private File ensureCsvExtension(File file) {
+        if (file.getName().toLowerCase().endsWith(".csv")) {
+            return file;
+        }
+        return new File(file.getParentFile(), file.getName() + ".csv");
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initOwner(complaintsTable.getScene().getWindow());
+        alert.showAndWait();
     }
 
     @FXML
