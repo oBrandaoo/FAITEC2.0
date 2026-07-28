@@ -12,6 +12,7 @@ import javafx.stage.FileChooser;
 import org.example.controller.GraphsController;
 import org.example.model.Complaint;
 import org.example.model.enums.ComplaintCategory;
+import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
 import org.example.service.ComplaintService;
 import org.example.util.ScreenManager;
@@ -40,6 +41,9 @@ public class ComplaintListController {
     private ComboBox<ComplaintStatus> statusFilter;
 
     @FXML
+    private ComboBox<ComplaintPriority> priorityFilter;
+
+    @FXML
     private TableView<Complaint> complaintsTable;
 
     @FXML
@@ -53,6 +57,9 @@ public class ComplaintListController {
 
     @FXML
     private TableColumn<Complaint, ComplaintStatus> statusColumn;
+
+    @FXML
+    private TableColumn<Complaint, ComplaintPriority> priorityColumn;
 
     @FXML
     private TableColumn<Complaint, LocalDate> dateColumn;
@@ -107,11 +114,16 @@ public class ComplaintListController {
                 new PropertyValueFactory<>("status")
         );
 
+        priorityColumn.setCellValueFactory(
+                new PropertyValueFactory<>("priority")
+        );
+
         dateColumn.setCellValueFactory(
                 new PropertyValueFactory<>("date")
         );
 
         configureStatusBadges();
+        configurePriorityBadges();
     }
 
     private void loadComplaints() {
@@ -138,11 +150,16 @@ public class ComplaintListController {
                 ComplaintStatus.values()
         );
 
+        priorityFilter.getItems().setAll(
+                ComplaintPriority.values()
+        );
+
         searchField.textProperty().addListener((o,a,b)->applyFilters());
 
         categoryFilter.valueProperty().addListener((o,a,b)->applyFilters());
 
         statusFilter.valueProperty().addListener((o,a,b)->applyFilters());
+        priorityFilter.valueProperty().addListener((o,a,b)->applyFilters());
     }
 
     private void applyFilters() {
@@ -154,6 +171,7 @@ public class ComplaintListController {
             boolean matchesCategory = true;
 
             boolean matchesStatus = true;
+            boolean matchesPriority = true;
 
             if (!searchField.getText().isBlank()) {
 
@@ -180,9 +198,14 @@ public class ComplaintListController {
                         complaint.getStatus()==statusFilter.getValue();
             }
 
+            if (priorityFilter.getValue() != null) {
+                matchesPriority = complaint.getPriority() == priorityFilter.getValue();
+            }
+
             return matchesSearch &&
                     matchesCategory &&
-                    matchesStatus;
+                    matchesStatus &&
+                    matchesPriority;
 
         });
     }
@@ -233,6 +256,28 @@ public class ComplaintListController {
 
         });
 
+    }
+
+    private void configurePriorityBadges() {
+        priorityColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(ComplaintPriority priority, boolean empty) {
+                super.updateItem(priority, empty);
+                if (empty || priority == null) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                Label badge = new Label(priority.toString());
+                badge.getStyleClass().addAll(
+                        "priority-badge",
+                        "priority-" + priority.name().toLowerCase()
+                );
+                setGraphic(badge);
+                setText(null);
+            }
+        });
     }
 
     private void configureActions(){
@@ -291,6 +336,7 @@ public class ComplaintListController {
         categoryFilter.setValue(null);
 
         statusFilter.setValue(null);
+        priorityFilter.setValue(null);
     }
 
     @FXML
@@ -340,12 +386,13 @@ public class ComplaintListController {
         )) {
             // BOM facilita a identificação de UTF-8 pelo Excel.
             writer.write('\uFEFF');
-            writer.write("Categoria;Endereço;Descrição;Status;Data");
+            writer.write("Categoria;Prioridade;Endereço;Descrição;Status;Data");
             writer.newLine();
 
             for (Complaint complaint : filteredList) {
                 writer.write(String.join(";",
                         csvValue(complaint.getCategory().toString()),
+                        csvValue(complaint.getPriority().toString()),
                         csvValue(complaint.getLocation().getAddress()),
                         csvValue(complaint.getDescription()),
                         csvValue(complaint.getStatus().toString()),

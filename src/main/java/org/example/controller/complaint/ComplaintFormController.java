@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import org.example.model.Complaint;
 import org.example.model.Location;
 import org.example.model.enums.ComplaintCategory;
+import org.example.model.enums.ComplaintPriority;
 import org.example.service.ComplaintService;
 import org.example.util.MapDialog;
 import org.example.util.ScreenManager;
@@ -26,6 +27,9 @@ public class ComplaintFormController {
     private ComboBox<ComplaintCategory> categoryBox;
 
     @FXML
+    private ComboBox<ComplaintPriority> priorityBox;
+
+    @FXML
     private TextField addressField;
 
     @FXML
@@ -39,6 +43,8 @@ public class ComplaintFormController {
         categoryBox.getItems().setAll(
                 ComplaintCategory.values()
         );
+        priorityBox.getItems().setAll(ComplaintPriority.values());
+        priorityBox.setValue(ComplaintPriority.MEDIA);
     }
 
     @FXML
@@ -67,7 +73,9 @@ public class ComplaintFormController {
                 categoryBox.getValue(),
                 selectedLocation,
                 descriptionArea.getText().trim(),
-                PENDENTE
+                PENDENTE,
+                priorityBox.getValue(),
+                java.time.LocalDate.now()
         );
 
         ComplaintService.addComplaint(complaint);
@@ -96,6 +104,11 @@ public class ComplaintFormController {
             return false;
         }
 
+        if (priorityBox.getValue() == null) {
+            showWarning("Selecione uma prioridade.");
+            return false;
+        }
+
         if (descriptionArea.getText().isBlank()) {
 
             showWarning("Informe uma descrição.");
@@ -119,6 +132,7 @@ public class ComplaintFormController {
     private void clearForm() {
 
         categoryBox.getSelectionModel().clearSelection();
+        priorityBox.setValue(ComplaintPriority.MEDIA);
 
         descriptionArea.clear();
 
