@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.controller.LoginController"
+           stylesheets="@../css/common.css,@../css/login.css">
+
+    <VBox alignment="CENTER"
+          spacing="15"
+          styleClass="loginCard">
+
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+
+        <Label text="Cidade em Dia"
+               styleClass="logo"/>
+
+        <Label text="Entrar no sistema"
+               styleClass="subtitle"/>
+
+        <TextField fx:id="userField"
+                   promptText="Usuário"
+                    maxWidth="350"/>
+
+        <PasswordField fx:id="passwordField"
+                       promptText="Senha"
+                       maxWidth="350"/>
+
+        <Button text="Entrar"
+                onAction="#login"
+                styleClass="primaryButton"/>
+
+        <Label fx:id="messageLabel"
+               styleClass="errorLabel"/>
+
+    </VBox>
+
+</StackPane>

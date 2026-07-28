@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.MainController"
+            stylesheets="@../css/common.css,@../css/main.css">
+
+    <left>
+
+        <VBox prefWidth="260"
+              spacing="18"
+              styleClass="sidebar">
+
+            <padding>
+                <Insets top="25" right="18" bottom="20" left="18"/>
+            </padding>
+
+            <HBox spacing="12" alignment="CENTER_LEFT">
+
+                <StackPane styleClass="logoCircle">
+                    <Label text="CM"
+                           styleClass="logoInitials"/>
+                </StackPane>
+
+                <VBox spacing="2">
+
+                    <Label text="Cidade Melhor"
+                           styleClass="logo"/>
+
+                    <Label text="Gestão de Reclamações"
+                           styleClass="logoSubtitle"/>
+
+                </VBox>
+
+            </HBox>
+
+            <Separator styleClass="separator"/>
+
+            <Label text="NAVEGAÇÃO"
+                   styleClass="sectionTitle"/>
+
+            <Button text="🏠   Início"
+                    onAction="#goHome"
+                    styleClass="menuButton"/>
+
+            <Button text="📝   Nova Reclamação"
+                    onAction="#goComplaint"
+                    styleClass="menuButton"/>
+
+            <Button text="📋   Reclamações"
+                    onAction="#goComplaints"
+                    styleClass="menuButton"/>
+
+            <Button text="🗺   Mapa"
+                    onAction="#goMap"
+                    styleClass="menuButton"/>
+
+            <Pane VBox.vgrow="ALWAYS"/>
+
+            <Separator styleClass="separator"/>
+
+            <Button text="⚙   Configurações"
+                    onAction="#goSettings"
+                    styleClass="menuButton"/>
+
+            <VBox spacing="3">
+
+                <Label text="Sistema Cidade Melhor"
+                       styleClass="footerTitle"/>
+
+                <Label text="Versão 1.0"
+                       styleClass="footer"/>
+
+            </VBox>
+
+        </VBox>
+
+    </left>
+
+    <center>
+
+        <StackPane fx:id="contentArea"
+                   styleClass="content"/>
+
+    </center>
+
+</BorderPane>

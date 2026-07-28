@@ -1,0 +1,124 @@
+.background {
+    -fx-background-color: #F5F7FA;
+}
+
+.card {
+    -fx-background-color: white;
+    -fx-padding: 30;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,.12), 20, 0.2, 0, 5);
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-text-fill: #666666;
+    -fx-font-size: 13px;
+}
+
+.label {
+    -fx-font-weight: bold;
+}
+
+.combo-box,
+.text-area {
+    -fx-font-size: 14px;
+}
+
+.combo-box,
+.text-area,
+.text-field {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.primary-button {
+    -fx-background-color: #2563EB;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+}
+
+.primary-button:hover {
+    -fx-background-color: #1D4ED8;
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #2563EB;
+    -fx-border-radius: 8;
+    -fx-text-fill: #2563EB;
+    -fx-padding: 10 20;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #EEF4FF;
+}
+
+.table-view {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #E5E7EB;
+}
+
+.table-view .column-header {
+    -fx-background-color: #2563EB;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #2563EB;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-cell-size: 45;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: #DCE9FF;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #F4F8FF;
+}
+
+.status-badge{
+    -fx-padding:6 12;
+    -fx-background-radius:25;
+    -fx-font-weight:bold;
+    -fx-font-size:12px;
+}
+
+.status-pending{
+    -fx-background-color:#FFF3CD;
+    -fx-text-fill:#856404;
+}
+
+.status-analysis{
+    -fx-background-color:#D1ECF1;
+    -fx-text-fill:#0C5460;
+}
+
+.status-execution{
+    -fx-background-color:#FFE5B4;
+    -fx-text-fill:#A65E00;
+}
+
+.status-resolved{
+    -fx-background-color:#D4EDDA;
+    -fx-text-fill:#155724;
+}
+
+.status-cancelled{
+    -fx-background-color:#F8D7DA;
+    -fx-text-fill:#721C24;
+}

@@ -1,50 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.controller.ComplaintController"
-            fx:id ="root">
-    <left>
-        <VBox spacing="10"
-              style="-fx-background-color: #2c3e50; -fx-padding: 10;"
-              prefWidth="150">
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.controller.complaint.ComplaintListController"
+           stylesheets="@../css/common.css,@../css/complaint.css">
 
-            <Label text="Menu" style="-fx-text-fill: white;"/>
+    <VBox alignment="CENTER">
 
-            <Button text="Gráficos"
-                    onAction="#seeGraphs"/>
-            <Button text="Minhas Reclamações"/>
-            <Button text="Configurações"/>
-        </VBox>
-    </left>
+        <VBox spacing="18"
+              maxWidth="980"
+              styleClass="card">
 
-    <center>
-        <VBox spacing="20" alignment="CENTER">
+            <padding>
+                <Insets top="25" right="25" bottom="25" left="25"/>
+            </padding>
 
             <Label text="Lista de Reclamações"
-                   styleClass="listaReclamacao"/>
+                   styleClass="title"/>
 
-            <TableView fx:id="complaintsTable" prefWidth="860" maxWidth="860">
+            <Label text="Acompanhe o andamento das reclamações registradas."
+                   styleClass="subtitle"/>
+
+            <HBox spacing="12" alignment="CENTER_LEFT">
+
+                <TextField fx:id="searchField"
+                           promptText="Pesquisar reclamação..."
+                           HBox.hgrow="ALWAYS"/>
+
+                <ComboBox fx:id="categoryFilter"
+                          promptText="Categoria"
+                          prefWidth="170"/>
+
+                <ComboBox fx:id="statusFilter"
+                          promptText="Status"
+                          prefWidth="170"/>
+
+                <Button text="Limpar"
+                        onAction="#clearFilters"/>
+
+            </HBox>
+
+            <TableView fx:id="complaintsTable"
+                       VBox.vgrow="ALWAYS">
 
                 <columns>
-                    <TableColumn fx:id="categoryColumn" text="Categoria" prefWidth="150"/>
-                    <TableColumn fx:id="locationColumn" text="Local" prefWidth="150"/>
-                    <TableColumn fx:id="descriptionColumn" text="Descrição" prefWidth="250"/>
-                    <TableColumn fx:id="statusColumn" text="Status" prefWidth="90"/>
-                    <TableColumn fx:id="dateColumn" text="Data" prefWidth="110"/>
-                    <TableColumn fx:id="actionColumn" text="Ações" prefWidth="120"/>
+                    <TableColumn fx:id="categoryColumn"
+                                 text="Categoria"
+                                 prefWidth="160"/>
+
+                    <TableColumn fx:id="locationColumn"
+                                 text="Local"
+                                 prefWidth="180"/>
+
+                    <TableColumn fx:id="descriptionColumn"
+                                 text="Descrição"
+                                 prefWidth="320"/>
+
+                    <TableColumn fx:id="statusColumn"
+                                 text="Status"
+                                 prefWidth="100"/>
+
+                    <TableColumn fx:id="dateColumn"
+                                 text="Data"
+                                 prefWidth="120"/>
+
+                    <TableColumn fx:id="actionColumn"
+                                 text="Ações"
+                                 prefWidth="120"/>
                 </columns>
 
             </TableView>
 
-            <Button text="Voltar"
-                    styleClass="botaoVoltar"
-                    fx:id="voltar"
-                    onAction="#goStart"/>
-
         </VBox>
-    </center>
 
-</BorderPane>
+    </VBox>
+
+</StackPane>

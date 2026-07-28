@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.SettingsController"
+            fitToWidth="true"
+            styleClass="settingsScroll"
+            stylesheets="@../css/settings.css">
+    <VBox spacing="24" styleClass="settingsPage">
+        <padding>
+            <Insets top="42" right="48" bottom="42" left="48"/>
+        </padding>
+
+        <VBox spacing="6">
+            <Label text="Configurações" styleClass="pageTitle"/>
+            <Label text="Consulte as informações da sua conta e gerencie sua sessão."
+                   styleClass="pageSubtitle"/>
+        </VBox>
+
+        <VBox spacing="24" styleClass="profileCard">
+            <HBox spacing="18" alignment="CENTER_LEFT">
+                <StackPane styleClass="avatar">
+                    <Label fx:id="avatarLabel" text="?" styleClass="avatarText"/>
+                </StackPane>
+                <VBox spacing="5">
+                    <Label fx:id="nameLabel" text="Usuário" styleClass="profileName"/>
+                    <Label text="Usuário autenticado" styleClass="mutedText"/>
+                </VBox>
+            </HBox>
+
+            <Separator/>
+
+            <GridPane hgap="28" vgap="18">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="150"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <Label text="Identificador" styleClass="fieldLabel"
+                       GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label fx:id="idLabel" text="-" styleClass="fieldValue"
+                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <Label text="Status da conta" styleClass="fieldLabel"
+                       GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Label fx:id="statusLabel" text="-" styleClass="statusBadge"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="Perfil de acesso" styleClass="fieldLabel"
+                       GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Label text="Administrador" styleClass="fieldValue"
+                       GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            </GridPane>
+        </VBox>
+
+        <VBox spacing="14" styleClass="sessionCard">
+            <Label text="Sessão" styleClass="sectionHeading"/>
+            <Label text="Ao sair, será necessário informar novamente seu usuário e senha."
+                   wrapText="true" styleClass="mutedText"/>
+            <Button text="Sair da conta" onAction="#logout" styleClass="logoutButton"/>
+        </VBox>
+    </VBox>
+</ScrollPane>

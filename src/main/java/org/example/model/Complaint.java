@@ -7,10 +7,18 @@ import java.time.LocalDate;
 
 public class Complaint {
     private ComplaintCategory category;
-    private String location;
+    private Location location;
     private String description;
     private ComplaintStatus status;
     private LocalDate date;
+
+    public Complaint(ComplaintCategory category, Location location, String description, ComplaintStatus status) {
+        this.category = category;
+        this.location = location;
+        this.description = description;
+        this.status = status;
+        this.date = LocalDate.now();
+    }
 
     public void setCategory(ComplaintCategory category) {
         this.category = category;
@@ -18,14 +26,6 @@ public class Complaint {
 
     public void setStatus(ComplaintStatus status) {
         this.status = status;
-    }
-
-    public Complaint(ComplaintCategory category, String location, String description, ComplaintStatus status) {
-        this.category = category;
-        this.location = location;
-        this.description = description;
-        this.status = status;
-        this.date = LocalDate.now();
     }
 
     public ComplaintCategory getCategory() {
@@ -36,7 +36,7 @@ public class Complaint {
         return description;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 

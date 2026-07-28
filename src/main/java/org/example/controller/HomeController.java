@@ -2,35 +2,49 @@ package org.example.controller;
 
 import java.io.IOException;
 
-import javafx.animation.ScaleTransition;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.util.Duration;
 import org.example.util.ScreenManager;
 
+import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.layout.StackPane;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 public class HomeController {
+
     @FXML
     private StackPane contentArea;
     @FXML
     private Parent root;
 
     @FXML
-    public void initialize() {
-
-        ScreenManager.setMainContainer(contentArea);
-
-        ScreenManager.loadScreen("HomeContent.fxml");
-
+    public void initialize(){
+        ScreenManager.loadScreen("Home.fxml");
         aplicarEmTodos(root);
     }
 
-    public void goStart(){
-        ScreenManager.loadScreen("Start.fxml");
+    public void newComplaint(ActionEvent event) throws IOException {
+
+        ScreenManager.loadScreen("ComplaintForm.fxml");
+
+    }
+
+    public void seeComplaints(ActionEvent event) {
+
+        ScreenManager.loadScreen("ComplaintList.fxml");
+    }
+
+    public void goStart() {
+
+        ScreenManager.loadScreen("Home.fxml");
+
+    }
+
+    public void seeMap() {
+        ScreenManager.loadScreen("map/MapView.fxml");
     }
 
     private void aplicarEmTodos(Parent parent) {
@@ -61,3 +75,4 @@ public class HomeController {
     }
 
 }
+

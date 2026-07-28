@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <aside class="sidebar">
+
+        <h2>Menu</h2>
+
+        <button>Gráficos</button>
+        <button>Minhas Reclamações</button>
+        <button>Configurações</button>
+
+        <button onclick="voltar()">
+            Voltar
+        </button>
+
+    </aside>
+
+    <main class="content">
+
+        <h1>Reclamações por Categoria</h1>
+
+        <canvas id="graphs"></canvas>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

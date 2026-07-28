@@ -1,0 +1,57 @@
+/* Sidebar */
+
+.sidebar {
+    -fx-background-color: white;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 0 1 0 0;
+}
+
+/* Logo */
+
+.logo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2563EB;
+}
+
+.logoSubtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7A7A7A;
+}
+
+/* Botões */
+
+.menuButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #444;
+    -fx-font-size: 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12 15;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.menuButton:hover {
+    -fx-background-color: #EEF4FF;
+    -fx-text-fill: #2563EB;
+}
+
+.menuButton:pressed {
+    -fx-background-color: #DCE9FF;
+}
+
+/* Área central */
+
+.content {
+    -fx-background-color: #F5F7FA;
+}
+
+.title {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.footer {
+    -fx-text-fill: #999999;
+    -fx-font-size: 11px;
+}

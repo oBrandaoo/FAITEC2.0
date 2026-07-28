@@ -1,37 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15" alignment="CENTER"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.controller.ComplaintController"
-      fx:id="root">
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.controller.complaint.ComplaintFormController"
+           stylesheets="@../css/common.css,@../css/complaint.css">
 
-    <Label text="Registrar Reclamação"
-           styleClass="RegisReclamacao"/>
+    <VBox alignment="CENTER">
 
-    <ComboBox fx:id="categoryBox" prefWidth="250"/>
+        <VBox spacing="15"
+              alignment="TOP_LEFT"
+              styleClass="card"
+              maxWidth="420">
 
-    <ComboBox fx:id="locationField"
-              editable="true"
-              promptText="Digite o endereço"
-              prefWidth="300"/>
+            <Label text="Registrar Reclamação"
+                   styleClass="title"/>
 
-    <TextArea fx:id="descriptionArea"
-              promptText="Descreva o problema"
-              prefHeight="120"
-              prefWidth="250"
-              maxWidth="250"/>
+            <Label text="Informe os dados abaixo para registrar o problema."
+                   wrapText="true"
+                   styleClass="subtitle"/>
 
-    <Button text="Enviar Reclamação"
-            styleClass="botaoRegisReclamacao"
-            fx:id="regisReclamacao"
-            onAction="#submitComplaint"/>
+            <VBox spacing="5">
+                <Label text="Categoria"/>
+                <ComboBox fx:id="categoryBox"
+                          prefWidth="360"/>
+            </VBox>
 
-    <Button text="Voltar"
-            styleClass="botaoVoltar"
-            fx:id="voltar"
-            onAction="#goStart"/>
+            <VBox spacing="5">
 
-</VBox>
+                <Label text="Local"/>
+
+                <TextField fx:id="addressField"
+                           editable="false"/>
+
+                <Button text="📍 Selecionar no mapa"
+                        onAction="#selectLocation"/>
+
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Descrição"/>
+                <TextArea fx:id="descriptionArea"
+                          promptText="Descreva o problema encontrado..."
+                          prefRowCount="5"
+                          wrapText="true"
+                          prefWidth="360"/>
+            </VBox>
+
+            <HBox spacing="10"
+                  alignment="CENTER_RIGHT">
+
+                <Button text="Voltar"
+                        styleClass="secondary-button"
+                        onAction="#goStart"/>
+
+                <Button text="Enviar"
+                        styleClass="primary-button"
+                        onAction="#submitComplaint"/>
+
+            </HBox>
+
+        </VBox>
+
+    </VBox>
+
+</StackPane>
