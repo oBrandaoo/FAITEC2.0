@@ -37,6 +37,10 @@
         <Label fx:id="messageLabel"
                styleClass="errorLabel"/>
 
+        <Label text="Acessos: admin, atendente ou cidadao | Senha: 1234"
+               wrapText="true"
+               styleClass="subtitle"/>
+
     </VBox>
 
 </StackPane>

@@ -48,7 +48,7 @@
                        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                 <Label text="Perfil de acesso" styleClass="fieldLabel"
                        GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                <Label text="Administrador" styleClass="fieldValue"
+                <Label fx:id="roleLabel" text="-" styleClass="fieldValue"
                        GridPane.columnIndex="1" GridPane.rowIndex="2"/>
             </GridPane>
         </VBox>
