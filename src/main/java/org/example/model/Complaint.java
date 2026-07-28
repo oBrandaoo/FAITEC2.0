@@ -13,11 +13,21 @@ public class Complaint {
     private LocalDate date;
 
     public Complaint(ComplaintCategory category, Location location, String description, ComplaintStatus status) {
+        this(category, location, description, status, LocalDate.now());
+    }
+
+    public Complaint(
+            ComplaintCategory category,
+            Location location,
+            String description,
+            ComplaintStatus status,
+            LocalDate date
+    ) {
         this.category = category;
         this.location = location;
         this.description = description;
         this.status = status;
-        this.date = LocalDate.now();
+        this.date = date;
     }
 
     public void setCategory(ComplaintCategory category) {
