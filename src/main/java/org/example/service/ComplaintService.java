@@ -8,6 +8,7 @@ import javafx.util.Duration;
 import org.example.model.Complaint;
 import org.example.model.Location;
 import org.example.model.enums.ComplaintCategory;
+import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
 
 import java.time.LocalDate;
@@ -28,6 +29,7 @@ public class ComplaintService {
                 new Location(-23.5505, -46.6333, "Rua das Flores, 125 - Centro"),
                 "Buraco grande próximo à faixa de pedestres.",
                 ComplaintStatus.PENDENTE,
+                ComplaintPriority.URGENTE,
                 LocalDate.now().minusDays(2)
         ));
 
@@ -36,6 +38,7 @@ public class ComplaintService {
                 new Location(-23.5489, -46.6388, "Avenida Brasil, 820 - Jardim América"),
                 "Dois postes estão apagados há vários dias.",
                 ComplaintStatus.EM_ANALISE,
+                ComplaintPriority.ALTA,
                 LocalDate.now().minusDays(5)
         ));
 
@@ -44,6 +47,7 @@ public class ComplaintService {
                 new Location(-23.5572, -46.6251, "Praça da República, 40 - Centro"),
                 "Há sacos, caixas e móveis descartados na calçada.",
                 ComplaintStatus.EM_EXECUCAO,
+                ComplaintPriority.MEDIA,
                 LocalDate.now().minusDays(7)
         ));
 
@@ -52,6 +56,7 @@ public class ComplaintService {
                 new Location(-23.5621, -46.6544, "Rua São José, 310 - Bela Vista"),
                 "Vazamento de esgoto com mau cheiro em frente às residências.",
                 ComplaintStatus.RESOLVIDO,
+                ComplaintPriority.URGENTE,
                 LocalDate.now().minusDays(12)
         ));
 
@@ -60,6 +65,7 @@ public class ComplaintService {
                 new Location(-23.5454, -46.6208, "Travessa Esperança, 18 - Brás"),
                 "Solicitação de melhoria na iluminação do ponto de ônibus.",
                 ComplaintStatus.CANCELADO,
+                ComplaintPriority.BAIXA,
                 LocalDate.now().minusDays(15)
         ));
 
@@ -68,6 +74,7 @@ public class ComplaintService {
                 new Location(-23.5648, -46.6423, "Alameda Santos, 1500 - Cerqueira César"),
                 "Asfalto danificado após a chuva; o local oferece risco a motociclistas.",
                 ComplaintStatus.PENDENTE,
+                ComplaintPriority.ALTA,
                 LocalDate.now().minusDays(1)
         ));
     }
