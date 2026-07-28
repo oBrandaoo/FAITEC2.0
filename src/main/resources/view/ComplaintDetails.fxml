@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controller.complaint.ComplaintDetailsController"
+      spacing="18"
+      prefWidth="580"
+      stylesheets="@../css/complaint.css"
+      styleClass="details-page">
+    <padding>
+        <Insets top="28" right="30" bottom="28" left="30"/>
+    </padding>
+
+    <VBox spacing="4">
+        <Label text="Detalhes da reclamação" styleClass="title"/>
+        <Label text="Informações completas do registro selecionado." styleClass="subtitle"/>
+    </VBox>
+
+    <GridPane hgap="22" vgap="14">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <Label text="Categoria" styleClass="details-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="categoryLabel" wrapText="true"
+               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Prioridade" styleClass="details-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label fx:id="priorityLabel"
+               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Data" styleClass="details-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label fx:id="dateLabel"
+               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Status" styleClass="details-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="statusBox" prefWidth="220"
+                  GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Endereço" styleClass="details-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <Label fx:id="addressLabel" wrapText="true"
+               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label text="Coordenadas" styleClass="details-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <Label fx:id="coordinatesLabel"
+               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    </GridPane>
+
+    <VBox spacing="6">
+        <Label text="Descrição" styleClass="details-label"/>
+        <TextArea fx:id="descriptionArea"
+                  editable="false"
+                  wrapText="true"
+                  prefRowCount="4"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Ver no mapa" onAction="#showOnMap" styleClass="secondary-button"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Button text="Fechar" onAction="#close" styleClass="secondary-button"/>
+        <Button fx:id="saveButton" text="Salvar status"
+                onAction="#save" styleClass="primary-button"/>
+    </HBox>
+</VBox>

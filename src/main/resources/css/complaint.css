@@ -149,3 +149,12 @@
     -fx-background-color: #FEE2E2;
     -fx-text-fill: #B91C1C;
 }
+
+.details-page {
+    -fx-background-color: #F8FAFC;
+}
+
+.details-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+}

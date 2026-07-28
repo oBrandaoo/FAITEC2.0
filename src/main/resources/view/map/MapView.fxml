@@ -24,7 +24,7 @@
 
             <Pane HBox.hgrow="ALWAYS"/>
 
-            <Button
+            <Button fx:id="cancelButton"
                     text="Cancelar"
                     onAction="#cancel"/>
 

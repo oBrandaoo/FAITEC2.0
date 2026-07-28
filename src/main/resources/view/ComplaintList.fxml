@@ -48,6 +48,11 @@
                 <Button text="Exportar CSV"
                         onAction="#exportCsv"/>
 
+                <Button fx:id="detailsButton"
+                        text="Ver detalhes"
+                        disable="true"
+                        onAction="#showDetails"/>
+
             </HBox>
 
             <TableView fx:id="complaintsTable"
