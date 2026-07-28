@@ -2,6 +2,7 @@ package org.example.util;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public class ScreenManager {
@@ -18,7 +19,7 @@ public class ScreenManager {
                     ScreenManager.class.getResource("/view/" + fxml)
             );
 
-            Pane view = loader.load();
+            Node view = loader.load();
             mainContainer.getChildren().setAll(view);
 
             return loader.getController();

@@ -38,4 +38,9 @@ public class MainController {
         ScreenManager.loadScreen("map/MapView.fxml");
     }
 
+    @FXML
+    private void goSettings() {
+        ScreenManager.loadScreen("Settings.fxml");
+    }
+
 }

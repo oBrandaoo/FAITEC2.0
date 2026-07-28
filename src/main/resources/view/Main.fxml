@@ -62,6 +62,10 @@
 
             <Separator styleClass="separator"/>
 
+            <Button text="⚙   Configurações"
+                    onAction="#goSettings"
+                    styleClass="menuButton"/>
+
             <VBox spacing="3">
 
                 <Label text="Sistema Cidade Melhor"

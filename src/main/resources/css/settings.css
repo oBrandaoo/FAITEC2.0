@@ -1,0 +1,83 @@
+.settingsScroll {
+    -fx-background-color: transparent;
+    -fx-background: #F3F6FA;
+    -fx-border-color: transparent;
+}
+
+.settingsPage {
+    -fx-background-color: #F3F6FA;
+}
+
+.pageTitle {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.pageSubtitle, .mutedText {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748B;
+}
+
+.profileCard, .sessionCard {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 14;
+    -fx-padding: 26;
+}
+
+.avatar {
+    -fx-min-width: 68;
+    -fx-min-height: 68;
+    -fx-max-width: 68;
+    -fx-max-height: 68;
+    -fx-background-color: #2563EB;
+    -fx-background-radius: 34;
+}
+
+.avatarText {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.profileName, .sectionHeading {
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.fieldLabel {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748B;
+}
+
+.fieldValue {
+    -fx-font-size: 14px;
+    -fx-text-fill: #1E293B;
+}
+
+.statusBadge {
+    -fx-background-color: #DCFCE7;
+    -fx-background-radius: 12;
+    -fx-padding: 5 12;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #15803D;
+}
+
+.logoutButton {
+    -fx-background-color: #FEE2E2;
+    -fx-background-radius: 9;
+    -fx-text-fill: #B91C1C;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 18;
+    -fx-cursor: hand;
+}
+
+.logoutButton:hover {
+    -fx-background-color: #FECACA;
+}
