@@ -25,6 +25,9 @@ public class MapController {
     @FXML
     private Button confirmButton;
 
+    @FXML
+    private Button cancelButton;
+
     private Stage stage;
 
     private Location selectedLocation;
@@ -60,10 +63,19 @@ public class MapController {
                         .getResource("/map/map.html")
                         .toExternalForm()
         );
+
+        setMode(mode);
     }
 
     public void setMode(MapMode mode) {
         this.mode = mode;
+        boolean selecting = mode == MapMode.SELECT;
+        confirmButton.setVisible(selecting);
+        confirmButton.setManaged(selecting);
+        boolean showCloseButton = selecting || stage != null;
+        cancelButton.setVisible(showCloseButton);
+        cancelButton.setManaged(showCloseButton);
+        cancelButton.setText(selecting ? "Cancelar" : "Fechar");
     }
 
     public MapMode getMode() {
@@ -93,7 +105,30 @@ public class MapController {
 
         engine.executeScript(
                 "centerMap(" + lat + "," + lng + ");"
+                        + "addComplaintMarker(" + lat + "," + lng + ",'Local da reclamação');"
         );
+    }
+
+    public void setDisplayedLocation(Location location) {
+        selectedLocation = location;
+        addressLabel.setText(location.getAddress());
+
+        Runnable centerAction = () -> centerOn(
+                location.getLatitude(),
+                location.getLongitude()
+        );
+
+        if (engine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
+            centerAction.run();
+        } else {
+            engine.getLoadWorker().stateProperty().addListener(
+                    (observable, oldState, newState) -> {
+                        if (newState == Worker.State.SUCCEEDED) {
+                            centerAction.run();
+                        }
+                    }
+            );
+        }
     }
 
     private boolean loading = false;

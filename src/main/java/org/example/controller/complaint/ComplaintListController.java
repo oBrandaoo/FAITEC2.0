@@ -5,10 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.example.controller.GraphsController;
 import org.example.model.Complaint;
 import org.example.model.enums.ComplaintCategory;
@@ -45,6 +49,9 @@ public class ComplaintListController {
 
     @FXML
     private TableView<Complaint> complaintsTable;
+
+    @FXML
+    private Button detailsButton;
 
     @FXML
     private TableColumn<Complaint, ComplaintCategory> categoryColumn;
@@ -84,6 +91,20 @@ public class ComplaintListController {
         configureFilters();
 
         configureActions();
+        configureDetails();
+    }
+
+    private void configureDetails() {
+        detailsButton.disableProperty().bind(
+                complaintsTable.getSelectionModel().selectedItemProperty().isNull()
+        );
+
+        complaintsTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2
+                    && complaintsTable.getSelectionModel().getSelectedItem() != null) {
+                showDetails();
+            }
+        });
     }
 
     private void configurePermissions() {
@@ -337,6 +358,42 @@ public class ComplaintListController {
 
         statusFilter.setValue(null);
         priorityFilter.setValue(null);
+    }
+
+    @FXML
+    private void showDetails() {
+        Complaint selected = complaintsTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/view/ComplaintDetails.fxml")
+            );
+            Parent view = loader.load();
+
+            ComplaintDetailsController controller = loader.getController();
+            controller.setComplaint(selected);
+
+            Stage dialog = new Stage();
+            dialog.initOwner(complaintsTable.getScene().getWindow());
+            dialog.initModality(Modality.WINDOW_MODAL);
+            dialog.setTitle("Detalhes da reclamação");
+            dialog.setResizable(false);
+            dialog.setScene(new Scene(view));
+            dialog.showAndWait();
+
+            complaintsTable.refresh();
+            applyFilters();
+        } catch (IOException exception) {
+            showAlert(
+                    Alert.AlertType.ERROR,
+                    "Erro",
+                    "Não foi possível abrir os detalhes da reclamação."
+            );
+            exception.printStackTrace();
+        }
     }
 
     @FXML
