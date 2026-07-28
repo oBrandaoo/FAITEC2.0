@@ -122,3 +122,30 @@
     -fx-background-color:#F8D7DA;
     -fx-text-fill:#721C24;
 }
+
+.priority-badge {
+    -fx-padding: 5 10;
+    -fx-background-radius: 20;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.priority-baixa {
+    -fx-background-color: #E2E8F0;
+    -fx-text-fill: #475569;
+}
+
+.priority-media {
+    -fx-background-color: #DBEAFE;
+    -fx-text-fill: #1D4ED8;
+}
+
+.priority-alta {
+    -fx-background-color: #FFEDD5;
+    -fx-text-fill: #C2410C;
+}
+
+.priority-urgente {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #B91C1C;
+}

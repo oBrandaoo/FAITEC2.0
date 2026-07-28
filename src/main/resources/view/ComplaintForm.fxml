@@ -29,6 +29,12 @@
             </VBox>
 
             <VBox spacing="5">
+                <Label text="Prioridade"/>
+                <ComboBox fx:id="priorityBox"
+                          prefWidth="360"/>
+            </VBox>
+
+            <VBox spacing="5">
 
                 <Label text="Local"/>
 

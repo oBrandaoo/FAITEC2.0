@@ -36,7 +36,11 @@
 
                 <ComboBox fx:id="statusFilter"
                           promptText="Status"
-                          prefWidth="170"/>
+                          prefWidth="140"/>
+
+                <ComboBox fx:id="priorityFilter"
+                          promptText="Prioridade"
+                          prefWidth="130"/>
 
                 <Button text="Limpar"
                         onAction="#clearFilters"/>
@@ -52,15 +56,19 @@
                 <columns>
                     <TableColumn fx:id="categoryColumn"
                                  text="Categoria"
-                                 prefWidth="160"/>
+                                 prefWidth="140"/>
+
+                    <TableColumn fx:id="priorityColumn"
+                                 text="Prioridade"
+                                 prefWidth="100"/>
 
                     <TableColumn fx:id="locationColumn"
                                  text="Local"
-                                 prefWidth="180"/>
+                                 prefWidth="160"/>
 
                     <TableColumn fx:id="descriptionColumn"
                                  text="Descrição"
-                                 prefWidth="320"/>
+                                 prefWidth="250"/>
 
                     <TableColumn fx:id="statusColumn"
                                  text="Status"
