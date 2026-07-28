@@ -56,4 +56,26 @@ public class MapDialog {
             return null;
         }
     }
+
+    public static void showLocation(Location location) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MapDialog.class.getResource("/view/map/MapView.fxml")
+            );
+            Parent root = loader.load();
+
+            MapController controller = loader.getController();
+            Stage stage = new Stage();
+            controller.setStage(stage);
+            controller.setMode(MapMode.VIEW);
+            controller.setDisplayedLocation(location);
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Localização da reclamação");
+            stage.setScene(new Scene(root, 900, 600));
+            stage.showAndWait();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
 }
