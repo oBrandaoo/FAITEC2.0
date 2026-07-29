@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import org.example.model.enums.MapMode;
 import org.example.model.Location;
+import org.example.model.Complaint;
+import org.example.service.ComplaintService;
 import org.example.util.MapBridge;
 
 import java.util.function.Consumer;
@@ -34,7 +36,7 @@ public class MapController {
 
     private WebEngine engine;
 
-    private MapMode mode = MapMode.VIEW;
+    private MapMode mode = MapMode.OVERVIEW;
 
     private Consumer<Location> locationListener;
 
@@ -54,6 +56,9 @@ public class MapController {
                         new MapBridge(this)
                 );
 
+                if (mode == MapMode.OVERVIEW) {
+                    showComplaintMarkers();
+                }
             }
 
         });
@@ -129,6 +134,45 @@ public class MapController {
                     }
             );
         }
+    }
+
+    private void showComplaintMarkers() {
+        engine.executeScript("showPriorityLegend();");
+
+        for (Complaint complaint : ComplaintService.getAllComplaints()) {
+            Location location = complaint.getLocation();
+            String popup = "<b>" + escapeHtml(complaint.getCategory().toString()) + "</b>"
+                    + "<br>Prioridade: " + escapeHtml(complaint.getPriority().toString())
+                    + "<br>Status: " + escapeHtml(complaint.getStatus().toString())
+                    + "<br>" + escapeHtml(location.getAddress());
+
+            engine.executeScript(
+                    "addComplaintMarker("
+                            + location.getLatitude() + ","
+                            + location.getLongitude() + ","
+                            + jsString(popup) + ","
+                            + jsString(complaint.getPriority().name())
+                            + ");"
+            );
+        }
+    }
+
+    private String escapeHtml(String value) {
+        return value
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
+    }
+
+    private String jsString(String value) {
+        return "'" + value
+                .replace("\\", "\\\\")
+                .replace("'", "\\'")
+                .replace("\r", "\\r")
+                .replace("\n", "\\n")
+                + "'";
     }
 
     private boolean loading = false;

@@ -23,6 +23,24 @@
             height:100%;
         }
 
+        .priority-legend {
+            background: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            box-shadow: 0 1px 6px rgba(0,0,0,.25);
+            color: #334155;
+            font: 13px Arial, sans-serif;
+            line-height: 22px;
+        }
+
+        .priority-dot {
+            display: inline-block;
+            width: 11px;
+            height: 11px;
+            margin-right: 7px;
+            border-radius: 50%;
+        }
+
     </style>
 
 </head>
@@ -73,11 +91,44 @@
         map.setView([lat,lng],17);
     }
 
-    function addComplaintMarker(lat,lng,title){
+    function addComplaintMarker(lat,lng,title,priority){
 
-        L.marker([lat,lng])
+        const colors = {
+            BAIXA: "#64748B",
+            MEDIA: "#2563EB",
+            ALTA: "#EA580C",
+            URGENTE: "#DC2626"
+        };
+
+        const color = colors[priority] || "#2563EB";
+
+        L.circleMarker([lat,lng], {
+            radius: 9,
+            color: "#FFFFFF",
+            weight: 2,
+            fillColor: color,
+            fillOpacity: 0.95
+        })
             .addTo(map)
             .bindPopup(title);
+    }
+
+    function showPriorityLegend(){
+
+        const legend = L.control({position: "bottomright"});
+
+        legend.onAdd = function(){
+            const div = L.DomUtil.create("div", "priority-legend");
+            div.innerHTML =
+                "<b>Prioridade</b><br>" +
+                '<span class="priority-dot" style="background:#64748B"></span>Baixa<br>' +
+                '<span class="priority-dot" style="background:#2563EB"></span>Média<br>' +
+                '<span class="priority-dot" style="background:#EA580C"></span>Alta<br>' +
+                '<span class="priority-dot" style="background:#DC2626"></span>Urgente';
+            return div;
+        };
+
+        legend.addTo(map);
     }
 
     let loadingPopup = null;

@@ -3,6 +3,7 @@ package org.example.util;
 import javafx.application.Platform;
 import org.example.controller.maps.MapController;
 import org.example.model.Location;
+import org.example.model.enums.MapMode;
 import org.example.service.GeocodingService;
 
 import java.util.concurrent.CompletableFuture;
@@ -16,6 +17,10 @@ public class MapBridge {
     }
 
     public void onLocationSelected(double lat, double lng) {
+
+        if (controller.getMode() != MapMode.SELECT) {
+            return;
+        }
 
         if (controller.isLoading()) {
             return;
