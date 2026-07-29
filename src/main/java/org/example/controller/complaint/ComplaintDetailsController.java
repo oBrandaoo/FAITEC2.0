@@ -69,7 +69,10 @@ public class ComplaintDetailsController {
     @FXML
     private void showOnMap() {
         if (complaint != null) {
-            MapDialog.showLocation(complaint.getLocation());
+            MapDialog.showLocation(
+                    complaint.getLocation(),
+                    categoryLabel.getScene().getWindow()
+            );
         }
     }
 
