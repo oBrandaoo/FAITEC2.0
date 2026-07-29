@@ -27,7 +27,11 @@ public class ComplaintService {
     private static void loadMockComplaints() {
         complaints.add(new Complaint(
                 ComplaintCategory.BURACO_RUA,
-                new Location(-23.5505, -46.6333, "Rua das Flores, 125 - Centro"),
+                new Location(
+                        -22.252218,
+                        -45.703128,
+                        "Avenida Sinhá Moreira, 125 - Centro, Santa Rita do Sapucaí/MG"
+                ),
                 "Buraco grande próximo à faixa de pedestres.",
                 ComplaintStatus.PENDENTE,
                 ComplaintPriority.URGENTE,
@@ -36,7 +40,11 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.ILUMINACAO_PUBLICA,
-                new Location(-23.5489, -46.6388, "Avenida Brasil, 820 - Jardim América"),
+                new Location(
+                        -22.251156,
+                        -45.702279,
+                        "Praça Delfim Moreira, 40 - Centro, Santa Rita do Sapucaí/MG"
+                ),
                 "Dois postes estão apagados há vários dias.",
                 ComplaintStatus.EM_ANALISE,
                 ComplaintPriority.ALTA,
@@ -45,7 +53,11 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.LIX0_ACUMULADO,
-                new Location(-23.5572, -46.6251, "Praça da República, 40 - Centro"),
+                new Location(
+                        -22.254512,
+                        -45.701324,
+                        "Alameda José Cleto Duarte, 80 - Centro, Santa Rita do Sapucaí/MG"
+                ),
                 "Há sacos, caixas e móveis descartados na calçada.",
                 ComplaintStatus.EM_EXECUCAO,
                 ComplaintPriority.MEDIA,
@@ -54,7 +66,11 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.ESGOTO,
-                new Location(-23.5621, -46.6544, "Rua São José, 310 - Bela Vista"),
+                new Location(
+                        -22.255896,
+                        -45.705117,
+                        "Rua Padre Vítor, 310 - Centro, Santa Rita do Sapucaí/MG"
+                ),
                 "Vazamento de esgoto com mau cheiro em frente às residências.",
                 ComplaintStatus.RESOLVIDO,
                 ComplaintPriority.URGENTE,
@@ -63,7 +79,11 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.SEGURANCA,
-                new Location(-23.5454, -46.6208, "Travessa Esperança, 18 - Brás"),
+                new Location(
+                        -22.247816,
+                        -45.699462,
+                        "Avenida Embaixador Bilac Pinto, 780 - Santa Rita do Sapucaí/MG"
+                ),
                 "Solicitação de melhoria na iluminação do ponto de ônibus.",
                 ComplaintStatus.CANCELADO,
                 ComplaintPriority.BAIXA,
@@ -72,7 +92,11 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.BURACO_RUA,
-                new Location(-23.5648, -46.6423, "Alameda Santos, 1500 - Cerqueira César"),
+                new Location(
+                        -22.258044,
+                        -45.696851,
+                        "Praça Expedicionário Maurício Adami, 22 - Eletrônica, Santa Rita do Sapucaí/MG"
+                ),
                 "Asfalto danificado após a chuva; o local oferece risco a motociclistas.",
                 ComplaintStatus.PENDENTE,
                 ComplaintPriority.ALTA,
