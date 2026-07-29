@@ -13,6 +13,7 @@ import org.example.model.enums.ComplaintPriority;
 import org.example.service.ComplaintService;
 import org.example.util.MapDialog;
 import org.example.util.ScreenManager;
+import org.example.util.UserSession;
 
 import static org.example.model.enums.ComplaintStatus.PENDENTE;
 
@@ -75,7 +76,10 @@ public class ComplaintFormController {
                 descriptionArea.getText().trim(),
                 PENDENTE,
                 priorityBox.getValue(),
-                java.time.LocalDate.now()
+                java.time.LocalDate.now(),
+                UserSession.getLoggedUser() == null
+                        ? "Sistema"
+                        : UserSession.getLoggedUser().getName()
         );
 
         ComplaintService.addComplaint(complaint);

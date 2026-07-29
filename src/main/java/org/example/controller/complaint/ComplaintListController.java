@@ -331,7 +331,28 @@ public class ComplaintListController {
 
                     itemStatus.setOnAction(e->{
 
-                        complaint.setStatus(status);
+                        String note = "";
+                        if (status == ComplaintStatus.CANCELADO
+                                && complaint.getStatus() != ComplaintStatus.CANCELADO) {
+                            TextInputDialog dialog = new TextInputDialog();
+                            dialog.setTitle("Cancelar reclamação");
+                            dialog.setHeaderText("Informe a justificativa do cancelamento.");
+                            dialog.setContentText("Justificativa:");
+                            dialog.initOwner(complaintsTable.getScene().getWindow());
+
+                            var result = dialog.showAndWait();
+                            if (result.isEmpty() || result.get().isBlank()) {
+                                return;
+                            }
+                            note = result.get();
+                        }
+
+                        ComplaintService.updateStatus(
+                                complaint,
+                                status,
+                                UserSession.getLoggedUser(),
+                                note
+                        );
 
                         complaintsTable.refresh();
 

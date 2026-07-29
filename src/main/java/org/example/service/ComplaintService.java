@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.util.Duration;
 import org.example.model.Complaint;
 import org.example.model.Location;
+import org.example.model.User;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
@@ -85,6 +86,22 @@ public class ComplaintService {
 
     public static List<Complaint> getAllComplaints() {
         return complaints;
+    }
+
+    public static void updateStatus(
+            Complaint complaint,
+            ComplaintStatus newStatus,
+            User responsible,
+            String note
+    ) {
+        if (complaint == null || newStatus == null) {
+            return;
+        }
+
+        String responsibleName = responsible == null
+                ? "Sistema"
+                : responsible.getName();
+        complaint.changeStatus(newStatus, responsibleName, note);
     }
 
     public static void aplicarEmTodos(Node node) {
