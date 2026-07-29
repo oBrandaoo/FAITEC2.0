@@ -1,17 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml"
-      alignment="CENTER"
-      spacing="20"
-      stylesheets="@../css/home.css">
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.DashboardController"
+            fitToWidth="true"
+            styleClass="dashboard-scroll"
+            stylesheets="@../css/home.css">
+    <VBox spacing="24" styleClass="dashboard">
+        <padding>
+            <Insets top="32" right="36" bottom="36" left="36"/>
+        </padding>
 
-    <Label text="Bem-vindo"
-           styleClass="title"/>
+        <VBox spacing="5">
+            <Label fx:id="welcomeLabel" text="Visão geral" styleClass="dashboard-title"/>
+            <Label text="Acompanhe os principais indicadores das reclamações."
+                   styleClass="dashboard-subtitle"/>
+        </VBox>
 
-    <Label text="Sistema Cidade Melhor"/>
+        <HBox spacing="14">
+            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                <Label text="TOTAL" styleClass="metric-name"/>
+                <Label fx:id="totalLabel" text="0" styleClass="metric-value"/>
+            </VBox>
+            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                <Label text="PENDENTES" styleClass="metric-name"/>
+                <Label fx:id="pendingLabel" text="0" styleClass="metric-value metric-pending"/>
+            </VBox>
+            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                <Label text="EM ANDAMENTO" styleClass="metric-name"/>
+                <Label fx:id="inProgressLabel" text="0" styleClass="metric-value metric-progress"/>
+            </VBox>
+            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                <Label text="RESOLVIDAS" styleClass="metric-name"/>
+                <Label fx:id="resolvedLabel" text="0" styleClass="metric-value metric-resolved"/>
+            </VBox>
+            <VBox styleClass="metric-card urgent-card" HBox.hgrow="ALWAYS">
+                <Label text="URGENTES" styleClass="metric-name"/>
+                <Label fx:id="urgentLabel" text="0" styleClass="metric-value metric-urgent"/>
+            </VBox>
+        </HBox>
 
-</VBox>
+        <VBox spacing="10" styleClass="dashboard-card">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Taxa de resolução" styleClass="card-title"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Label fx:id="resolutionRateLabel" text="0%" styleClass="rate-value"/>
+            </HBox>
+            <ProgressBar fx:id="resolutionProgress"
+                         progress="0"
+                         maxWidth="Infinity"/>
+        </VBox>
+
+        <HBox spacing="18">
+            <VBox spacing="8" styleClass="dashboard-card" HBox.hgrow="ALWAYS">
+                <Label text="Reclamações por categoria" styleClass="card-title"/>
+                <PieChart fx:id="categoryChart"
+                          prefHeight="320"
+                          legendSide="BOTTOM"/>
+            </VBox>
+
+            <VBox spacing="8" styleClass="dashboard-card" HBox.hgrow="ALWAYS">
+                <Label text="Reclamações por prioridade" styleClass="card-title"/>
+                <BarChart fx:id="priorityChart" prefHeight="320">
+                    <xAxis>
+                        <CategoryAxis/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis forceZeroInRange="true"
+                                    tickUnit="1"
+                                    minorTickVisible="false"/>
+                    </yAxis>
+                </BarChart>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="12" styleClass="dashboard-card">
+            <Label text="Reclamações urgentes recentes" styleClass="card-title"/>
+            <ListView fx:id="urgentList" prefHeight="150"/>
+        </VBox>
+    </VBox>
+</ScrollPane>

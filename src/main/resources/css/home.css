@@ -1,57 +1,124 @@
-/* Sidebar */
-
-.sidebar {
-    -fx-background-color: white;
-    -fx-border-color: #E5E7EB;
-    -fx-border-width: 0 1 0 0;
-}
-
-/* Logo */
-
-.logo {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2563EB;
-}
-
-.logoSubtitle {
-    -fx-font-size: 12px;
-    -fx-text-fill: #7A7A7A;
-}
-
-/* Botões */
-
-.menuButton {
+.dashboard-scroll {
     -fx-background-color: transparent;
-    -fx-text-fill: #444;
-    -fx-font-size: 15px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 12 15;
-    -fx-background-radius: 10;
-    -fx-cursor: hand;
+    -fx-background: #F3F6FA;
+    -fx-border-color: transparent;
 }
 
-.menuButton:hover {
-    -fx-background-color: #EEF4FF;
+.dashboard {
+    -fx-background-color: #F3F6FA;
+}
+
+.dashboard-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.dashboard-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748B;
+}
+
+.metric-card, .dashboard-card {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 13;
+    -fx-background-radius: 13;
+    -fx-padding: 20;
+}
+
+.metric-card {
+    -fx-spacing: 7;
+    -fx-min-width: 135;
+}
+
+.urgent-card {
+    -fx-border-color: #FECACA;
+}
+
+.metric-name {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748B;
+}
+
+.metric-value {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.metric-pending {
+    -fx-text-fill: #A16207;
+}
+
+.metric-progress {
+    -fx-text-fill: #0369A1;
+}
+
+.metric-resolved {
+    -fx-text-fill: #15803D;
+}
+
+.metric-urgent {
+    -fx-text-fill: #B91C1C;
+}
+
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.rate-value {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
     -fx-text-fill: #2563EB;
 }
 
-.menuButton:pressed {
-    -fx-background-color: #DCE9FF;
+.progress-bar {
+    -fx-pref-height: 12;
 }
 
-/* Área central */
-
-.content {
-    -fx-background-color: #F5F7FA;
+.progress-bar .bar {
+    -fx-background-color: #2563EB;
+    -fx-background-radius: 8;
 }
 
-.title {
-    -fx-font-size: 30px;
-    -fx-font-weight: bold;
+.progress-bar .track {
+    -fx-background-color: #E2E8F0;
+    -fx-background-radius: 8;
 }
 
-.footer {
-    -fx-text-fill: #999999;
-    -fx-font-size: 11px;
+.chart {
+    -fx-padding: 5;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #E2E8F0;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.list-cell {
+    -fx-padding: 10 12;
+    -fx-background-color: white;
+    -fx-text-fill: #334155;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #F8FAFC;
 }
