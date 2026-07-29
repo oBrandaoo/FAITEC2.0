@@ -64,6 +64,21 @@
                   prefRowCount="4"/>
     </VBox>
 
+    <VBox spacing="6">
+        <Label text="Observação da alteração" styleClass="details-label"/>
+        <TextArea fx:id="noteArea"
+                  promptText="Opcional, exceto ao cancelar a reclamação."
+                  wrapText="true"
+                  prefRowCount="2"/>
+    </VBox>
+
+    <VBox spacing="6" VBox.vgrow="ALWAYS">
+        <Label text="Histórico de status" styleClass="details-label"/>
+        <ListView fx:id="historyList"
+                  prefHeight="190"
+                  VBox.vgrow="ALWAYS"/>
+    </VBox>
+
     <HBox spacing="10" alignment="CENTER_RIGHT">
         <Button text="Ver no mapa" onAction="#showOnMap" styleClass="secondary-button"/>
         <Pane HBox.hgrow="ALWAYS"/>

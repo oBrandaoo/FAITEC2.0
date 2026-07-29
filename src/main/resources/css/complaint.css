@@ -158,3 +158,13 @@
     -fx-font-weight: bold;
     -fx-text-fill: #475569;
 }
+
+.details-page .list-cell {
+    -fx-padding: 9 12;
+    -fx-background-color: white;
+    -fx-text-fill: #334155;
+}
+
+.details-page .list-cell:filled {
+    -fx-border-color: transparent transparent #E2E8F0 transparent;
+}
