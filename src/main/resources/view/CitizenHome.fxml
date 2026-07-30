@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.CitizenHomeController"
+            fitToWidth="true"
+            styleClass="citizen-scroll"
+            stylesheets="@../css/citizen-home.css">
+    <VBox spacing="24" styleClass="citizen-page">
+        <padding>
+            <Insets top="40" right="46" bottom="40" left="46"/>
+        </padding>
+
+        <HBox alignment="CENTER_LEFT">
+            <VBox spacing="5">
+                <Label fx:id="welcomeLabel" text="Olá!" styleClass="citizen-title"/>
+                <Label text="Acompanhe suas solicitações e ajude a melhorar a cidade."
+                       styleClass="citizen-subtitle"/>
+            </VBox>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="+ Nova reclamação"
+                    onAction="#newComplaint"
+                    styleClass="primary-action"/>
+        </HBox>
+
+        <HBox spacing="16">
+            <VBox styleClass="summary-card" HBox.hgrow="ALWAYS">
+                <Label text="MINHAS RECLAMAÇÕES" styleClass="summary-name"/>
+                <Label fx:id="totalLabel" text="0" styleClass="summary-value"/>
+            </VBox>
+            <VBox styleClass="summary-card" HBox.hgrow="ALWAYS">
+                <Label text="PENDENTES" styleClass="summary-name"/>
+                <Label fx:id="pendingLabel" text="0" styleClass="summary-value pending-value"/>
+            </VBox>
+            <VBox styleClass="summary-card" HBox.hgrow="ALWAYS">
+                <Label text="EM ANDAMENTO" styleClass="summary-name"/>
+                <Label fx:id="inProgressLabel" text="0" styleClass="summary-value progress-value"/>
+            </VBox>
+            <VBox styleClass="summary-card" HBox.hgrow="ALWAYS">
+                <Label text="RESOLVIDAS" styleClass="summary-name"/>
+                <Label fx:id="resolvedLabel" text="0" styleClass="summary-value resolved-value"/>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="14" styleClass="content-card" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT">
+                <VBox spacing="3">
+                    <Label text="Atividades recentes" styleClass="section-title"/>
+                    <Label text="Suas últimas reclamações registradas."
+                           styleClass="section-subtitle"/>
+                </VBox>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button text="Ver todas"
+                        onAction="#viewComplaints"
+                        styleClass="secondary-action"/>
+            </HBox>
+            <ListView fx:id="recentList"
+                      prefHeight="290"
+                      VBox.vgrow="ALWAYS"/>
+        </VBox>
+
+        <VBox spacing="6" styleClass="help-card">
+            <Label text="Como funciona?" styleClass="help-title"/>
+            <Label wrapText="true"
+                   text="Registre o problema informando categoria, prioridade, descrição e localização. A equipe responsável acompanhará sua solicitação e você poderá consultar o histórico de cada alteração."
+                   styleClass="help-text"/>
+        </VBox>
+    </VBox>
+</ScrollPane>

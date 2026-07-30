@@ -19,9 +19,11 @@
             </padding>
 
             <Label text="Lista de Reclamações"
+                   fx:id="titleLabel"
                    styleClass="title"/>
 
             <Label text="Acompanhe o andamento das reclamações registradas."
+                   fx:id="subtitleLabel"
                    styleClass="subtitle"/>
 
             <HBox spacing="12" alignment="CENTER_LEFT">
@@ -45,7 +47,8 @@
                 <Button text="Limpar"
                         onAction="#clearFilters"/>
 
-                <Button text="Exportar CSV"
+                <Button fx:id="exportButton"
+                        text="Exportar CSV"
                         onAction="#exportCsv"/>
 
                 <Button fx:id="detailsButton"

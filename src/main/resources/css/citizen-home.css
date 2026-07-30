@@ -1,0 +1,123 @@
+.citizen-scroll {
+    -fx-background-color: transparent;
+    -fx-background: #F3F6FA;
+    -fx-border-color: transparent;
+}
+
+.citizen-page {
+    -fx-background-color: #F3F6FA;
+}
+
+.citizen-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.citizen-subtitle, .section-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748B;
+}
+
+.primary-action {
+    -fx-background-color: #2563EB;
+    -fx-background-radius: 9;
+    -fx-padding: 11 18;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.primary-action:hover {
+    -fx-background-color: #1D4ED8;
+}
+
+.summary-card, .content-card {
+    -fx-background-color: white;
+    -fx-background-radius: 13;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 13;
+    -fx-padding: 20;
+}
+
+.summary-card {
+    -fx-spacing: 7;
+}
+
+.summary-name {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748B;
+}
+
+.summary-value {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.pending-value {
+    -fx-text-fill: #A16207;
+}
+
+.progress-value {
+    -fx-text-fill: #0369A1;
+}
+
+.resolved-value {
+    -fx-text-fill: #15803D;
+}
+
+.section-title, .help-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.secondary-action {
+    -fx-background-color: transparent;
+    -fx-border-color: #CBD5E1;
+    -fx-border-radius: 8;
+    -fx-padding: 8 14;
+    -fx-text-fill: #334155;
+    -fx-cursor: hand;
+}
+
+.secondary-action:hover {
+    -fx-background-color: #F8FAFC;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 9;
+}
+
+.list-cell {
+    -fx-background-color: white;
+    -fx-padding: 12 14;
+    -fx-text-fill: #334155;
+    -fx-border-color: transparent transparent #E2E8F0 transparent;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #F8FAFC;
+}
+
+.help-card {
+    -fx-background-color: #EFF6FF;
+    -fx-background-radius: 12;
+    -fx-border-color: #BFDBFE;
+    -fx-border-radius: 12;
+    -fx-padding: 18;
+}
+
+.help-title {
+    -fx-text-fill: #1D4ED8;
+}
+
+.help-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #475569;
+}
