@@ -71,4 +71,9 @@ public class MainController {
         ScreenManager.loadScreen("Settings.fxml");
     }
 
+    @FXML
+    private void goAbout() {
+        ScreenManager.loadScreen("About.fxml");
+    }
+
 }
