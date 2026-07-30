@@ -52,6 +52,7 @@
 <script>
 
     let selectedMarker = null;
+    let selectionEnabled = false;
 
     const map = L.map("map",{
 
@@ -70,6 +71,10 @@
 
     map.on("click",function(e){
 
+        if(!selectionEnabled){
+            return;
+        }
+
         if(selectedMarker){
 
             map.removeLayer(selectedMarker);
@@ -85,6 +90,11 @@
             );
         }
     });
+
+    function setSelectionEnabled(enabled){
+        selectionEnabled = enabled;
+        map.getContainer().style.cursor = enabled ? "crosshair" : "";
+    }
 
     function centerMap(lat,lng){
 

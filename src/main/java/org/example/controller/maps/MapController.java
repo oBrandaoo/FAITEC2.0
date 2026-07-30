@@ -56,6 +56,8 @@ public class MapController {
                         new MapBridge(this)
                 );
 
+                updateMapInteraction();
+
                 if (mode == MapMode.OVERVIEW) {
                     showComplaintMarkers();
                 }
@@ -81,10 +83,20 @@ public class MapController {
         cancelButton.setVisible(showCloseButton);
         cancelButton.setManaged(showCloseButton);
         cancelButton.setText(selecting ? "Cancelar" : "Fechar");
+        updateMapInteraction();
     }
 
     public MapMode getMode() {
         return mode;
+    }
+
+    private void updateMapInteraction() {
+        if (engine != null
+                && engine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
+            engine.executeScript(
+                    "setSelectionEnabled(" + (mode == MapMode.SELECT) + ");"
+            );
+        }
     }
 
     public void setLocationListener(Consumer<Location> listener) {
