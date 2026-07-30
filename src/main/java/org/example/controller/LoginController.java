@@ -31,6 +31,16 @@ public class LoginController {
     private Label messageLabel;
 
     @FXML
+    public void initialize() {
+        userField.textProperty().addListener(
+                (observable, oldValue, newValue) -> messageLabel.setText("")
+        );
+        passwordField.textProperty().addListener(
+                (observable, oldValue, newValue) -> messageLabel.setText("")
+        );
+    }
+
+    @FXML
     private void login(ActionEvent event) {
 
         String username = userField.getText().trim();
