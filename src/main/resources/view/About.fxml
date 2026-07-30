@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
@@ -14,10 +17,18 @@
         </padding>
 
         <VBox alignment="CENTER" spacing="12" styleClass="hero-card">
-            <StackPane styleClass="about-logo">
-                <Label text="CM" styleClass="about-logo-text"/>
+            <StackPane styleClass="about-brand-image">
+                <ImageView fitWidth="390"
+                           preserveRatio="true"
+                           smooth="true">
+                    <image>
+                        <Image url="@../images/logo.png"/>
+                    </image>
+                    <viewport>
+                        <Rectangle2D minX="270" minY="245" width="990" height="480"/>
+                    </viewport>
+                </ImageView>
             </StackPane>
-            <Label text="Cidade Melhor" styleClass="about-title"/>
             <Label text="Sistema de Gestão de Reclamações Urbanas"
                    styleClass="about-subtitle"/>
             <Label text="Versão 1.0" styleClass="version-badge"/>

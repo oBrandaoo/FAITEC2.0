@@ -16,19 +16,10 @@
     -fx-padding: 26;
 }
 
-.about-logo {
-    -fx-min-width: 76;
-    -fx-min-height: 76;
-    -fx-max-width: 76;
-    -fx-max-height: 76;
-    -fx-background-color: #2563EB;
-    -fx-background-radius: 38;
-}
-
-.about-logo-text {
-    -fx-font-size: 25px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
+.about-brand-image {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-padding: 4 16;
 }
 
 .about-title {
