@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fitToWidth="true"
+            styleClass="about-scroll"
+            stylesheets="@../css/about.css">
+    <VBox spacing="24" styleClass="about-page">
+        <padding>
+            <Insets top="42" right="48" bottom="42" left="48"/>
+        </padding>
+
+        <VBox alignment="CENTER" spacing="12" styleClass="hero-card">
+            <StackPane styleClass="about-logo">
+                <Label text="CM" styleClass="about-logo-text"/>
+            </StackPane>
+            <Label text="Cidade Melhor" styleClass="about-title"/>
+            <Label text="Sistema de Gestão de Reclamações Urbanas"
+                   styleClass="about-subtitle"/>
+            <Label text="Versão 1.0" styleClass="version-badge"/>
+        </VBox>
+
+        <VBox spacing="10" styleClass="about-card">
+            <Label text="Sobre o projeto" styleClass="section-title"/>
+            <Label wrapText="true"
+                   styleClass="body-text"
+                   text="O Cidade Melhor foi desenvolvido para facilitar o registro, acompanhamento e gerenciamento de problemas urbanos. A aplicação reúne reclamações, localização geográfica, prioridades, histórico de atendimento e indicadores em uma interface única."/>
+        </VBox>
+
+        <HBox spacing="18">
+            <VBox spacing="12" styleClass="about-card" HBox.hgrow="ALWAYS">
+                <Label text="Principais recursos" styleClass="section-title"/>
+                <Label text="• Cadastro e acompanhamento de reclamações" wrapText="true" styleClass="feature-text"/>
+                <Label text="• Priorização e histórico de alterações" wrapText="true" styleClass="feature-text"/>
+                <Label text="• Mapa interativo com marcadores" wrapText="true" styleClass="feature-text"/>
+                <Label text="• Dashboard e gráficos gerenciais" wrapText="true" styleClass="feature-text"/>
+                <Label text="• Exportação de dados para CSV" wrapText="true" styleClass="feature-text"/>
+                <Label text="• Perfis e permissões de acesso" wrapText="true" styleClass="feature-text"/>
+            </VBox>
+
+            <VBox spacing="12" styleClass="about-card" HBox.hgrow="ALWAYS">
+                <Label text="Tecnologias" styleClass="section-title"/>
+                <GridPane hgap="20" vgap="12">
+                    <Label text="Linguagem" styleClass="info-label"
+                           GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Label text="Java 17" styleClass="info-value"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Label text="Interface" styleClass="info-label"
+                           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <Label text="JavaFX 17 + FXML" styleClass="info-value"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Mapa" styleClass="info-label"
+                           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <Label text="Leaflet + OpenStreetMap" styleClass="info-value"
+                           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Label text="Build" styleClass="info-label"
+                           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <Label text="Apache Maven" styleClass="info-value"
+                           GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <Label text="Armazenamento" styleClass="info-label"
+                           GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <Label text="Memória local da aplicação" styleClass="info-value"
+                           GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                </GridPane>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="8" styleClass="notice-card">
+            <Label text="Dados temporários" styleClass="notice-title"/>
+            <Label wrapText="true"
+                   styleClass="notice-text"
+                   text="Este projeto não utiliza banco de dados. Usuários, reclamações, configurações e históricos permanecem disponíveis somente durante a execução da aplicação e são reiniciados ao encerrá-la."/>
+        </VBox>
+
+        <Label text="Projeto acadêmico • Cidade Melhor • 2026"
+               maxWidth="Infinity"
+               alignment="CENTER"
+               styleClass="about-footer"/>
+    </VBox>
+</ScrollPane>

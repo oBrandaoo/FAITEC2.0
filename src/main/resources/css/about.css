@@ -1,0 +1,99 @@
+.about-scroll {
+    -fx-background-color: transparent;
+    -fx-background: #F3F6FA;
+    -fx-border-color: transparent;
+}
+
+.about-page {
+    -fx-background-color: #F3F6FA;
+}
+
+.hero-card, .about-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 14;
+    -fx-padding: 26;
+}
+
+.about-logo {
+    -fx-min-width: 76;
+    -fx-min-height: 76;
+    -fx-max-width: 76;
+    -fx-max-height: 76;
+    -fx-background-color: #2563EB;
+    -fx-background-radius: 38;
+}
+
+.about-logo-text {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.about-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.about-subtitle {
+    -fx-font-size: 15px;
+    -fx-text-fill: #64748B;
+}
+
+.version-badge {
+    -fx-background-color: #DBEAFE;
+    -fx-background-radius: 14;
+    -fx-padding: 5 12;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1D4ED8;
+}
+
+.section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.body-text, .feature-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #475569;
+    -fx-line-spacing: 3;
+}
+
+.info-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748B;
+}
+
+.info-value {
+    -fx-font-size: 14px;
+    -fx-text-fill: #1E293B;
+}
+
+.notice-card {
+    -fx-background-color: #EFF6FF;
+    -fx-background-radius: 12;
+    -fx-border-color: #BFDBFE;
+    -fx-border-radius: 12;
+    -fx-padding: 20;
+}
+
+.notice-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1D4ED8;
+}
+
+.notice-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #334155;
+}
+
+.about-footer {
+    -fx-font-size: 12px;
+    -fx-text-fill: #94A3B8;
+}
