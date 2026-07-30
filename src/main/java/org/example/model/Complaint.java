@@ -17,6 +17,8 @@ public class Complaint {
     private ComplaintStatus status;
     private ComplaintPriority priority;
     private LocalDate date;
+    private final String creatorId;
+    private final String creatorName;
     private final List<ComplaintHistoryEntry> history = new ArrayList<>();
 
     public Complaint(ComplaintCategory category, Location location, String description, ComplaintStatus status) {
@@ -41,7 +43,7 @@ public class Complaint {
             ComplaintPriority priority,
             LocalDate date
     ) {
-        this(category, location, description, status, priority, date, "Sistema");
+        this(category, location, description, status, priority, date, "SYSTEM", "Sistema");
     }
 
     public Complaint(
@@ -53,17 +55,32 @@ public class Complaint {
             LocalDate date,
             String registeredBy
     ) {
+        this(category, location, description, status, priority, date, "SYSTEM", registeredBy);
+    }
+
+    public Complaint(
+            ComplaintCategory category,
+            Location location,
+            String description,
+            ComplaintStatus status,
+            ComplaintPriority priority,
+            LocalDate date,
+            String creatorId,
+            String creatorName
+    ) {
         this.category = category;
         this.location = location;
         this.description = description;
         this.status = status;
         this.priority = priority;
         this.date = date;
+        this.creatorId = creatorId;
+        this.creatorName = creatorName;
         history.add(new ComplaintHistoryEntry(
                 date.atStartOfDay(),
                 null,
                 status,
-                registeredBy,
+                creatorName,
                 "Reclamação registrada."
         ));
     }
@@ -114,6 +131,14 @@ public class Complaint {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
     }
 
     public List<ComplaintHistoryEntry> getHistory() {

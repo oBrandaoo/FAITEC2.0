@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import org.example.model.User;
+import org.example.model.enums.UserRole;
 
 public class ScreenManager {
 
@@ -28,6 +30,14 @@ public class ScreenManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void loadHomeScreen() {
+        User user = UserSession.getLoggedUser();
+        String home = user != null && user.getRole() == UserRole.CIDADAO
+                ? "CitizenHome.fxml"
+                : "Home.fxml";
+        loadScreen(home);
     }
 
     public interface DataReceiver<T> {

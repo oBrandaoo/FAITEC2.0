@@ -3,7 +3,7 @@ package org.example.model.enums;
 public enum UserRole {
     ADMINISTRADOR("Administrador", true, true, true),
     ATENDENTE("Atendente", false, true, true),
-    CIDADAO("Cidadão", true, false, true);
+    CIDADAO("Cidadão", true, false, false);
 
     private final String displayName;
     private final boolean canCreateComplaint;

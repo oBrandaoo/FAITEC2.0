@@ -35,7 +35,9 @@ public class ComplaintService {
                 "Buraco grande próximo à faixa de pedestres.",
                 ComplaintStatus.PENDENTE,
                 ComplaintPriority.URGENTE,
-                LocalDate.now().minusDays(2)
+                LocalDate.now().minusDays(2),
+                "USR-003",
+                "Cidadão"
         ));
 
         complaints.add(new Complaint(
@@ -61,7 +63,9 @@ public class ComplaintService {
                 "Há sacos, caixas e móveis descartados na calçada.",
                 ComplaintStatus.EM_EXECUCAO,
                 ComplaintPriority.MEDIA,
-                LocalDate.now().minusDays(7)
+                LocalDate.now().minusDays(7),
+                "USR-003",
+                "Cidadão"
         ));
 
         complaints.add(new Complaint(
@@ -100,7 +104,9 @@ public class ComplaintService {
                 "Asfalto danificado após a chuva; o local oferece risco a motociclistas.",
                 ComplaintStatus.PENDENTE,
                 ComplaintPriority.ALTA,
-                LocalDate.now().minusDays(1)
+                LocalDate.now().minusDays(1),
+                "USR-003",
+                "Cidadão"
         ));
     }
 
@@ -110,6 +116,18 @@ public class ComplaintService {
 
     public static List<Complaint> getAllComplaints() {
         return complaints;
+    }
+
+    public static List<Complaint> getComplaintsFor(User user) {
+        if (user == null) {
+            return List.of();
+        }
+        if (user.getRole().canManageComplaints()) {
+            return new ArrayList<>(complaints);
+        }
+        return complaints.stream()
+                .filter(complaint -> user.getId().equals(complaint.getCreatorId()))
+                .toList();
     }
 
     public static void updateStatus(
