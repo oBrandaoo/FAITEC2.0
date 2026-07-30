@@ -54,6 +54,15 @@ public class ComplaintListController {
     private Button detailsButton;
 
     @FXML
+    private Button exportButton;
+
+    @FXML
+    private Label titleLabel;
+
+    @FXML
+    private Label subtitleLabel;
+
+    @FXML
     private TableColumn<Complaint, ComplaintCategory> categoryColumn;
 
     @FXML
@@ -111,6 +120,13 @@ public class ComplaintListController {
         User user = UserSession.getLoggedUser();
         boolean canManage = user != null && user.getRole().canManageComplaints();
         actionColumn.setVisible(canManage);
+        exportButton.setVisible(canManage);
+        exportButton.setManaged(canManage);
+
+        if (!canManage) {
+            titleLabel.setText("Minhas reclamações");
+            subtitleLabel.setText("Acompanhe as solicitações registradas por você.");
+        }
     }
 
     private void configureColumns() {
@@ -150,7 +166,7 @@ public class ComplaintListController {
     private void loadComplaints() {
 
         complaints = FXCollections.observableArrayList(
-                ComplaintService.getAllComplaints()
+                ComplaintService.getComplaintsFor(UserSession.getLoggedUser())
         );
 
         filteredList = new FilteredList<>(

@@ -78,6 +78,9 @@ public class ComplaintFormController {
                 priorityBox.getValue(),
                 java.time.LocalDate.now(),
                 UserSession.getLoggedUser() == null
+                        ? "SYSTEM"
+                        : UserSession.getLoggedUser().getId(),
+                UserSession.getLoggedUser() == null
                         ? "Sistema"
                         : UserSession.getLoggedUser().getName()
         );
@@ -148,6 +151,6 @@ public class ComplaintFormController {
     @FXML
     private void goStart() {
 
-        ScreenManager.loadScreen("Home.fxml");
+        ScreenManager.loadHomeScreen();
     }
 }

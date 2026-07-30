@@ -26,7 +26,7 @@ public class MainController {
         ScreenManager.setMainContainer(contentArea);
 
         configurePermissions();
-        ScreenManager.loadScreen("Home.fxml");
+        ScreenManager.loadHomeScreen();
     }
 
     private void configurePermissions() {
@@ -37,6 +37,9 @@ public class MainController {
 
         setAvailable(newComplaintButton, user.getRole().canCreateComplaint());
         setAvailable(mapButton, user.getRole().canViewMap());
+        if (!user.getRole().canManageComplaints()) {
+            complaintsButton.setText("📋   Minhas reclamações");
+        }
         loggedUserLabel.setText(user.getName());
         loggedUserRoleLabel.setText(user.getRole().toString());
     }
@@ -48,7 +51,7 @@ public class MainController {
 
     @FXML
     private void goHome() {
-        ScreenManager.loadScreen("Home.fxml");
+        ScreenManager.loadHomeScreen();
     }
 
     @FXML
