@@ -17,9 +17,8 @@
 }
 
 .about-brand-image {
-    -fx-background-color: white;
-    -fx-background-radius: 14;
-    -fx-padding: 4 16;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
 }
 
 .about-title {
