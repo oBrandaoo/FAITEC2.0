@@ -19,12 +19,17 @@
     -fx-text-fill: #64748B;
 }
 
-.profileCard, .sessionCard {
+.profileCard, .sessionCard, .accessibilityCard {
     -fx-background-color: white;
     -fx-background-radius: 14;
     -fx-border-color: #E2E8F0;
     -fx-border-radius: 14;
     -fx-padding: 26;
+}
+
+.shortcutText {
+    -fx-font-size: 13px;
+    -fx-text-fill: #475569;
 }
 
 .avatar {

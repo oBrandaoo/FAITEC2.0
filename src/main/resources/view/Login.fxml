@@ -7,10 +7,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml"
+<StackPane fx:id="loginRoot"
+           xmlns:fx="http://javafx.com/fxml"
            fx:controller="org.example.controller.LoginController"
            styleClass="login-root"
-           stylesheets="@../css/login.css">
+           stylesheets="@../css/login.css,@../css/accessibility.css">
     <Region styleClass="background-overlay"/>
 
     <HBox maxWidth="1120" maxHeight="680" styleClass="login-shell">
@@ -75,12 +76,14 @@
 
             <VBox spacing="8">
                 <Label text="Usuário" styleClass="field-label"/>
-                <TextField fx:id="userField" promptText="Digite seu usuário" prefHeight="46"/>
+                <TextField fx:id="userField" promptText="Digite seu usuário"
+                           accessibleText="Campo de usuário" prefHeight="46"/>
             </VBox>
 
             <VBox spacing="8">
                 <Label text="Senha" styleClass="field-label"/>
-                <PasswordField fx:id="passwordField" promptText="Digite sua senha" prefHeight="46"/>
+                <PasswordField fx:id="passwordField" promptText="Digite sua senha"
+                               accessibleText="Campo de senha" prefHeight="46"/>
             </VBox>
 
             <Button text="Entrar no sistema" onAction="#login"

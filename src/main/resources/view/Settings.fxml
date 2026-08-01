@@ -53,6 +53,52 @@
             </GridPane>
         </VBox>
 
+        <VBox spacing="18" styleClass="accessibilityCard">
+            <VBox spacing="4">
+                <Label text="Acessibilidade" styleClass="sectionHeading"/>
+                <Label text="Ajuste a interface conforme suas necessidades."
+                       wrapText="true" styleClass="mutedText"/>
+            </VBox>
+
+            <GridPane hgap="28" vgap="18">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="190"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <Label text="Tamanho do texto" styleClass="fieldLabel"
+                       GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="fontSizeBox"
+                          accessibleText="Selecionar tamanho do texto"
+                          prefWidth="210"
+                          GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Contraste visual" styleClass="fieldLabel"
+                       GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <CheckBox fx:id="highContrastCheckBox"
+                          text="Ativar alto contraste"
+                          accessibleText="Ativar ou desativar alto contraste"
+                          GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Animações" styleClass="fieldLabel"
+                       GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <CheckBox fx:id="reducedMotionCheckBox"
+                          text="Reduzir movimentos e transições"
+                          accessibleText="Reduzir animações da interface"
+                          GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            </GridPane>
+
+            <Separator/>
+
+            <VBox spacing="7">
+                <Label text="Atalhos de teclado" styleClass="fieldLabel"/>
+                <Label text="Alt+1 Início   •   Alt+2 Nova reclamação   •   Alt+3 Reclamações"
+                       wrapText="true" styleClass="shortcutText"/>
+                <Label text="Alt+4 Mapa   •   Alt+5 Configurações   •   Alt+0 Sobre"
+                       wrapText="true" styleClass="shortcutText"/>
+            </VBox>
+        </VBox>
+
         <VBox spacing="14" styleClass="sessionCard">
             <Label text="Sessão" styleClass="sectionHeading"/>
             <Label text="Ao sair, será necessário informar novamente seu usuário e senha."

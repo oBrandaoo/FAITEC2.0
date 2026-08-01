@@ -15,6 +15,7 @@ import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
 import org.example.service.ComplaintService;
 import org.example.util.UserSession;
+import org.example.util.AccessibilityManager;
 
 import java.util.Comparator;
 import java.util.List;
@@ -35,6 +36,9 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
+        boolean animationsEnabled = !AccessibilityManager.isReducedMotion();
+        categoryChart.setAnimated(animationsEnabled);
+        priorityChart.setAnimated(animationsEnabled);
         configureWelcome();
         loadDashboard();
     }
@@ -108,7 +112,6 @@ public class DashboardController {
         priorityChart.getData().clear();
         priorityChart.getData().add(series);
         priorityChart.setLegendVisible(false);
-        priorityChart.setAnimated(false);
     }
 
     private void loadUrgentList(List<Complaint> complaints) {

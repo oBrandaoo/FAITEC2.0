@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.model.User;
 import org.example.util.UserSession;
+import org.example.util.AccessibilityManager;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 public class SettingsController {
@@ -18,9 +21,14 @@ public class SettingsController {
     @FXML private Label idLabel;
     @FXML private Label statusLabel;
     @FXML private Label roleLabel;
+    @FXML private ComboBox<AccessibilityManager.FontSize> fontSizeBox;
+    @FXML private CheckBox highContrastCheckBox;
+    @FXML private CheckBox reducedMotionCheckBox;
 
     @FXML
     public void initialize() {
+        configureAccessibility();
+
         User user = UserSession.getLoggedUser();
         if (user == null) {
             nameLabel.setText("Nenhum usuário autenticado");
@@ -38,6 +46,23 @@ public class SettingsController {
         avatarLabel.setText(initialsOf(user.getName()));
     }
 
+    private void configureAccessibility() {
+        fontSizeBox.getItems().setAll(AccessibilityManager.FontSize.values());
+        fontSizeBox.setValue(AccessibilityManager.getFontSize());
+        highContrastCheckBox.setSelected(AccessibilityManager.isHighContrast());
+        reducedMotionCheckBox.setSelected(AccessibilityManager.isReducedMotion());
+
+        fontSizeBox.valueProperty().addListener(
+                (observable, oldValue, newValue) -> AccessibilityManager.setFontSize(newValue)
+        );
+        highContrastCheckBox.selectedProperty().addListener(
+                (observable, oldValue, selected) -> AccessibilityManager.setHighContrast(selected)
+        );
+        reducedMotionCheckBox.selectedProperty().addListener(
+                (observable, oldValue, selected) -> AccessibilityManager.setReducedMotion(selected)
+        );
+    }
+
     @FXML
     private void logout(ActionEvent event) {
         try {
@@ -46,7 +71,7 @@ public class SettingsController {
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-            stage.setFullScreen(true);
+            stage.setFullScreen(false);
             stage.setMaximized(true);
         } catch (Exception exception) {
             exception.printStackTrace();

@@ -2,16 +2,24 @@ package org.example.controller;
 
 import org.example.util.ScreenManager;
 import org.example.util.NotificationManager;
+import org.example.util.AccessibilityManager;
 import org.example.model.User;
 import org.example.util.UserSession;
 
 import javafx.fxml.FXML;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class MainController {
+
+    @FXML
+    private BorderPane mainRoot;
 
     @FXML
     private StackPane contentArea;
@@ -30,9 +38,41 @@ public class MainController {
 
         ScreenManager.setMainContainer(contentArea);
         NotificationManager.setContainer(toastLayer);
+        AccessibilityManager.setApplicationRoot(mainRoot);
+
+        Platform.runLater(() -> mainRoot.getScene().addEventFilter(
+                KeyEvent.KEY_PRESSED,
+                this::handleShortcut
+        ));
 
         configurePermissions();
         ScreenManager.loadHomeScreen();
+    }
+
+    private void handleShortcut(KeyEvent event) {
+        if (!event.isAltDown()) {
+            return;
+        }
+
+        KeyCode code = event.getCode();
+        if (code == KeyCode.DIGIT1 || code == KeyCode.NUMPAD1) {
+            goHome();
+        } else if ((code == KeyCode.DIGIT2 || code == KeyCode.NUMPAD2)
+                && newComplaintButton.isVisible()) {
+            goComplaint();
+        } else if (code == KeyCode.DIGIT3 || code == KeyCode.NUMPAD3) {
+            goComplaints();
+        } else if ((code == KeyCode.DIGIT4 || code == KeyCode.NUMPAD4)
+                && mapButton.isVisible()) {
+            goMap();
+        } else if (code == KeyCode.DIGIT5 || code == KeyCode.NUMPAD5) {
+            goSettings();
+        } else if (code == KeyCode.DIGIT0 || code == KeyCode.NUMPAD0) {
+            goAbout();
+        } else {
+            return;
+        }
+        event.consume();
     }
 
     private void configurePermissions() {

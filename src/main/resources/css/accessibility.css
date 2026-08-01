@@ -1,0 +1,140 @@
+/* Indicador de foco visível para navegação por teclado. */
+.button:focused,
+.text-field:focused,
+.password-field:focused,
+.text-area:focused,
+.combo-box:focused,
+.check-box:focused,
+.table-view:focused,
+.list-view:focused {
+    -fx-border-color: #F59E0B;
+    -fx-border-width: 3;
+    -fx-border-radius: 7;
+}
+
+.accessibility-font-large .button,
+.accessibility-font-large .text-input,
+.accessibility-font-large .combo-box,
+.accessibility-font-large .check-box,
+.accessibility-font-large .table-view,
+.accessibility-font-large .list-view {
+    -fx-font-size: 16px;
+}
+
+.accessibility-font-large .pageSubtitle,
+.accessibility-font-large .mutedText,
+.accessibility-font-large .dashboard-subtitle,
+.accessibility-font-large .citizen-subtitle,
+.accessibility-font-large .form-page-subtitle,
+.accessibility-font-large .body-text,
+.accessibility-font-large .feature-text {
+    -fx-font-size: 16px;
+}
+
+.accessibility-font-extra-large .button,
+.accessibility-font-extra-large .text-input,
+.accessibility-font-extra-large .combo-box,
+.accessibility-font-extra-large .check-box,
+.accessibility-font-extra-large .table-view,
+.accessibility-font-extra-large .list-view {
+    -fx-font-size: 19px;
+}
+
+.accessibility-font-extra-large .pageSubtitle,
+.accessibility-font-extra-large .mutedText,
+.accessibility-font-extra-large .dashboard-subtitle,
+.accessibility-font-extra-large .citizen-subtitle,
+.accessibility-font-extra-large .form-page-subtitle,
+.accessibility-font-extra-large .body-text,
+.accessibility-font-extra-large .feature-text {
+    -fx-font-size: 19px;
+}
+
+.accessibility-high-contrast,
+.accessibility-high-contrast .content,
+.accessibility-high-contrast .dashboard,
+.accessibility-high-contrast .settingsPage,
+.accessibility-high-contrast .about-page,
+.accessibility-high-contrast .citizen-page,
+.accessibility-high-contrast .complaint-form-page {
+    -fx-background-color: #000000;
+    -fx-background: #000000;
+}
+
+.accessibility-high-contrast .sidebar {
+    -fx-background-color: #000000;
+    -fx-border-color: #FFFF00;
+    -fx-border-width: 0 2 0 0;
+}
+
+.accessibility-high-contrast .metric-card,
+.accessibility-high-contrast .dashboard-card,
+.accessibility-high-contrast .summary-card,
+.accessibility-high-contrast .content-card,
+.accessibility-high-contrast .profileCard,
+.accessibility-high-contrast .sessionCard,
+.accessibility-high-contrast .accessibilityCard,
+.accessibility-high-contrast .about-card,
+.accessibility-high-contrast .hero-card,
+.accessibility-high-contrast .form-card,
+.accessibility-high-contrast .form-actions,
+.accessibility-high-contrast .location-card {
+    -fx-background-color: #111111;
+    -fx-border-color: #FFFF00;
+}
+
+.accessibility-high-contrast .login-shell,
+.accessibility-high-contrast .login-card,
+.accessibility-high-contrast .demo-box {
+    -fx-background-color: #111111;
+    -fx-border-color: #FFFF00;
+}
+
+.accessibility-high-contrast .brand-panel {
+    -fx-background-color: #000000;
+    -fx-border-color: #FFFF00;
+    -fx-border-width: 2;
+}
+
+.accessibility-high-contrast .label {
+    -fx-text-fill: #FFFFFF;
+}
+
+.accessibility-high-contrast .button {
+    -fx-background-color: #FFFF00;
+    -fx-text-fill: #000000;
+    -fx-border-color: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.accessibility-high-contrast .text-field,
+.accessibility-high-contrast .password-field,
+.accessibility-high-contrast .text-area,
+.accessibility-high-contrast .combo-box,
+.accessibility-high-contrast .table-view,
+.accessibility-high-contrast .list-view {
+    -fx-background-color: #000000;
+    -fx-control-inner-background: #000000;
+    -fx-text-fill: #FFFFFF;
+    -fx-prompt-text-fill: #D1D5DB;
+    -fx-border-color: #FFFFFF;
+}
+
+.accessibility-high-contrast .table-view .column-header,
+.accessibility-high-contrast .table-view .column-header-background {
+    -fx-background-color: #222222;
+}
+
+.accessibility-high-contrast .progress-bar .track {
+    -fx-background-color: #333333;
+}
+
+.accessibility-high-contrast .progress-bar .bar {
+    -fx-background-color: #FFFF00;
+}
+
+.accessibility-high-contrast .toast {
+    -fx-background-color: #111111;
+    -fx-border-color: #FFFF00;
+    -fx-border-width: 2;
+}

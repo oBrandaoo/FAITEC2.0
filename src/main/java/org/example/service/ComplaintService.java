@@ -11,6 +11,7 @@ import org.example.model.User;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
+import org.example.util.AccessibilityManager;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -167,7 +168,15 @@ public class ComplaintService {
         diminuir.setToX(1.0);
         diminuir.setToY(1.0);
 
-        botao.setOnMouseEntered(e -> aumentar.playFromStart());
-        botao.setOnMouseExited(e -> diminuir.playFromStart());
+        botao.setOnMouseEntered(e -> {
+            if (!AccessibilityManager.isReducedMotion()) {
+                aumentar.playFromStart();
+            }
+        });
+        botao.setOnMouseExited(e -> {
+            if (!AccessibilityManager.isReducedMotion()) {
+                diminuir.playFromStart();
+            }
+        });
     }
 }

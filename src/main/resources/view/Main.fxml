@@ -4,9 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
+<BorderPane fx:id="mainRoot"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.controller.MainController"
-            stylesheets="@../css/common.css,@../css/main.css">
+            stylesheets="@../css/common.css,@../css/main.css,@../css/accessibility.css">
 
     <left>
 
@@ -43,20 +44,24 @@
                    styleClass="sectionTitle"/>
 
             <Button text="🏠   Início"
+                    accessibleText="Início. Atalho Alt mais 1"
                     onAction="#goHome"
                     styleClass="menuButton"/>
 
             <Button text="📝   Nova Reclamação"
+                    accessibleText="Nova reclamação. Atalho Alt mais 2"
                     fx:id="newComplaintButton"
                     onAction="#goComplaint"
                     styleClass="menuButton"/>
 
             <Button text="📋   Reclamações"
+                    accessibleText="Lista de reclamações. Atalho Alt mais 3"
                     fx:id="complaintsButton"
                     onAction="#goComplaints"
                     styleClass="menuButton"/>
 
             <Button text="🗺   Mapa"
+                    accessibleText="Mapa de reclamações. Atalho Alt mais 4"
                     fx:id="mapButton"
                     onAction="#goMap"
                     styleClass="menuButton"/>
@@ -66,10 +71,12 @@
             <Separator styleClass="separator"/>
 
             <Button text="⚙   Configurações"
+                    accessibleText="Configurações e acessibilidade. Atalho Alt mais 5"
                     onAction="#goSettings"
                     styleClass="menuButton"/>
 
             <Button text="ⓘ   Sobre o sistema"
+                    accessibleText="Sobre o sistema. Atalho Alt mais zero"
                     onAction="#goAbout"
                     styleClass="menuButton"/>
 
