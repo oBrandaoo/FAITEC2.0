@@ -1,17 +1,21 @@
 package org.example.controller;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+import java.util.List;
+
 import org.example.model.User;
 import org.example.model.enums.UserRole;
 import org.example.model.enums.UserStatus;
 import org.example.util.UserSession;
 
-import java.util.List;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LoginController {
 
@@ -61,7 +65,7 @@ public class LoginController {
                         .getScene().getWindow();
 
                 stage.setScene(scene);
-                stage.setFullScreen(false);
+                stage.setFullScreen(true);
                 stage.setMaximized(true);
 
             } catch (Exception e) {

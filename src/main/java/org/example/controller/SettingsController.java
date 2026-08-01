@@ -1,5 +1,8 @@
 package org.example.controller;
 
+import org.example.model.User;
+import org.example.util.UserSession;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,8 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import org.example.model.User;
-import org.example.util.UserSession;
 
 public class SettingsController {
 
@@ -45,7 +46,7 @@ public class SettingsController {
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-            stage.setFullScreen(false);
+            stage.setFullScreen(true);
             stage.setMaximized(true);
         } catch (Exception exception) {
             exception.printStackTrace();
