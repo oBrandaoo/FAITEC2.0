@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
 import org.example.model.Complaint;
 import org.example.model.ComplaintHistoryEntry;
 import org.example.model.User;
@@ -95,6 +96,7 @@ public class ComplaintDetailsController {
             );
             alert.setHeaderText(null);
             alert.initOwner(categoryLabel.getScene().getWindow());
+            alert.initModality(Modality.WINDOW_MODAL);
             alert.showAndWait();
             return;
         }

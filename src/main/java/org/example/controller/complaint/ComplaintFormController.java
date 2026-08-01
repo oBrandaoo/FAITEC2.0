@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import org.example.model.Complaint;
 import org.example.model.Location;
 import org.example.model.enums.ComplaintCategory;
@@ -133,8 +134,11 @@ public class ComplaintFormController {
         ComplaintService.addComplaint(complaint);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Reclamação registrada");
         alert.setHeaderText(null);
         alert.setContentText("Reclamação registrada com sucesso.");
+        alert.initOwner(addressField.getScene().getWindow());
+        alert.initModality(Modality.WINDOW_MODAL);
         alert.showAndWait();
 
         clearForm();
@@ -175,8 +179,11 @@ public class ComplaintFormController {
 
         Alert alert = new Alert(Alert.AlertType.WARNING);
 
+        alert.setTitle("Atenção");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.initOwner(addressField.getScene().getWindow());
+        alert.initModality(Modality.WINDOW_MODAL);
 
         alert.showAndWait();
     }

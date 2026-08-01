@@ -355,6 +355,7 @@ public class ComplaintListController {
                             dialog.setHeaderText("Informe a justificativa do cancelamento.");
                             dialog.setContentText("Justificativa:");
                             dialog.initOwner(complaintsTable.getScene().getWindow());
+                            dialog.initModality(Modality.WINDOW_MODAL);
 
                             var result = dialog.showAndWait();
                             if (result.isEmpty() || result.get().isBlank()) {
@@ -515,6 +516,7 @@ public class ComplaintListController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.initOwner(complaintsTable.getScene().getWindow());
+        alert.initModality(Modality.WINDOW_MODAL);
         alert.showAndWait();
     }
 

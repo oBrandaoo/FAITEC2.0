@@ -45,7 +45,8 @@ public class SettingsController {
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-            stage.setFullScreen(true);
+            stage.setFullScreen(false);
+            stage.setMaximized(true);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
