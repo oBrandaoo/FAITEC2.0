@@ -7,98 +7,150 @@
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.controller.complaint.ComplaintFormController"
             fitToWidth="true"
-            styleClass="form-scroll"
-            stylesheets="@../css/common.css,@../css/complaint.css">
+            styleClass="complaint-form-scroll"
+            stylesheets="@../css/complaint.css">
+    <StackPane>
+        <VBox spacing="24"
+              maxWidth="980"
+              styleClass="complaint-form-page">
+            <padding>
+                <Insets top="38" right="38" bottom="38" left="38"/>
+            </padding>
 
-    <VBox alignment="CENTER">
-
-        <VBox spacing="15"
-              alignment="TOP_LEFT"
-              styleClass="card"
-              maxWidth="420">
-
-            <Label fx:id="formTitleLabel"
-                   text="Registrar Reclamação"
-                   styleClass="title"/>
-
-            <Label fx:id="formSubtitleLabel"
-                   text="Informe os dados abaixo para registrar o problema."
-                   wrapText="true"
-                   styleClass="subtitle"/>
-
-            <VBox spacing="5">
-                <Label text="Categoria"/>
-                <ComboBox fx:id="categoryBox"
-                          prefWidth="360"/>
-            </VBox>
-
-            <VBox spacing="5">
-                <Label text="Prioridade"/>
-                <ComboBox fx:id="priorityBox"
-                          prefWidth="360"/>
-            </VBox>
-
-            <VBox spacing="5">
-
-                <Label text="Local"/>
-
-                <HBox spacing="8">
-                    <TextField fx:id="addressField"
-                               promptText="Digite um endereço em Santa Rita do Sapucaí"
-                               onAction="#searchAddress"
-                               HBox.hgrow="ALWAYS"/>
-
-                    <Button fx:id="searchAddressButton"
-                            text="Buscar"
-                            onAction="#searchAddress"/>
-                </HBox>
-
-                <Button text="📍 Selecionar no mapa"
-                        onAction="#selectLocation"/>
-
-            </VBox>
-
-            <VBox spacing="5">
-                <Label text="Descrição"/>
-                <TextArea fx:id="descriptionArea"
-                          promptText="Descreva o problema encontrado..."
-                          prefRowCount="5"
-                          wrapText="true"
-                          prefWidth="360"/>
-            </VBox>
-
-            <VBox spacing="7">
-                <HBox alignment="CENTER_LEFT">
-                    <VBox spacing="2">
-                        <Label text="Fotos"/>
-                        <Label text="Até 4 imagens PNG ou JPEG, com 5 MB cada."
-                               styleClass="attachment-hint"/>
-                    </VBox>
-                    <Pane HBox.hgrow="ALWAYS"/>
-                    <Button text="Adicionar fotos"
-                            onAction="#chooseAttachments"/>
-                </HBox>
-                <FlowPane fx:id="attachmentPreview"
-                          hgap="8" vgap="8"
-                          prefWrapLength="360"/>
-            </VBox>
-
-            <HBox spacing="10"
-                  alignment="CENTER_RIGHT">
-
-                <Button text="Voltar"
-                        styleClass="secondary-button"
-                        onAction="#cancelForm"/>
-
-                <Button fx:id="submitButton"
-                        text="Enviar"
-                        styleClass="primary-button"
-                        onAction="#submitComplaint"/>
-
+            <HBox alignment="CENTER_LEFT">
+                <VBox spacing="5">
+                    <Label fx:id="formTitleLabel"
+                           text="Registrar reclamação"
+                           styleClass="form-page-title"/>
+                    <Label fx:id="formSubtitleLabel"
+                           text="Informe os dados do problema para encaminhá-lo à equipe responsável."
+                           wrapText="true"
+                           styleClass="form-page-subtitle"/>
+                </VBox>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Label text="Novo registro" styleClass="form-header-badge"/>
             </HBox>
 
+            <HBox spacing="20" alignment="TOP_LEFT">
+                <VBox spacing="22" styleClass="form-card" HBox.hgrow="ALWAYS">
+                    <VBox spacing="4">
+                        <Label text="Informações do problema" styleClass="form-section-title"/>
+                        <Label text="Classifique a solicitação e descreva o que aconteceu."
+                               styleClass="form-section-subtitle"/>
+                    </VBox>
+
+                    <HBox spacing="14">
+                        <VBox spacing="7" HBox.hgrow="ALWAYS">
+                            <Label text="Categoria" styleClass="form-field-label"/>
+                            <ComboBox fx:id="categoryBox"
+                                      promptText="Selecione a categoria"
+                                      accessibleText="Selecionar categoria da reclamação"
+                                      maxWidth="Infinity"
+                                      prefHeight="43"/>
+                        </VBox>
+
+                        <VBox spacing="7" HBox.hgrow="ALWAYS">
+                            <Label text="Prioridade" styleClass="form-field-label"/>
+                            <ComboBox fx:id="priorityBox"
+                                      promptText="Selecione a prioridade"
+                                      accessibleText="Selecionar prioridade da reclamação"
+                                      maxWidth="Infinity"
+                                      prefHeight="43"/>
+                        </VBox>
+                    </HBox>
+
+                    <VBox spacing="9" styleClass="location-card">
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="2">
+                                <Label text="Localização" styleClass="form-field-label"/>
+                                <Label text="Busque o endereço ou marque o ponto diretamente no mapa."
+                                       styleClass="form-helper-text"/>
+                            </VBox>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Label text="Santa Rita do Sapucaí" styleClass="city-badge"/>
+                        </HBox>
+
+                        <HBox spacing="8">
+                            <TextField fx:id="addressField"
+                                       promptText="Rua, número ou ponto de referência"
+                                       accessibleText="Endereço da reclamação"
+                                       onAction="#searchAddress"
+                                       prefHeight="43"
+                                       HBox.hgrow="ALWAYS"/>
+                            <Button fx:id="searchAddressButton"
+                                    text="Buscar"
+                                    onAction="#searchAddress"
+                                    prefHeight="43"
+                                    styleClass="address-search-button"/>
+                        </HBox>
+
+                        <Button text="Selecionar localização no mapa"
+                                onAction="#selectLocation"
+                                maxWidth="Infinity"
+                                styleClass="map-select-button"/>
+                    </VBox>
+
+                    <VBox spacing="7">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Descrição" styleClass="form-field-label"/>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Label text="Seja objetivo e informe referências do local."
+                                   styleClass="form-helper-text"/>
+                        </HBox>
+                        <TextArea fx:id="descriptionArea"
+                                  promptText="Descreva o problema encontrado..."
+                                  accessibleText="Descrição detalhada da reclamação"
+                                  prefRowCount="6"
+                                  wrapText="true"
+                                  maxWidth="Infinity"/>
+                    </VBox>
+                </VBox>
+
+                <VBox spacing="18" prefWidth="300" minWidth="280">
+                    <VBox spacing="14" styleClass="form-card">
+                        <VBox spacing="4">
+                            <Label text="Fotos do problema" styleClass="form-section-title"/>
+                            <Label text="As imagens ajudam a equipe a avaliar a situação."
+                                   wrapText="true"
+                                   styleClass="form-section-subtitle"/>
+                        </VBox>
+
+                        <Button text="Adicionar fotos"
+                                onAction="#chooseAttachments"
+                                maxWidth="Infinity"
+                                styleClass="photo-button"/>
+
+                        <Label text="Até 4 imagens PNG ou JPEG, com 5 MB cada."
+                               wrapText="true"
+                               styleClass="attachment-hint"/>
+
+                        <FlowPane fx:id="attachmentPreview"
+                                  hgap="8" vgap="8"
+                                  prefWrapLength="250"/>
+                    </VBox>
+
+                    <VBox spacing="10" styleClass="form-tip-card">
+                        <Label text="Antes de enviar" styleClass="form-tip-title"/>
+                        <Label text="1. Confira a localização indicada."
+                               wrapText="true" styleClass="form-tip-text"/>
+                        <Label text="2. Escolha a prioridade adequada."
+                               wrapText="true" styleClass="form-tip-text"/>
+                        <Label text="3. Não inclua dados pessoais na descrição."
+                               wrapText="true" styleClass="form-tip-text"/>
+                    </VBox>
+                </VBox>
+            </HBox>
+
+            <HBox spacing="12" alignment="CENTER_RIGHT" styleClass="form-actions">
+                <Button text="Voltar"
+                        onAction="#cancelForm"
+                        styleClass="secondary-button"/>
+                <Button fx:id="submitButton"
+                        text="Enviar reclamação"
+                        onAction="#submitComplaint"
+                        defaultButton="true"
+                        styleClass="primary-button"/>
+            </HBox>
         </VBox>
-
-    </VBox>
-
+    </StackPane>
 </ScrollPane>

@@ -66,6 +66,133 @@
     -fx-border-color: transparent;
 }
 
+.complaint-form-scroll {
+    -fx-background-color: transparent;
+    -fx-background: #F3F6FA;
+    -fx-border-color: transparent;
+}
+
+.complaint-form-page {
+    -fx-background-color: #F3F6FA;
+}
+
+.form-page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.form-page-subtitle, .form-section-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748B;
+}
+
+.form-header-badge {
+    -fx-background-color: #DBEAFE;
+    -fx-background-radius: 14;
+    -fx-padding: 6 13;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1D4ED8;
+}
+
+.form-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 14;
+    -fx-padding: 24;
+}
+
+.form-section-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.form-field-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #334155;
+}
+
+.form-helper-text, .attachment-hint {
+    -fx-font-size: 11px;
+    -fx-text-fill: #64748B;
+}
+
+.location-card {
+    -fx-background-color: #F8FAFC;
+    -fx-background-radius: 11;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 11;
+    -fx-padding: 16;
+}
+
+.city-badge {
+    -fx-background-color: #DCFCE7;
+    -fx-background-radius: 12;
+    -fx-padding: 5 10;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #15803D;
+}
+
+.address-search-button {
+    -fx-background-color: #E2E8F0;
+    -fx-background-radius: 8;
+    -fx-padding: 0 17;
+    -fx-font-weight: bold;
+    -fx-text-fill: #334155;
+    -fx-cursor: hand;
+}
+
+.address-search-button:hover {
+    -fx-background-color: #CBD5E1;
+}
+
+.map-select-button, .photo-button {
+    -fx-background-color: #EFF6FF;
+    -fx-background-radius: 8;
+    -fx-border-color: #BFDBFE;
+    -fx-border-radius: 8;
+    -fx-padding: 10 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1D4ED8;
+    -fx-cursor: hand;
+}
+
+.map-select-button:hover, .photo-button:hover {
+    -fx-background-color: #DBEAFE;
+}
+
+.form-tip-card {
+    -fx-background-color: #FFFBEB;
+    -fx-background-radius: 12;
+    -fx-border-color: #FDE68A;
+    -fx-border-radius: 12;
+    -fx-padding: 18;
+}
+
+.form-tip-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #92400E;
+}
+
+.form-tip-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #78350F;
+}
+
+.form-actions {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 12;
+    -fx-padding: 15 18;
+}
+
 .danger-button {
     -fx-background-color: #FEE2E2;
     -fx-background-radius: 8;
