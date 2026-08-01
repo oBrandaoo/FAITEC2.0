@@ -29,6 +29,13 @@ public class MapBridge {
         controller.setLoading(true);
         controller.showLoading();
 
+        Location fallback = new Location(
+                lat,
+                lng,
+                String.format("Coordenadas: %.6f, %.6f", lat, lng)
+        );
+        Platform.runLater(() -> controller.notifyLocation(fallback));
+
         CompletableFuture
                 .supplyAsync(() -> GeocodingService.reverse(lat, lng))
                 .thenAccept(location -> {
@@ -40,8 +47,6 @@ public class MapBridge {
 
                         if (location != null) {
                             controller.notifyLocation(location);
-                        } else {
-                            System.out.println("Location nula");
                         }
                     });
                 });

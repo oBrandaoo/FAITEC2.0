@@ -200,7 +200,7 @@ public class MapController {
     public void showLoading() {
 
         engine.executeScript(
-                "showLoading();"
+                "showLoading(); setSelectionEnabled(false);"
         );
     }
 
@@ -209,6 +209,7 @@ public class MapController {
         engine.executeScript(
                 "hideLoading();"
         );
+        updateMapInteraction();
     }
 
     @FXML

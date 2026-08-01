@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MapDialog {
 
-    public static Location show() {
+    public static Location show(Window owner) {
 
         try {
 
@@ -33,7 +33,10 @@ public class MapDialog {
 
             controller.setStage(stage);
 
-            stage.initModality(Modality.APPLICATION_MODAL);
+            if (owner != null) {
+                stage.initOwner(owner);
+            }
+            stage.initModality(Modality.WINDOW_MODAL);
 
             stage.setTitle("Selecionar localização");
 
@@ -56,6 +59,10 @@ public class MapDialog {
 
             return null;
         }
+    }
+
+    public static Location show() {
+        return show(null);
     }
 
     public static void showLocation(Location location, Window owner) {
