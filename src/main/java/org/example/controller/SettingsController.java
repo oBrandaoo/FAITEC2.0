@@ -1,17 +1,21 @@
 package org.example.controller;
 
 import org.example.model.User;
-import org.example.util.UserSession;
 import org.example.util.AccessibilityManager;
+import org.example.util.UserSession;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class SettingsController {
@@ -60,13 +64,44 @@ public class SettingsController {
 
     @FXML
     private void logout(ActionEvent event) {
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+        ButtonType confirmButton = new ButtonType(
+                "Sair",
+                ButtonBar.ButtonData.OK_DONE
+        );
+        ButtonType cancelButton = new ButtonType(
+                "Cancelar",
+                ButtonBar.ButtonData.CANCEL_CLOSE
+        );
+
+        Alert confirmation = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Você precisará informar novamente seu usuário e senha para acessar o sistema.",
+                cancelButton,
+                confirmButton
+        );
+        confirmation.setTitle("Confirmar saída");
+        confirmation.setHeaderText("Deseja realmente sair da sua conta?");
+        confirmation.initOwner(stage);
+        confirmation.initModality(Modality.WINDOW_MODAL);
+
+        Button confirmNode = (Button) confirmation.getDialogPane().lookupButton(confirmButton);
+        Button cancelNode = (Button) confirmation.getDialogPane().lookupButton(cancelButton);
+        confirmNode.setDefaultButton(false);
+        confirmNode.setStyle("-fx-background-color:#DC2626; -fx-text-fill:white;");
+        cancelNode.setDefaultButton(true);
+
+        if (confirmation.showAndWait().orElse(cancelButton) != confirmButton) {
+            return;
+        }
+
         try {
             UserSession.logout();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
             Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-            stage.setFullScreen(false);
+            stage.setFullScreen(true);
             stage.setMaximized(true);
         } catch (Exception exception) {
             exception.printStackTrace();
