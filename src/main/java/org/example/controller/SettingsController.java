@@ -22,7 +22,6 @@ public class SettingsController {
     @FXML private Label statusLabel;
     @FXML private Label roleLabel;
     @FXML private ComboBox<AccessibilityManager.FontSize> fontSizeBox;
-    @FXML private CheckBox highContrastCheckBox;
     @FXML private CheckBox reducedMotionCheckBox;
 
     @FXML
@@ -49,14 +48,10 @@ public class SettingsController {
     private void configureAccessibility() {
         fontSizeBox.getItems().setAll(AccessibilityManager.FontSize.values());
         fontSizeBox.setValue(AccessibilityManager.getFontSize());
-        highContrastCheckBox.setSelected(AccessibilityManager.isHighContrast());
         reducedMotionCheckBox.setSelected(AccessibilityManager.isReducedMotion());
 
         fontSizeBox.valueProperty().addListener(
                 (observable, oldValue, newValue) -> AccessibilityManager.setFontSize(newValue)
-        );
-        highContrastCheckBox.selectedProperty().addListener(
-                (observable, oldValue, selected) -> AccessibilityManager.setHighContrast(selected)
         );
         reducedMotionCheckBox.selectedProperty().addListener(
                 (observable, oldValue, selected) -> AccessibilityManager.setReducedMotion(selected)

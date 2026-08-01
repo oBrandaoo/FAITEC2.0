@@ -23,7 +23,6 @@ public final class AccessibilityManager {
 
     private static Parent applicationRoot;
     private static FontSize fontSize = FontSize.PADRAO;
-    private static boolean highContrast;
     private static boolean reducedMotion;
 
     private AccessibilityManager() {
@@ -43,15 +42,6 @@ public final class AccessibilityManager {
         apply();
     }
 
-    public static boolean isHighContrast() {
-        return highContrast;
-    }
-
-    public static void setHighContrast(boolean enabled) {
-        highContrast = enabled;
-        apply();
-    }
-
     public static boolean isReducedMotion() {
         return reducedMotion;
     }
@@ -67,18 +57,13 @@ public final class AccessibilityManager {
 
         applicationRoot.getStyleClass().removeAll(
                 "accessibility-font-large",
-                "accessibility-font-extra-large",
-                "accessibility-high-contrast"
+                "accessibility-font-extra-large"
         );
 
         if (fontSize == FontSize.GRANDE) {
             applicationRoot.getStyleClass().add("accessibility-font-large");
         } else if (fontSize == FontSize.EXTRA_GRANDE) {
             applicationRoot.getStyleClass().add("accessibility-font-extra-large");
-        }
-
-        if (highContrast) {
-            applicationRoot.getStyleClass().add("accessibility-high-contrast");
         }
     }
 }
