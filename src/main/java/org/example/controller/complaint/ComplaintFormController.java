@@ -6,7 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -16,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.example.model.Complaint;
 import org.example.model.Location;
 import org.example.model.enums.ComplaintCategory;
@@ -41,6 +44,8 @@ public class ComplaintFormController {
 
     private Location selectedLocation;
     private final List<File> selectedAttachments = new ArrayList<>();
+    private Complaint editingComplaint;
+    private boolean editingFinished;
 
     @FXML
     private Parent root;
@@ -62,6 +67,15 @@ public class ComplaintFormController {
 
     @FXML
     private TextArea descriptionArea;
+
+    @FXML
+    private Label formTitleLabel;
+
+    @FXML
+    private Label formSubtitleLabel;
+
+    @FXML
+    private Button submitButton;
 
     private boolean updatingAddress;
 
@@ -137,6 +151,11 @@ public class ComplaintFormController {
             return;
         }
 
+        if (editingComplaint != null) {
+            saveEditingComplaint();
+            return;
+        }
+
         Complaint complaint = new Complaint(
                 categoryBox.getValue(),
                 selectedLocation,
@@ -160,6 +179,55 @@ public class ComplaintFormController {
 
         clearForm();
         NotificationManager.success("Reclamação registrada com sucesso.");
+    }
+
+    public void setEditingComplaint(Complaint complaint) {
+        editingComplaint = complaint;
+        formTitleLabel.setText("Editar reclamação");
+        formSubtitleLabel.setText("Atualize os dados enquanto a solicitação estiver pendente.");
+        submitButton.setText("Salvar alterações");
+
+        categoryBox.setValue(complaint.getCategory());
+        priorityBox.setValue(complaint.getPriority());
+        descriptionArea.setText(complaint.getDescription());
+        setSelectedLocation(complaint.getLocation());
+
+        selectedAttachments.clear();
+        complaint.getAttachmentPaths().stream()
+                .map(File::new)
+                .filter(File::isFile)
+                .forEach(selectedAttachments::add);
+        refreshAttachmentPreview();
+    }
+
+    private void saveEditingComplaint() {
+        String responsible = UserSession.getLoggedUser() == null
+                ? "Sistema"
+                : UserSession.getLoggedUser().getName();
+
+        boolean detailsChanged = editingComplaint.updateDetails(
+                categoryBox.getValue(),
+                selectedLocation,
+                descriptionArea.getText().trim(),
+                priorityBox.getValue(),
+                responsible
+        );
+
+        List<String> paths = selectedAttachments.stream()
+                .map(File::getAbsolutePath)
+                .toList();
+        boolean attachmentsChanged = editingComplaint.replaceAttachments(paths);
+        if (attachmentsChanged) {
+            editingComplaint.addHistoryNote(responsible, "Fotos da reclamação atualizadas.");
+        }
+
+        if (!detailsChanged && !attachmentsChanged) {
+            NotificationManager.info("Nenhuma alteração foi realizada.");
+        } else {
+            NotificationManager.success("Reclamação atualizada com sucesso.");
+        }
+        editingFinished = true;
+        closeFormWindow();
     }
 
     @FXML
@@ -218,7 +286,7 @@ public class ComplaintFormController {
             String displayName = file.getName().length() > 15
                     ? file.getName().substring(0, 12) + "..."
                     : file.getName();
-            javafx.scene.control.Label nameLabel = new javafx.scene.control.Label(displayName);
+            Label nameLabel = new Label(displayName);
             nameLabel.getStyleClass().add("attachment-name");
 
             VBox item = new VBox(4, imageBox, nameLabel);
@@ -286,8 +354,33 @@ public class ComplaintFormController {
     }
 
     @FXML
-    private void goStart() {
+    private void cancelForm() {
+        if (editingComplaint != null) {
+            if (confirmDiscardChanges()) {
+                editingFinished = true;
+                closeFormWindow();
+            }
+        } else {
+            ScreenManager.loadHomeScreen();
+        }
+    }
 
-        ScreenManager.loadHomeScreen();
+    public boolean confirmDiscardChanges() {
+        if (editingComplaint == null || editingFinished) {
+            return true;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Descartar alterações");
+        alert.setHeaderText("Deseja fechar sem salvar?");
+        alert.setContentText("As alterações feitas no formulário serão perdidas.");
+        alert.initOwner(addressField.getScene().getWindow());
+        alert.initModality(Modality.WINDOW_MODAL);
+        return alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
+    }
+
+    private void closeFormWindow() {
+        Stage stage = (Stage) addressField.getScene().getWindow();
+        stage.close();
     }
 }

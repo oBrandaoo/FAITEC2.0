@@ -1,6 +1,8 @@
 package org.example.controller.complaint;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -8,6 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -19,6 +22,7 @@ import org.example.model.Complaint;
 import org.example.model.ComplaintHistoryEntry;
 import org.example.model.User;
 import org.example.model.enums.ComplaintStatus;
+import org.example.model.enums.UserRole;
 import org.example.service.ComplaintService;
 import org.example.util.MapDialog;
 import org.example.util.NotificationManager;
@@ -27,6 +31,7 @@ import org.example.util.UserSession;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.io.File;
+import java.io.IOException;
 
 public class ComplaintDetailsController {
 
@@ -45,6 +50,8 @@ public class ComplaintDetailsController {
     @FXML private FlowPane attachmentGallery;
     @FXML private Label noAttachmentsLabel;
     @FXML private Button saveButton;
+    @FXML private Button editButton;
+    @FXML private Button cancelComplaintButton;
 
     private Complaint complaint;
 
@@ -58,6 +65,10 @@ public class ComplaintDetailsController {
         noteArea.setDisable(!canManage);
         saveButton.setVisible(canManage);
         saveButton.setManaged(canManage);
+        editButton.setVisible(false);
+        editButton.setManaged(false);
+        cancelComplaintButton.setVisible(false);
+        cancelComplaintButton.setManaged(false);
     }
 
     public void setComplaint(Complaint complaint) {
@@ -75,6 +86,7 @@ public class ComplaintDetailsController {
         statusBox.setValue(complaint.getStatus());
         loadAttachments();
         loadHistory();
+        configureCitizenActions();
     }
 
     @FXML
@@ -85,6 +97,90 @@ public class ComplaintDetailsController {
                     categoryLabel.getScene().getWindow()
             );
         }
+    }
+
+    private void configureCitizenActions() {
+        boolean available = canCitizenModify();
+        editButton.setVisible(available);
+        editButton.setManaged(available);
+        cancelComplaintButton.setVisible(available);
+        cancelComplaintButton.setManaged(available);
+    }
+
+    private boolean canCitizenModify() {
+        User user = UserSession.getLoggedUser();
+        return complaint != null
+                && user != null
+                && user.getRole() == UserRole.CIDADAO
+                && user.getId().equals(complaint.getCreatorId())
+                && complaint.getStatus() == ComplaintStatus.PENDENTE;
+    }
+
+    @FXML
+    private void editComplaint() {
+        if (!canCitizenModify()) {
+            NotificationManager.warning("Esta reclamação não pode mais ser editada.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/view/ComplaintForm.fxml")
+            );
+            Parent view = loader.load();
+            ComplaintFormController controller = loader.getController();
+            controller.setEditingComplaint(complaint);
+
+            Stage dialog = new Stage();
+            dialog.initOwner(categoryLabel.getScene().getWindow());
+            dialog.initModality(Modality.WINDOW_MODAL);
+            dialog.setTitle("Editar reclamação");
+            dialog.setScene(new Scene(view, 620, 820));
+            dialog.setOnCloseRequest(event -> {
+                if (!controller.confirmDiscardChanges()) {
+                    event.consume();
+                }
+            });
+            dialog.showAndWait();
+
+            setComplaint(complaint);
+        } catch (IOException exception) {
+            NotificationManager.error("Não foi possível abrir a edição da reclamação.");
+            exception.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void cancelComplaint() {
+        if (!canCitizenModify()) {
+            NotificationManager.warning("Esta reclamação não pode mais ser cancelada.");
+            return;
+        }
+
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Cancelar reclamação");
+        dialog.setHeaderText("Informe por que deseja cancelar esta reclamação.");
+        dialog.setContentText("Justificativa:");
+        dialog.initOwner(categoryLabel.getScene().getWindow());
+        dialog.initModality(Modality.WINDOW_MODAL);
+
+        var result = dialog.showAndWait();
+        if (result.isEmpty()) {
+            return;
+        }
+        if (result.get().isBlank()) {
+            NotificationManager.warning("A justificativa é obrigatória.");
+            return;
+        }
+
+        ComplaintService.updateStatus(
+                complaint,
+                ComplaintStatus.CANCELADO,
+                UserSession.getLoggedUser(),
+                result.get()
+        );
+        NotificationManager.success("Reclamação cancelada.");
+        close();
     }
 
     @FXML
@@ -179,7 +275,9 @@ public class ComplaintDetailsController {
     private String formatHistoryEntry(ComplaintHistoryEntry entry) {
         String transition = entry.getPreviousStatus() == null
                 ? entry.getNewStatus().toString()
-                : entry.getPreviousStatus() + "  →  " + entry.getNewStatus();
+                : entry.getPreviousStatus() == entry.getNewStatus()
+                        ? "Atualização da reclamação"
+                        : entry.getPreviousStatus() + "  →  " + entry.getNewStatus();
         String note = entry.getNote().isBlank() ? "" : "\n" + entry.getNote();
         return HISTORY_DATE_FORMAT.format(entry.getChangedAt())
                 + "  •  " + entry.getResponsible()

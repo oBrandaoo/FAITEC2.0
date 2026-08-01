@@ -4,9 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml"
-           fx:controller="org.example.controller.complaint.ComplaintFormController"
-           stylesheets="@../css/common.css,@../css/complaint.css">
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.complaint.ComplaintFormController"
+            fitToWidth="true"
+            styleClass="form-scroll"
+            stylesheets="@../css/common.css,@../css/complaint.css">
 
     <VBox alignment="CENTER">
 
@@ -15,10 +17,12 @@
               styleClass="card"
               maxWidth="420">
 
-            <Label text="Registrar Reclamação"
+            <Label fx:id="formTitleLabel"
+                   text="Registrar Reclamação"
                    styleClass="title"/>
 
-            <Label text="Informe os dados abaixo para registrar o problema."
+            <Label fx:id="formSubtitleLabel"
+                   text="Informe os dados abaixo para registrar o problema."
                    wrapText="true"
                    styleClass="subtitle"/>
 
@@ -84,9 +88,10 @@
 
                 <Button text="Voltar"
                         styleClass="secondary-button"
-                        onAction="#goStart"/>
+                        onAction="#cancelForm"/>
 
-                <Button text="Enviar"
+                <Button fx:id="submitButton"
+                        text="Enviar"
                         styleClass="primary-button"
                         onAction="#submitComplaint"/>
 
@@ -96,4 +101,4 @@
 
     </VBox>
 
-</StackPane>
+</ScrollPane>

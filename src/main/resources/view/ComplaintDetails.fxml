@@ -91,6 +91,14 @@
     </VBox>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="editButton"
+                text="Editar"
+                onAction="#editComplaint"
+                styleClass="secondary-button"/>
+        <Button fx:id="cancelComplaintButton"
+                text="Cancelar reclamação"
+                onAction="#cancelComplaint"
+                styleClass="danger-button"/>
         <Button text="Ver no mapa" onAction="#showOnMap" styleClass="secondary-button"/>
         <Pane HBox.hgrow="ALWAYS"/>
         <Button text="Fechar" onAction="#close" styleClass="secondary-button"/>

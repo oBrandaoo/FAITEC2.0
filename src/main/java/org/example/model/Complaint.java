@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Complaint {
     private ComplaintCategory category;
@@ -110,6 +111,51 @@ public class Complaint {
         ));
     }
 
+    public boolean updateDetails(
+            ComplaintCategory newCategory,
+            Location newLocation,
+            String newDescription,
+            ComplaintPriority newPriority,
+            String responsible
+    ) {
+        boolean changed = category != newCategory
+                || priority != newPriority
+                || !Objects.equals(description, newDescription)
+                || !sameLocation(location, newLocation);
+        if (!changed) {
+            return false;
+        }
+
+        category = newCategory;
+        location = newLocation;
+        description = newDescription;
+        priority = newPriority;
+        addHistoryNote(responsible, "Dados da reclamação atualizados.");
+        return true;
+    }
+
+    public void addHistoryNote(String responsible, String note) {
+        history.add(new ComplaintHistoryEntry(
+                LocalDateTime.now(),
+                status,
+                status,
+                responsible,
+                note
+        ));
+    }
+
+    private boolean sameLocation(Location first, Location second) {
+        if (first == second) {
+            return true;
+        }
+        if (first == null || second == null) {
+            return false;
+        }
+        return Double.compare(first.getLatitude(), second.getLatitude()) == 0
+                && Double.compare(first.getLongitude(), second.getLongitude()) == 0
+                && Objects.equals(first.getAddress(), second.getAddress());
+    }
+
     public ComplaintCategory getCategory() {
         return category;
     }
@@ -154,5 +200,15 @@ public class Complaint {
 
     public List<String> getAttachmentPaths() {
         return Collections.unmodifiableList(attachmentPaths);
+    }
+
+    public boolean replaceAttachments(List<String> paths) {
+        List<String> normalized = paths == null ? List.of() : paths;
+        if (attachmentPaths.equals(normalized)) {
+            return false;
+        }
+        attachmentPaths.clear();
+        attachmentPaths.addAll(normalized);
+        return true;
     }
 }
