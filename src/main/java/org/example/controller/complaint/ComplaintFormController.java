@@ -1,8 +1,10 @@
 package org.example.controller.complaint;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -11,9 +13,12 @@ import org.example.model.Location;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.service.ComplaintService;
+import org.example.service.GeocodingService;
 import org.example.util.MapDialog;
 import org.example.util.ScreenManager;
 import org.example.util.UserSession;
+
+import java.util.concurrent.CompletableFuture;
 
 import static org.example.model.enums.ComplaintStatus.PENDENTE;
 
@@ -34,7 +39,12 @@ public class ComplaintFormController {
     private TextField addressField;
 
     @FXML
+    private Button searchAddressButton;
+
+    @FXML
     private TextArea descriptionArea;
+
+    private boolean updatingAddress;
 
     @FXML
     public void initialize() {
@@ -46,21 +56,56 @@ public class ComplaintFormController {
         );
         priorityBox.getItems().setAll(ComplaintPriority.values());
         priorityBox.setValue(ComplaintPriority.MEDIA);
+
+        addressField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!updatingAddress) {
+                selectedLocation = null;
+            }
+        });
+    }
+
+    @FXML
+    private void searchAddress() {
+        String address = addressField.getText().trim();
+        if (address.isBlank()) {
+            showWarning("Digite um endereço para buscar.");
+            return;
+        }
+
+        setAddressSearchLoading(true);
+        CompletableFuture
+                .supplyAsync(() -> GeocodingService.search(address))
+                .thenAccept(location -> Platform.runLater(() -> {
+                    setAddressSearchLoading(false);
+                    if (location == null) {
+                        showWarning("Endereço não encontrado. Tente informar rua e número.");
+                        return;
+                    }
+                    setSelectedLocation(location);
+                }));
     }
 
     @FXML
     private void selectLocation() {
 
-        Location location = MapDialog.show();
+        Location location = MapDialog.show(addressField.getScene().getWindow());
 
         if (location != null) {
-
-            selectedLocation = location;
-
-            addressField.setText(
-                    location.getAddress()
-            );
+            setSelectedLocation(location);
         }
+    }
+
+    private void setSelectedLocation(Location location) {
+        selectedLocation = location;
+        updatingAddress = true;
+        addressField.setText(location.getAddress());
+        updatingAddress = false;
+    }
+
+    private void setAddressSearchLoading(boolean loading) {
+        addressField.setDisable(loading);
+        searchAddressButton.setDisable(loading);
+        searchAddressButton.setText(loading ? "Buscando..." : "Buscar");
     }
 
     @FXML
@@ -106,7 +151,7 @@ public class ComplaintFormController {
 
         if (selectedLocation == null) {
 
-            showWarning("Selecione um local no mapa.");
+            showWarning("Busque o endereço digitado ou selecione um local no mapa.");
 
             return false;
         }

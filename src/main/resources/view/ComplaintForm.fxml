@@ -38,8 +38,16 @@
 
                 <Label text="Local"/>
 
-                <TextField fx:id="addressField"
-                           editable="false"/>
+                <HBox spacing="8">
+                    <TextField fx:id="addressField"
+                               promptText="Digite um endereço em Santa Rita do Sapucaí"
+                               onAction="#searchAddress"
+                               HBox.hgrow="ALWAYS"/>
+
+                    <Button fx:id="searchAddressButton"
+                            text="Buscar"
+                            onAction="#searchAddress"/>
+                </HBox>
 
                 <Button text="📍 Selecionar no mapa"
                         onAction="#selectLocation"/>
