@@ -4,12 +4,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.controller.complaint.ComplaintDetailsController"
-      spacing="18"
-      prefWidth="580"
-      stylesheets="@../css/complaint.css"
-      styleClass="details-page">
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.complaint.ComplaintDetailsController"
+            fitToWidth="true"
+            prefViewportWidth="580"
+            prefViewportHeight="760"
+            stylesheets="@../css/complaint.css">
+  <VBox spacing="18" prefWidth="580" styleClass="details-page">
     <padding>
         <Insets top="28" right="30" bottom="28" left="30"/>
     </padding>
@@ -72,6 +73,16 @@
                   prefRowCount="2"/>
     </VBox>
 
+    <VBox spacing="7">
+        <Label text="Fotos anexadas" styleClass="details-label"/>
+        <Label fx:id="noAttachmentsLabel"
+               text="Nenhuma foto anexada."
+               styleClass="attachment-empty"/>
+        <FlowPane fx:id="attachmentGallery"
+                  hgap="9" vgap="9"
+                  prefWrapLength="520"/>
+    </VBox>
+
     <VBox spacing="6" VBox.vgrow="ALWAYS">
         <Label text="Histórico de status" styleClass="details-label"/>
         <ListView fx:id="historyList"
@@ -86,4 +97,5 @@
         <Button fx:id="saveButton" text="Salvar status"
                 onAction="#save" styleClass="primary-button"/>
     </HBox>
-</VBox>
+  </VBox>
+</ScrollPane>

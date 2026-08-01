@@ -63,6 +63,22 @@
                           prefWidth="360"/>
             </VBox>
 
+            <VBox spacing="7">
+                <HBox alignment="CENTER_LEFT">
+                    <VBox spacing="2">
+                        <Label text="Fotos"/>
+                        <Label text="Até 4 imagens PNG ou JPEG, com 5 MB cada."
+                               styleClass="attachment-hint"/>
+                    </VBox>
+                    <Pane HBox.hgrow="ALWAYS"/>
+                    <Button text="Adicionar fotos"
+                            onAction="#chooseAttachments"/>
+                </HBox>
+                <FlowPane fx:id="attachmentPreview"
+                          hgap="8" vgap="8"
+                          prefWrapLength="360"/>
+            </VBox>
+
             <HBox spacing="10"
                   alignment="CENTER_RIGHT">
 

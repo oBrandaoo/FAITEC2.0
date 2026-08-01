@@ -8,6 +8,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import org.example.model.Complaint;
@@ -21,6 +26,7 @@ import org.example.util.UserSession;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.io.File;
 
 public class ComplaintDetailsController {
 
@@ -36,6 +42,8 @@ public class ComplaintDetailsController {
     @FXML private ComboBox<ComplaintStatus> statusBox;
     @FXML private TextArea noteArea;
     @FXML private ListView<String> historyList;
+    @FXML private FlowPane attachmentGallery;
+    @FXML private Label noAttachmentsLabel;
     @FXML private Button saveButton;
 
     private Complaint complaint;
@@ -65,6 +73,7 @@ public class ComplaintDetailsController {
         ));
         descriptionArea.setText(complaint.getDescription());
         statusBox.setValue(complaint.getStatus());
+        loadAttachments();
         loadHistory();
     }
 
@@ -118,6 +127,53 @@ public class ComplaintDetailsController {
                 .map(this::formatHistoryEntry)
                 .toList();
         historyList.setItems(FXCollections.observableArrayList(items));
+    }
+
+    private void loadAttachments() {
+        attachmentGallery.getChildren().clear();
+
+        for (String path : complaint.getAttachmentPaths()) {
+            File file = new File(path);
+            if (!file.isFile()) {
+                continue;
+            }
+
+            ImageView thumbnail = new ImageView(
+                    new Image(file.toURI().toString(), 112, 86, true, true)
+            );
+            thumbnail.setFitWidth(112);
+            thumbnail.setFitHeight(86);
+            thumbnail.setPreserveRatio(true);
+            thumbnail.getStyleClass().add("attachment-thumbnail");
+            thumbnail.setOnMouseClicked(event -> showAttachment(file));
+            attachmentGallery.getChildren().add(thumbnail);
+        }
+
+        boolean empty = attachmentGallery.getChildren().isEmpty();
+        noAttachmentsLabel.setVisible(empty);
+        noAttachmentsLabel.setManaged(empty);
+    }
+
+    private void showAttachment(File file) {
+        ImageView imageView = new ImageView(new Image(file.toURI().toString()));
+        imageView.setFitWidth(860);
+        imageView.setFitHeight(600);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+
+        StackPane root = new StackPane(imageView);
+        root.getStyleClass().add("image-viewer");
+        Scene scene = new Scene(root, 900, 640);
+        scene.getStylesheets().add(
+                getClass().getResource("/css/complaint.css").toExternalForm()
+        );
+
+        Stage dialog = new Stage();
+        dialog.initOwner(categoryLabel.getScene().getWindow());
+        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.setTitle(file.getName());
+        dialog.setScene(scene);
+        dialog.showAndWait();
     }
 
     private String formatHistoryEntry(ComplaintHistoryEntry entry) {

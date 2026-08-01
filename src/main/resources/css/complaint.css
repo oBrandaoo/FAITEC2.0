@@ -168,3 +168,46 @@
 .details-page .list-cell:filled {
     -fx-border-color: transparent transparent #E2E8F0 transparent;
 }
+
+.attachment-hint, .attachment-name {
+    -fx-font-size: 10px;
+    -fx-text-fill: #64748B;
+}
+
+.attachment-image-box {
+    -fx-min-width: 88;
+    -fx-min-height: 74;
+    -fx-background-color: #F1F5F9;
+    -fx-background-radius: 8;
+    -fx-border-color: #CBD5E1;
+    -fx-border-radius: 8;
+    -fx-padding: 3;
+}
+
+.attachment-remove {
+    -fx-min-width: 22;
+    -fx-min-height: 22;
+    -fx-max-width: 22;
+    -fx-max-height: 22;
+    -fx-padding: 0;
+    -fx-background-color: #DC2626;
+    -fx-background-radius: 11;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.attachment-empty {
+    -fx-font-size: 12px;
+    -fx-text-fill: #94A3B8;
+}
+
+.attachment-thumbnail {
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.18), 8, 0.1, 0, 2);
+}
+
+.image-viewer {
+    -fx-background-color: #0F172A;
+    -fx-padding: 18;
+}

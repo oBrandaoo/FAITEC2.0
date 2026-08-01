@@ -1,6 +1,7 @@
 package org.example.controller.complaint;
 
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
@@ -8,6 +9,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import org.example.model.Complaint;
 import org.example.model.Location;
@@ -21,12 +28,19 @@ import org.example.util.ScreenManager;
 import org.example.util.UserSession;
 
 import java.util.concurrent.CompletableFuture;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.example.model.enums.ComplaintStatus.PENDENTE;
 
 public class ComplaintFormController {
 
+    private static final int MAX_ATTACHMENTS = 4;
+    private static final long MAX_ATTACHMENT_SIZE = 5L * 1024 * 1024;
+
     private Location selectedLocation;
+    private final List<File> selectedAttachments = new ArrayList<>();
 
     @FXML
     private Parent root;
@@ -42,6 +56,9 @@ public class ComplaintFormController {
 
     @FXML
     private Button searchAddressButton;
+
+    @FXML
+    private FlowPane attachmentPreview;
 
     @FXML
     private TextArea descriptionArea;
@@ -137,8 +154,77 @@ public class ComplaintFormController {
 
         ComplaintService.addComplaint(complaint);
 
+        selectedAttachments.forEach(file ->
+                complaint.addAttachment(file.getAbsolutePath())
+        );
+
         clearForm();
         NotificationManager.success("Reclamação registrada com sucesso.");
+    }
+
+    @FXML
+    private void chooseAttachments() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Selecionar fotos");
+        chooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Imagens (*.png, *.jpg, *.jpeg)", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        List<File> files = chooser.showOpenMultipleDialog(addressField.getScene().getWindow());
+        if (files == null) {
+            return;
+        }
+
+        for (File file : files) {
+            if (selectedAttachments.size() >= MAX_ATTACHMENTS) {
+                NotificationManager.warning("É possível anexar no máximo 4 fotos.");
+                break;
+            }
+            if (file.length() > MAX_ATTACHMENT_SIZE) {
+                NotificationManager.warning(file.getName() + " ultrapassa o limite de 5 MB.");
+                continue;
+            }
+            boolean alreadySelected = selectedAttachments.stream()
+                    .anyMatch(selected -> selected.getAbsolutePath().equals(file.getAbsolutePath()));
+            if (!alreadySelected) {
+                selectedAttachments.add(file);
+            }
+        }
+        refreshAttachmentPreview();
+    }
+
+    private void refreshAttachmentPreview() {
+        attachmentPreview.getChildren().clear();
+
+        for (File file : selectedAttachments) {
+            ImageView imageView = new ImageView(
+                    new Image(file.toURI().toString(), 82, 68, true, true)
+            );
+            imageView.setFitWidth(82);
+            imageView.setFitHeight(68);
+            imageView.setPreserveRatio(true);
+
+            Button removeButton = new Button("×");
+            removeButton.getStyleClass().add("attachment-remove");
+            StackPane.setAlignment(removeButton, Pos.TOP_RIGHT);
+            removeButton.setOnAction(event -> {
+                selectedAttachments.remove(file);
+                refreshAttachmentPreview();
+            });
+
+            StackPane imageBox = new StackPane(imageView, removeButton);
+            imageBox.getStyleClass().add("attachment-image-box");
+
+            String displayName = file.getName().length() > 15
+                    ? file.getName().substring(0, 12) + "..."
+                    : file.getName();
+            javafx.scene.control.Label nameLabel = new javafx.scene.control.Label(displayName);
+            nameLabel.getStyleClass().add("attachment-name");
+
+            VBox item = new VBox(4, imageBox, nameLabel);
+            item.setAlignment(Pos.CENTER);
+            attachmentPreview.getChildren().add(item);
+        }
     }
 
     private boolean validateForm() {
@@ -195,6 +281,8 @@ public class ComplaintFormController {
         addressField.clear();
 
         selectedLocation = null;
+        selectedAttachments.clear();
+        attachmentPreview.getChildren().clear();
     }
 
     @FXML

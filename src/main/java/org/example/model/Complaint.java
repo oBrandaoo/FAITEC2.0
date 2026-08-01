@@ -19,6 +19,7 @@ public class Complaint {
     private LocalDate date;
     private final String creatorId;
     private final String creatorName;
+    private final List<String> attachmentPaths = new ArrayList<>();
     private final List<ComplaintHistoryEntry> history = new ArrayList<>();
 
     public Complaint(ComplaintCategory category, Location location, String description, ComplaintStatus status) {
@@ -143,5 +144,15 @@ public class Complaint {
 
     public List<ComplaintHistoryEntry> getHistory() {
         return Collections.unmodifiableList(history);
+    }
+
+    public void addAttachment(String path) {
+        if (path != null && !path.isBlank() && !attachmentPaths.contains(path)) {
+            attachmentPaths.add(path);
+        }
+    }
+
+    public List<String> getAttachmentPaths() {
+        return Collections.unmodifiableList(attachmentPaths);
     }
 }
