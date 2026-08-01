@@ -20,6 +20,7 @@ import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
 import org.example.service.ComplaintService;
 import org.example.util.ScreenManager;
+import org.example.util.NotificationManager;
 import org.example.model.User;
 import org.example.util.UserSession;
 
@@ -347,6 +348,10 @@ public class ComplaintListController {
 
                     itemStatus.setOnAction(e->{
 
+                        if (complaint.getStatus() == status) {
+                            return;
+                        }
+
                         String note = "";
                         if (status == ComplaintStatus.CANCELADO
                                 && complaint.getStatus() != ComplaintStatus.CANCELADO) {
@@ -372,6 +377,7 @@ public class ComplaintListController {
                         );
 
                         complaintsTable.refresh();
+                        NotificationManager.success("Status atualizado para " + status + ".");
 
                     });
 
@@ -460,9 +466,7 @@ public class ComplaintListController {
         File destination = ensureCsvExtension(selectedFile);
         try {
             writeCsv(destination);
-            showAlert(
-                    Alert.AlertType.INFORMATION,
-                    "Exportação concluída",
+            NotificationManager.success(
                     filteredList.size() + " reclamação(ões) exportada(s) com sucesso."
             );
         } catch (IOException exception) {
@@ -511,13 +515,15 @@ public class ComplaintListController {
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.initOwner(complaintsTable.getScene().getWindow());
-        alert.initModality(Modality.WINDOW_MODAL);
-        alert.showAndWait();
+        if (type == Alert.AlertType.ERROR) {
+            NotificationManager.error(message);
+        } else if (type == Alert.AlertType.WARNING) {
+            NotificationManager.warning(message);
+        } else if (type == Alert.AlertType.INFORMATION) {
+            NotificationManager.info(message);
+        } else {
+            NotificationManager.info(title + ": " + message);
+        }
     }
 
     @FXML

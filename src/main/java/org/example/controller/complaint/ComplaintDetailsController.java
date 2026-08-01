@@ -16,6 +16,7 @@ import org.example.model.User;
 import org.example.model.enums.ComplaintStatus;
 import org.example.service.ComplaintService;
 import org.example.util.MapDialog;
+import org.example.util.NotificationManager;
 import org.example.util.UserSession;
 
 import java.time.format.DateTimeFormatter;
@@ -107,6 +108,7 @@ public class ComplaintDetailsController {
                 UserSession.getLoggedUser(),
                 noteArea.getText()
         );
+        NotificationManager.success("Status da reclamação atualizado.");
         close();
     }
 

@@ -16,6 +16,7 @@ import org.example.model.enums.ComplaintPriority;
 import org.example.service.ComplaintService;
 import org.example.service.GeocodingService;
 import org.example.util.MapDialog;
+import org.example.util.NotificationManager;
 import org.example.util.ScreenManager;
 import org.example.util.UserSession;
 
@@ -79,10 +80,13 @@ public class ComplaintFormController {
                 .thenAccept(location -> Platform.runLater(() -> {
                     setAddressSearchLoading(false);
                     if (location == null) {
-                        showWarning("Endereço não encontrado. Tente informar rua e número.");
+                        NotificationManager.error(
+                                "Endereço não encontrado. Tente informar rua e número."
+                        );
                         return;
                     }
                     setSelectedLocation(location);
+                    NotificationManager.success("Endereço localizado com sucesso.");
                 }));
     }
 
@@ -133,15 +137,8 @@ public class ComplaintFormController {
 
         ComplaintService.addComplaint(complaint);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Reclamação registrada");
-        alert.setHeaderText(null);
-        alert.setContentText("Reclamação registrada com sucesso.");
-        alert.initOwner(addressField.getScene().getWindow());
-        alert.initModality(Modality.WINDOW_MODAL);
-        alert.showAndWait();
-
         clearForm();
+        NotificationManager.success("Reclamação registrada com sucesso.");
     }
 
     private boolean validateForm() {

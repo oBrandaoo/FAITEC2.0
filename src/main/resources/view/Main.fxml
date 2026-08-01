@@ -98,8 +98,19 @@
 
     <center>
 
-        <StackPane fx:id="contentArea"
-                   styleClass="content"/>
+        <StackPane styleClass="content">
+            <StackPane fx:id="contentArea"/>
+            <VBox fx:id="toastLayer"
+                  spacing="10"
+                  mouseTransparent="true"
+                  pickOnBounds="false"
+                  maxWidth="380"
+                  StackPane.alignment="TOP_RIGHT">
+                <padding>
+                    <Insets top="22" right="22" bottom="22" left="22"/>
+                </padding>
+            </VBox>
+        </StackPane>
 
     </center>
 

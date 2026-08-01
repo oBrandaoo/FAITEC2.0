@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.util.ScreenManager;
+import org.example.util.NotificationManager;
 import org.example.model.User;
 import org.example.util.UserSession;
 
@@ -8,11 +9,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class MainController {
 
     @FXML
     private StackPane contentArea;
+
+    @FXML
+    private VBox toastLayer;
 
     @FXML private Button newComplaintButton;
     @FXML private Button complaintsButton;
@@ -24,6 +29,7 @@ public class MainController {
     public void initialize() {
 
         ScreenManager.setMainContainer(contentArea);
+        NotificationManager.setContainer(toastLayer);
 
         configurePermissions();
         ScreenManager.loadHomeScreen();
