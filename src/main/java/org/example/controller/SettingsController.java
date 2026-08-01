@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.model.User;
 import org.example.util.AccessibilityManager;
+import org.example.util.NotificationManager;
 import org.example.util.UserSession;
 
 import javafx.event.ActionEvent;
@@ -103,6 +104,7 @@ public class SettingsController {
             stage.setScene(scene);
             stage.setFullScreen(true);
             stage.setMaximized(true);
+            NotificationManager.success("Sessão encerrada com sucesso.");
         } catch (Exception exception) {
             exception.printStackTrace();
         }

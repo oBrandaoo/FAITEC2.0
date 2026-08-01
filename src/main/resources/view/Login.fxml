@@ -11,7 +11,7 @@
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="org.example.controller.LoginController"
            styleClass="login-root"
-           stylesheets="@../css/login.css,@../css/accessibility.css">
+           stylesheets="@../css/login.css,@../css/accessibility.css,@../css/main.css">
     <Region styleClass="background-overlay"/>
 
     <HBox maxWidth="1120" maxHeight="680" styleClass="login-shell">
@@ -119,4 +119,15 @@
                    maxWidth="Infinity" alignment="CENTER" styleClass="form-footer"/>
         </VBox>
     </HBox>
+
+    <VBox fx:id="loginToastLayer"
+          spacing="10"
+          mouseTransparent="true"
+          pickOnBounds="false"
+          maxWidth="380"
+          StackPane.alignment="TOP_RIGHT">
+        <padding>
+            <Insets top="22" right="22" bottom="22" left="22"/>
+        </padding>
+    </VBox>
 </StackPane>

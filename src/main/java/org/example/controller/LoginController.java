@@ -7,6 +7,7 @@ import org.example.model.enums.UserRole;
 import org.example.model.enums.UserStatus;
 import org.example.util.UserSession;
 import org.example.util.AccessibilityManager;
+import org.example.util.NotificationManager;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,12 +18,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LoginController {
 
     @FXML
     private StackPane loginRoot;
+
+    @FXML
+    private VBox loginToastLayer;
 
     private static final List<User> USERS = List.of(
             new User("USR-001", "Administrador", "1234", UserStatus.ATIVA, UserRole.ADMINISTRADOR),
@@ -42,6 +47,7 @@ public class LoginController {
     @FXML
     public void initialize() {
         AccessibilityManager.setApplicationRoot(loginRoot);
+        NotificationManager.setContainer(loginToastLayer);
         userField.textProperty().addListener(
                 (observable, oldValue, newValue) -> messageLabel.setText("")
         );
