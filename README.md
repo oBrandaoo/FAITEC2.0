@@ -1,4 +1,4 @@
-# Cidade em dia
+# Cidade em Dia
 
 Aplicação desktop acadêmica para registro, acompanhamento e gestão de
 reclamações urbanas em Santa Rita do Sapucaí/MG. O projeto foi desenvolvido em

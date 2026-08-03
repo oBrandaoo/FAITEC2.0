@@ -28,7 +28,7 @@
 
                 <VBox spacing="2">
 
-                    <Label text="Cidade Melhor"
+                    <Label text="Cidade em Dia"
                            styleClass="logo"/>
 
                     <Label text="Gestão de Reclamações"
@@ -91,7 +91,7 @@
 
             <VBox spacing="3">
 
-                <Label text="Sistema Cidade Melhor"
+                <Label text="Sistema Cidade em Dia"
                        styleClass="footerTitle"/>
 
                 <Label text="Versão 1.0"

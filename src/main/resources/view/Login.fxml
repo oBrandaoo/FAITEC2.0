@@ -34,8 +34,6 @@
                 </ImageView>
             </StackPane>
 
-            <Label text="Gestão urbana inteligente" styleClass="brand-caption"/>
-
             <Pane prefHeight="6"/>
 
             <Label text="Uma cidade melhor começa com participação."

@@ -15,7 +15,7 @@ public class MainApp extends Application {
         );
 
         Scene scene = new Scene(loader.load());
-        stage.setTitle("Cidade Melhor");
+        stage.setTitle("Cidade em Dia");
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();

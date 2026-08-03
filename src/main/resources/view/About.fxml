@@ -38,7 +38,7 @@
             <Label text="Sobre o projeto" styleClass="section-title"/>
             <Label wrapText="true"
                    styleClass="body-text"
-                   text="O Cidade Melhor foi desenvolvido para facilitar o registro, acompanhamento e gerenciamento de problemas urbanos. A aplicação reúne reclamações, localização geográfica, prioridades, histórico de atendimento e indicadores em uma interface única."/>
+                   text="O Cidade em Dia foi desenvolvido para facilitar o registro, acompanhamento e gerenciamento de problemas urbanos. A aplicação reúne reclamações, localização geográfica, prioridades, histórico de atendimento e indicadores em uma interface única."/>
         </VBox>
 
         <HBox spacing="18">
@@ -86,7 +86,7 @@
                    text="Este projeto não utiliza banco de dados. Usuários, reclamações, configurações e históricos permanecem disponíveis somente durante a execução da aplicação e são reiniciados ao encerrá-la."/>
         </VBox>
 
-        <Label text="Projeto acadêmico • Cidade Melhor • 2026"
+        <Label text="Projeto acadêmico • Cidade em Dia • 2026"
                maxWidth="Infinity"
                alignment="CENTER"
                styleClass="about-footer"/>
