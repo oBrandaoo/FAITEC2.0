@@ -23,7 +23,6 @@ public final class AccessibilityManager {
 
     private static Parent applicationRoot;
     private static FontSize fontSize = FontSize.PADRAO;
-    private static boolean reducedMotion;
 
     private AccessibilityManager() {
     }
@@ -40,14 +39,6 @@ public final class AccessibilityManager {
     public static void setFontSize(FontSize size) {
         fontSize = size == null ? FontSize.PADRAO : size;
         apply();
-    }
-
-    public static boolean isReducedMotion() {
-        return reducedMotion;
-    }
-
-    public static void setReducedMotion(boolean enabled) {
-        reducedMotion = enabled;
     }
 
     private static void apply() {

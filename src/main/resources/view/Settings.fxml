@@ -73,12 +73,6 @@
                           prefWidth="210"
                           GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-                <Label text="Animações" styleClass="fieldLabel"
-                       GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                <CheckBox fx:id="reducedMotionCheckBox"
-                          text="Reduzir movimentos e transições"
-                          accessibleText="Reduzir animações da interface"
-                          GridPane.columnIndex="1" GridPane.rowIndex="1"/>
             </GridPane>
 
             <Separator/>

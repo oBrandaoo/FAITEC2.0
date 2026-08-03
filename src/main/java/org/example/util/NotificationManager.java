@@ -65,14 +65,6 @@ public final class NotificationManager {
         toast.getStyleClass().addAll("toast", typeClass);
         container.getChildren().add(0, toast);
 
-        if (AccessibilityManager.isReducedMotion()) {
-            toast.setOpacity(1);
-            PauseTransition visible = new PauseTransition(Duration.seconds(3.5));
-            visible.setOnFinished(event -> container.getChildren().remove(toast));
-            visible.play();
-            return;
-        }
-
         FadeTransition fadeIn = new FadeTransition(Duration.millis(180), toast);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);

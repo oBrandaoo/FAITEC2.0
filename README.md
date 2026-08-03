@@ -68,7 +68,6 @@ aberto pelo formulário para escolher uma localização.
 
 - informações do usuário autenticado;
 - seleção entre texto padrão, grande e extragrande;
-- opção para reduzir animações e transições;
 - atalhos de navegação por teclado;
 - confirmação de logout;
 - tela com informações sobre o sistema.

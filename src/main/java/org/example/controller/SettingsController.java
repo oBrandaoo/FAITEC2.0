@@ -13,7 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
@@ -27,7 +26,6 @@ public class SettingsController {
     @FXML private Label statusLabel;
     @FXML private Label roleLabel;
     @FXML private ComboBox<AccessibilityManager.FontSize> fontSizeBox;
-    @FXML private CheckBox reducedMotionCheckBox;
 
     @FXML
     public void initialize() {
@@ -53,13 +51,9 @@ public class SettingsController {
     private void configureAccessibility() {
         fontSizeBox.getItems().setAll(AccessibilityManager.FontSize.values());
         fontSizeBox.setValue(AccessibilityManager.getFontSize());
-        reducedMotionCheckBox.setSelected(AccessibilityManager.isReducedMotion());
 
         fontSizeBox.valueProperty().addListener(
                 (observable, oldValue, newValue) -> AccessibilityManager.setFontSize(newValue)
-        );
-        reducedMotionCheckBox.selectedProperty().addListener(
-                (observable, oldValue, selected) -> AccessibilityManager.setReducedMotion(selected)
         );
     }
 
