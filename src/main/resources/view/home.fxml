@@ -38,7 +38,7 @@
                 <Label text="RESOLVIDAS" styleClass="metric-name"/>
                 <Label fx:id="resolvedLabel" text="0" styleClass="metric-value metric-resolved"/>
             </VBox>
-            <VBox styleClass="metric-card urgent-card" HBox.hgrow="ALWAYS">
+            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
                 <Label text="URGENTES" styleClass="metric-name"/>
                 <Label fx:id="urgentLabel" text="0" styleClass="metric-value metric-urgent"/>
             </VBox>

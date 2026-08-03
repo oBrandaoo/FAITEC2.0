@@ -32,10 +32,6 @@
     -fx-min-width: 135;
 }
 
-.urgent-card {
-    -fx-border-color: #FECACA;
-}
-
 .metric-name {
     -fx-font-size: 11px;
     -fx-font-weight: bold;
