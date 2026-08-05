@@ -1,15 +1,15 @@
 package org.example.model;
 
-import org.example.model.enums.ComplaintCategory;
-import org.example.model.enums.ComplaintPriority;
-import org.example.model.enums.ComplaintStatus;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+import org.example.model.enums.ComplaintCategory;
+import org.example.model.enums.ComplaintPriority;
+import org.example.model.enums.ComplaintStatus;
 
 public class Complaint {
     private ComplaintCategory category;
@@ -23,20 +23,6 @@ public class Complaint {
     private final List<String> attachmentPaths = new ArrayList<>();
     private final List<ComplaintHistoryEntry> history = new ArrayList<>();
 
-    public Complaint(ComplaintCategory category, Location location, String description, ComplaintStatus status) {
-        this(category, location, description, status, ComplaintPriority.MEDIA, LocalDate.now());
-    }
-
-    public Complaint(
-            ComplaintCategory category,
-            Location location,
-            String description,
-            ComplaintStatus status,
-            LocalDate date
-    ) {
-        this(category, location, description, status, ComplaintPriority.MEDIA, date);
-    }
-
     public Complaint(
             ComplaintCategory category,
             Location location,
@@ -46,18 +32,6 @@ public class Complaint {
             LocalDate date
     ) {
         this(category, location, description, status, priority, date, "SYSTEM", "Sistema");
-    }
-
-    public Complaint(
-            ComplaintCategory category,
-            Location location,
-            String description,
-            ComplaintStatus status,
-            ComplaintPriority priority,
-            LocalDate date,
-            String registeredBy
-    ) {
-        this(category, location, description, status, priority, date, "SYSTEM", registeredBy);
     }
 
     public Complaint(
