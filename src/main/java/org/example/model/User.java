@@ -1,8 +1,7 @@
 package org.example.model;
 
-import org.example.model.enums.UserStatus;
 import org.example.model.enums.UserRole;
-//TODO: enhance user model
+import org.example.model.enums.UserStatus;
 public class User {
     private final String id;
     private final String name;
