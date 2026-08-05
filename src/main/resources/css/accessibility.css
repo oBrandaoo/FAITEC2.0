@@ -7,7 +7,7 @@
 .check-box:focused,
 .table-view:focused,
 .list-view:focused {
-    -fx-border-color: #F59E0B;
+    -fx-border-color: #4876f7;
     -fx-border-width: 3;
     -fx-border-radius: 7;
 }
