@@ -152,6 +152,9 @@ public class MapController {
         for (Complaint complaint : ComplaintService.getAllComplaints()) {
             Location location = complaint.getLocation();
             String popup = "<b>" + escapeHtml(complaint.getCategory().toString()) + "</b>"
+                    + (complaint.getSubcategory() == null
+                            ? ""
+                            : "<br>" + escapeHtml(complaint.getSubcategory().toString()))
                     + "<br>Prioridade: " + escapeHtml(complaint.getPriority().toString())
                     + "<br>Status: " + escapeHtml(complaint.getStatus().toString())
                     + "<br>" + escapeHtml(location.getAddress());

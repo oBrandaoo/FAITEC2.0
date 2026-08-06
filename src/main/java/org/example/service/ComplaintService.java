@@ -11,6 +11,7 @@ import org.example.model.User;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
+import org.example.model.enums.ComplaintSubcategory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class ComplaintService {
     private static void loadMockComplaints() {
         complaints.add(new Complaint(
                 ComplaintCategory.BURACO_RUA,
+                ComplaintSubcategory.BURACO_EM_VIA,
                 new Location(
                         -22.252218,
                         -45.703128,
@@ -42,6 +44,7 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.ILUMINACAO_PUBLICA,
+                ComplaintSubcategory.POSTE_APAGADO,
                 new Location(
                         -22.251156,
                         -45.702279,
@@ -55,6 +58,7 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.LIX0_ACUMULADO,
+                ComplaintSubcategory.DESCARTE_IRREGULAR,
                 new Location(
                         -22.254512,
                         -45.701324,
@@ -70,6 +74,7 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.ESGOTO,
+                ComplaintSubcategory.VAZAMENTO_ESGOTO,
                 new Location(
                         -22.255896,
                         -45.705117,
@@ -83,6 +88,7 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.SEGURANCA,
+                ComplaintSubcategory.PONTO_INSEGURO,
                 new Location(
                         -22.247816,
                         -45.699462,
@@ -96,6 +102,7 @@ public class ComplaintService {
 
         complaints.add(new Complaint(
                 ComplaintCategory.BURACO_RUA,
+                ComplaintSubcategory.ASFALTO_DANIFICADO,
                 new Location(
                         -22.258044,
                         -45.696851,
@@ -105,6 +112,22 @@ public class ComplaintService {
                 ComplaintStatus.PENDENTE,
                 ComplaintPriority.ALTA,
                 LocalDate.now().minusDays(1),
+                "USR-003",
+                "Cidadão"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.TRANSITO_MOBILIDADE,
+                ComplaintSubcategory.SEMAFORO_DEFEITO,
+                new Location(
+                        -22.252830,
+                        -45.703930,
+                        "Rua Cel. Joaquim Neto, 320 - Centro, Santa Rita do Sapucaí/MG"
+                ),
+                "Semáforo intermitente causa risco no cruzamento em horários de pico.",
+                ComplaintStatus.PENDENTE,
+                ComplaintPriority.URGENTE,
+                LocalDate.now().minusDays(3),
                 "USR-003",
                 "Cidadão"
         ));

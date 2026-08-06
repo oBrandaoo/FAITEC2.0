@@ -10,9 +10,11 @@ import java.util.Objects;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
+import org.example.model.enums.ComplaintSubcategory;
 
 public class Complaint {
     private ComplaintCategory category;
+    private ComplaintSubcategory subcategory;
     private Location location;
     private String description;
     private ComplaintStatus status;
@@ -25,17 +27,19 @@ public class Complaint {
 
     public Complaint(
             ComplaintCategory category,
+            ComplaintSubcategory subcategory,
             Location location,
             String description,
             ComplaintStatus status,
             ComplaintPriority priority,
             LocalDate date
     ) {
-        this(category, location, description, status, priority, date, "SYSTEM", "Sistema");
+        this(category, subcategory, location, description, status, priority, date, "SYSTEM", "Sistema");
     }
 
     public Complaint(
             ComplaintCategory category,
+            ComplaintSubcategory subcategory,
             Location location,
             String description,
             ComplaintStatus status,
@@ -44,7 +48,9 @@ public class Complaint {
             String creatorId,
             String creatorName
     ) {
+        validateClassification(category, subcategory);
         this.category = category;
+        this.subcategory = subcategory;
         this.location = location;
         this.description = description;
         this.status = status;
@@ -83,12 +89,15 @@ public class Complaint {
 
     public boolean updateDetails(
             ComplaintCategory newCategory,
+            ComplaintSubcategory newSubcategory,
             Location newLocation,
             String newDescription,
             ComplaintPriority newPriority,
             String responsible
     ) {
+        validateClassification(newCategory, newSubcategory);
         boolean changed = category != newCategory
+                || subcategory != newSubcategory
                 || priority != newPriority
                 || !Objects.equals(description, newDescription)
                 || !sameLocation(location, newLocation);
@@ -97,6 +106,7 @@ public class Complaint {
         }
 
         category = newCategory;
+        subcategory = newSubcategory;
         location = newLocation;
         description = newDescription;
         priority = newPriority;
@@ -128,6 +138,20 @@ public class Complaint {
 
     public ComplaintCategory getCategory() {
         return category;
+    }
+
+    public ComplaintSubcategory getSubcategory() {
+        return subcategory;
+    }
+
+    private static void validateClassification(
+            ComplaintCategory category,
+            ComplaintSubcategory subcategory
+    ) {
+        Objects.requireNonNull(category, "A categoria é obrigatória.");
+        if (subcategory != null && !subcategory.belongsTo(category)) {
+            throw new IllegalArgumentException("A subcategoria não pertence à categoria selecionada.");
+        }
     }
 
     public String getDescription() {

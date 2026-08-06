@@ -6,7 +6,8 @@ public enum ComplaintCategory {
     ILUMINACAO_PUBLICA("Iluminação pública"),
     LIX0_ACUMULADO("Lixo acumulado"),
     ESGOTO("Esgoto"),
-    SEGURANCA("Segurança");
+    SEGURANCA("Segurança"),
+    TRANSITO_MOBILIDADE("Trânsito e mobilidade");
 
     private final String description;
 

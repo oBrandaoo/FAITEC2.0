@@ -31,30 +31,35 @@
         <Label fx:id="categoryLabel" wrapText="true"
                GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-        <Label text="Prioridade" styleClass="details-label"
+        <Label text="Subcategoria" styleClass="details-label"
                GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <Label fx:id="priorityLabel"
+        <Label fx:id="subcategoryLabel" wrapText="true"
                GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-        <Label text="Data" styleClass="details-label"
+        <Label text="Prioridade" styleClass="details-label"
                GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <Label fx:id="dateLabel"
+        <Label fx:id="priorityLabel"
                GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-        <Label text="Status" styleClass="details-label"
+        <Label text="Data" styleClass="details-label"
                GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label fx:id="dateLabel"
+               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Status" styleClass="details-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="4"/>
         <ComboBox fx:id="statusBox" prefWidth="220"
-                  GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                  GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
         <Label text="Endereço" styleClass="details-label"
-               GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+               GridPane.columnIndex="0" GridPane.rowIndex="5"/>
         <Label fx:id="addressLabel" wrapText="true"
-               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
         <Label text="Coordenadas" styleClass="details-label"
-               GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+               GridPane.columnIndex="0" GridPane.rowIndex="6"/>
         <Label fx:id="coordinatesLabel"
-               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+               GridPane.columnIndex="1" GridPane.rowIndex="6"/>
     </GridPane>
 
     <VBox spacing="6">

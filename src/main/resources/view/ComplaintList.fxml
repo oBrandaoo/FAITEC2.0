@@ -11,7 +11,7 @@
     <VBox alignment="CENTER">
 
         <VBox spacing="18"
-              maxWidth="980"
+              maxWidth="1180"
               styleClass="card">
 
             <padding>
@@ -35,7 +35,12 @@
 
                 <ComboBox fx:id="categoryFilter"
                           promptText="Categoria"
-                          prefWidth="170"/>
+                          prefWidth="165"/>
+
+                <ComboBox fx:id="subcategoryFilter"
+                          promptText="Subcategoria"
+                          accessibleText="Filtrar por subcategoria"
+                          prefWidth="190"/>
 
                 <ComboBox fx:id="statusFilter"
                           promptText="Status"
@@ -92,19 +97,23 @@
                 <columns>
                     <TableColumn fx:id="categoryColumn"
                                  text="Categoria"
-                                 prefWidth="140"/>
+                                 prefWidth="125"/>
+
+                    <TableColumn fx:id="subcategoryColumn"
+                                 text="Subcategoria"
+                                 prefWidth="160"/>
 
                     <TableColumn fx:id="priorityColumn"
                                  text="Prioridade"
-                                 prefWidth="100"/>
+                                 prefWidth="90"/>
 
                     <TableColumn fx:id="locationColumn"
                                  text="Local"
-                                 prefWidth="160"/>
+                                 prefWidth="150"/>
 
                     <TableColumn fx:id="descriptionColumn"
                                  text="Descrição"
-                                 prefWidth="250"/>
+                                 prefWidth="210"/>
 
                     <TableColumn fx:id="statusColumn"
                                  text="Status"
@@ -112,11 +121,11 @@
 
                     <TableColumn fx:id="dateColumn"
                                  text="Data"
-                                 prefWidth="120"/>
+                                 prefWidth="105"/>
 
                     <TableColumn fx:id="actionColumn"
                                  text="Ações"
-                                 prefWidth="120"/>
+                                 prefWidth="110"/>
                 </columns>
 
             </TableView>

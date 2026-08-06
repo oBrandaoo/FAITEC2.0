@@ -23,6 +23,7 @@ import org.example.model.Complaint;
 import org.example.model.Location;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
+import org.example.model.enums.ComplaintSubcategory;
 import org.example.service.ComplaintService;
 import org.example.service.GeocodingService;
 import org.example.util.MapDialog;
@@ -52,6 +53,9 @@ public class ComplaintFormController {
 
     @FXML
     private ComboBox<ComplaintCategory> categoryBox;
+
+    @FXML
+    private ComboBox<ComplaintSubcategory> subcategoryBox;
 
     @FXML
     private ComboBox<ComplaintPriority> priorityBox;
@@ -86,6 +90,10 @@ public class ComplaintFormController {
 
         categoryBox.getItems().setAll(
                 ComplaintCategory.values()
+        );
+        subcategoryBox.setDisable(true);
+        categoryBox.valueProperty().addListener((observable, oldCategory, newCategory) ->
+                updateSubcategories(newCategory)
         );
         priorityBox.getItems().setAll(ComplaintPriority.values());
         priorityBox.setValue(ComplaintPriority.MEDIA);
@@ -158,6 +166,7 @@ public class ComplaintFormController {
 
         Complaint complaint = new Complaint(
                 categoryBox.getValue(),
+                subcategoryBox.getValue(),
                 selectedLocation,
                 descriptionArea.getText().trim(),
                 PENDENTE,
@@ -188,6 +197,7 @@ public class ComplaintFormController {
         submitButton.setText("Salvar alterações");
 
         categoryBox.setValue(complaint.getCategory());
+        subcategoryBox.setValue(complaint.getSubcategory());
         priorityBox.setValue(complaint.getPriority());
         descriptionArea.setText(complaint.getDescription());
         setSelectedLocation(complaint.getLocation());
@@ -207,6 +217,7 @@ public class ComplaintFormController {
 
         boolean detailsChanged = editingComplaint.updateDetails(
                 categoryBox.getValue(),
+                subcategoryBox.getValue(),
                 selectedLocation,
                 descriptionArea.getText().trim(),
                 priorityBox.getValue(),
@@ -342,6 +353,7 @@ public class ComplaintFormController {
     private void clearForm() {
 
         categoryBox.getSelectionModel().clearSelection();
+        subcategoryBox.getSelectionModel().clearSelection();
         priorityBox.setValue(ComplaintPriority.MEDIA);
 
         descriptionArea.clear();
@@ -351,6 +363,12 @@ public class ComplaintFormController {
         selectedLocation = null;
         selectedAttachments.clear();
         attachmentPreview.getChildren().clear();
+    }
+
+    private void updateSubcategories(ComplaintCategory category) {
+        subcategoryBox.getItems().setAll(ComplaintSubcategory.forCategory(category));
+        subcategoryBox.getSelectionModel().clearSelection();
+        subcategoryBox.setDisable(category == null);
     }
 
     @FXML

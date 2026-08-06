@@ -39,6 +39,7 @@ public class ComplaintDetailsController {
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     @FXML private Label categoryLabel;
+    @FXML private Label subcategoryLabel;
     @FXML private Label priorityLabel;
     @FXML private Label dateLabel;
     @FXML private Label addressLabel;
@@ -74,6 +75,9 @@ public class ComplaintDetailsController {
     public void setComplaint(Complaint complaint) {
         this.complaint = complaint;
         categoryLabel.setText(complaint.getCategory().toString());
+        subcategoryLabel.setText(complaint.getSubcategory() == null
+                ? "Não informada"
+                : complaint.getSubcategory().toString());
         priorityLabel.setText(complaint.getPriority().toString());
         dateLabel.setText(complaint.getDate().toString());
         addressLabel.setText(complaint.getLocation().getAddress());

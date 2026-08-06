@@ -12,6 +12,7 @@ import org.example.model.User;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
+import org.example.model.enums.ComplaintSubcategory;
 import org.example.service.ComplaintService;
 import org.example.util.NotificationManager;
 import org.example.util.UserSession;
@@ -53,6 +54,9 @@ public class ComplaintListController {
     private ComboBox<ComplaintCategory> categoryFilter;
 
     @FXML
+    private ComboBox<ComplaintSubcategory> subcategoryFilter;
+
+    @FXML
     private ComboBox<ComplaintStatus> statusFilter;
 
     @FXML
@@ -84,6 +88,9 @@ public class ComplaintListController {
 
     @FXML
     private TableColumn<Complaint, ComplaintCategory> categoryColumn;
+
+    @FXML
+    private TableColumn<Complaint, ComplaintSubcategory> subcategoryColumn;
 
     @FXML
     private TableColumn<Complaint, String> locationColumn;
@@ -155,6 +162,10 @@ public class ComplaintListController {
                 new PropertyValueFactory<>("category")
         );
 
+        subcategoryColumn.setCellValueFactory(
+                new PropertyValueFactory<>("subcategory")
+        );
+
         locationColumn.setCellValueFactory(cell ->
                 new SimpleStringProperty(
                         cell.getValue()
@@ -202,6 +213,7 @@ public class ComplaintListController {
         categoryFilter.getItems().setAll(
                 ComplaintCategory.values()
         );
+        subcategoryFilter.getItems().setAll(ComplaintSubcategory.values());
 
         statusFilter.getItems().setAll(
                 ComplaintStatus.values()
@@ -213,7 +225,11 @@ public class ComplaintListController {
 
         searchField.textProperty().addListener((o,a,b)->applyFilters());
 
-        categoryFilter.valueProperty().addListener((o,a,b)->applyFilters());
+        categoryFilter.valueProperty().addListener((observable, oldCategory, newCategory) -> {
+            updateSubcategoryFilter(newCategory);
+            applyFilters();
+        });
+        subcategoryFilter.valueProperty().addListener((o,a,b)->applyFilters());
 
         statusFilter.valueProperty().addListener((o,a,b)->applyFilters());
         priorityFilter.valueProperty().addListener((o,a,b)->applyFilters());
@@ -237,6 +253,7 @@ public class ComplaintListController {
             boolean matchesSearch = true;
 
             boolean matchesCategory = true;
+            boolean matchesSubcategory = true;
 
             boolean matchesStatus = true;
             boolean matchesPriority = true;
@@ -256,7 +273,14 @@ public class ComplaintListController {
                                 ||
                                 complaint.getLocation().getAddress().toLowerCase().contains(text)
                                 ||
-                                complaint.getCategory().toString().toLowerCase().contains(text);
+                                complaint.getCategory().toString().toLowerCase().contains(text)
+                                ||
+                                complaint.getSubcategory() != null
+                                        && complaint.getSubcategory().toString().toLowerCase().contains(text);
+            }
+
+            if (subcategoryFilter.getValue() != null) {
+                matchesSubcategory = complaint.getSubcategory() == subcategoryFilter.getValue();
             }
 
             if(categoryFilter.getValue()!=null){
@@ -277,11 +301,27 @@ public class ComplaintListController {
 
             return matchesSearch &&
                     matchesCategory &&
+                    matchesSubcategory &&
                     matchesStatus &&
                     matchesPriority &&
                     matchesDate;
 
         });
+    }
+
+    private void updateSubcategoryFilter(ComplaintCategory category) {
+        ComplaintSubcategory selected = subcategoryFilter.getValue();
+        if (category == null) {
+            subcategoryFilter.getItems().setAll(ComplaintSubcategory.values());
+        } else {
+            subcategoryFilter.getItems().setAll(ComplaintSubcategory.forCategory(category));
+        }
+
+        if (selected != null && (category == null || selected.belongsTo(category))) {
+            subcategoryFilter.setValue(selected);
+        } else {
+            subcategoryFilter.setValue(null);
+        }
     }
 
     private void configureStatusBadges(){
@@ -435,6 +475,7 @@ public class ComplaintListController {
         searchField.clear();
 
         categoryFilter.setValue(null);
+        subcategoryFilter.setValue(null);
 
         statusFilter.setValue(null);
         priorityFilter.setValue(null);
@@ -523,12 +564,15 @@ public class ComplaintListController {
         )) {
             // BOM facilita a identificação de UTF-8 pelo Excel.
             writer.write('\uFEFF');
-            writer.write("Categoria;Prioridade;Endereço;Descrição;Status;Data");
+            writer.write("Categoria;Subcategoria;Prioridade;Endereço;Descrição;Status;Data");
             writer.newLine();
 
             for (Complaint complaint : filteredList) {
                 writer.write(String.join(";",
                         csvValue(complaint.getCategory().toString()),
+                        csvValue(complaint.getSubcategory() == null
+                                ? ""
+                                : complaint.getSubcategory().toString()),
                         csvValue(complaint.getPriority().toString()),
                         csvValue(complaint.getLocation().getAddress()),
                         csvValue(complaint.getDescription()),

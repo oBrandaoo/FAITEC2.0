@@ -50,6 +50,15 @@
                         </VBox>
 
                         <VBox spacing="7" HBox.hgrow="ALWAYS">
+                            <Label text="Subcategoria (opcional)" styleClass="form-field-label"/>
+                            <ComboBox fx:id="subcategoryBox"
+                                      promptText="Selecione a subcategoria"
+                                      accessibleText="Selecionar subcategoria da reclamação"
+                                      maxWidth="Infinity"
+                                      prefHeight="43"/>
+                        </VBox>
+
+                        <VBox spacing="7" HBox.hgrow="ALWAYS">
                             <Label text="Prioridade" styleClass="form-field-label"/>
                             <ComboBox fx:id="priorityBox"
                                       promptText="Selecione a prioridade"
