@@ -94,17 +94,11 @@ Atalhos disponíveis:
 - Nominatim/OpenStreetMap para busca e geocodificação reversa;
 - JUnit Jupiter 5.10.2 e Maven Surefire 3.2.5 para testes.
 
-O `pom.xml` também declara MigLayout, AtlantaFX, MaterialFX, TilesFX,
-ControlsFX e JFreeChart. A interface atual utiliza principalmente os controles
-e gráficos nativos do JavaFX. O diretório `web/graph` contém ainda uma
-visualização experimental baseada em Chart.js.
-
 ## Requisitos
 
 - JDK 17;
 - Apache Maven disponível no terminal;
-- conexão com a internet para carregar o Leaflet, os blocos do OpenStreetMap e
-  realizar buscas de endereço.
+- conexão com a internet para carregar o Leaflet, os blocos do OpenStreetMap e realizar buscas de endereço.
 
 ## Como executar
 
@@ -167,8 +161,6 @@ src
 │       ├── images       # logo e imagens
 │       ├── map          # página Leaflet incorporada ao JavaFX WebView
 │       ├── view         # telas FXML
-│       ├── web/graph    # gráfico experimental em Chart.js
-│       └── ruas.csv     # lista local de ruas
 └── test/java/org/example
     ├── model            # testes dos modelos, enums e permissões
     ├── service          # testes do serviço de reclamações
