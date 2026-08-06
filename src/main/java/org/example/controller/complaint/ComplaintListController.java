@@ -131,13 +131,10 @@ public class ComplaintListController {
     }
 
     private void configureDetails() {
-        detailsButton.disableProperty().bind(
-                complaintsTable.getSelectionModel().selectedItemProperty().isNull()
-        );
+        detailsButton.disableProperty().bind(complaintsTable.getSelectionModel().selectedItemProperty().isNull());
 
         complaintsTable.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2
-                    && complaintsTable.getSelectionModel().getSelectedItem() != null) {
+            if (event.getClickCount() == 2 && complaintsTable.getSelectionModel().getSelectedItem() != null) {
                 showDetails();
             }
         });
@@ -158,37 +155,21 @@ public class ComplaintListController {
 
     private void configureColumns() {
 
-        categoryColumn.setCellValueFactory(
-                new PropertyValueFactory<>("category")
-        );
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 
-        subcategoryColumn.setCellValueFactory(
-                new PropertyValueFactory<>("subcategory")
-        );
+        subcategoryColumn.setCellValueFactory(new PropertyValueFactory<>("subcategory"));
 
         locationColumn.setCellValueFactory(cell ->
-                new SimpleStringProperty(
-                        cell.getValue()
-                                .getLocation()
-                                .getAddress()
-                )
+            new SimpleStringProperty(cell.getValue().getLocation().getAddress())
         );
 
-        descriptionColumn.setCellValueFactory(
-                new PropertyValueFactory<>("description")
-        );
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        statusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("status")
-        );
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        priorityColumn.setCellValueFactory(
-                new PropertyValueFactory<>("priority")
-        );
+        priorityColumn.setCellValueFactory(new PropertyValueFactory<>("priority"));
 
-        dateColumn.setCellValueFactory(
-                new PropertyValueFactory<>("date")
-        );
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         configureStatusBadges();
         configurePriorityBadges();
@@ -197,40 +178,28 @@ public class ComplaintListController {
     private void loadComplaints() {
 
         complaints = FXCollections.observableArrayList(
-                ComplaintService.getComplaintsFor(UserSession.getLoggedUser())
+            ComplaintService.getComplaintsFor(UserSession.getLoggedUser())
         );
 
-        filteredList = new FilteredList<>(
-                complaints,
-                complaint -> true
-        );
+        filteredList = new FilteredList<>(complaints, complaint -> true);
 
         complaintsTable.setItems(filteredList);
     }
 
     private void configureFilters() {
 
-        categoryFilter.getItems().setAll(
-                ComplaintCategory.values()
-        );
+        categoryFilter.getItems().setAll(ComplaintCategory.values());
         subcategoryFilter.getItems().setAll(ComplaintSubcategory.values());
-
-        statusFilter.getItems().setAll(
-                ComplaintStatus.values()
-        );
-
-        priorityFilter.getItems().setAll(
-                ComplaintPriority.values()
-        );
-
+        statusFilter.getItems().setAll(ComplaintStatus.values());
+        priorityFilter.getItems().setAll(ComplaintPriority.values());
         searchField.textProperty().addListener((o,a,b)->applyFilters());
 
         categoryFilter.valueProperty().addListener((observable, oldCategory, newCategory) -> {
             updateSubcategoryFilter(newCategory);
             applyFilters();
         });
-        subcategoryFilter.valueProperty().addListener((o,a,b)->applyFilters());
 
+        subcategoryFilter.valueProperty().addListener((o,a,b)->applyFilters());
         statusFilter.valueProperty().addListener((o,a,b)->applyFilters());
         priorityFilter.valueProperty().addListener((o,a,b)->applyFilters());
         startDateFilter.valueProperty().addListener((o,a,b)->applyFilters());
@@ -241,9 +210,7 @@ public class ComplaintListController {
 
         LocalDate startDate = startDateFilter.getValue();
         LocalDate endDate = endDateFilter.getValue();
-        boolean invalidDateRange = startDate != null
-                && endDate != null
-                && startDate.isAfter(endDate);
+        boolean invalidDateRange = startDate != null && endDate != null && startDate.isAfter(endDate);
 
         dateRangeErrorLabel.setVisible(invalidDateRange);
         dateRangeErrorLabel.setManaged(invalidDateRange);
@@ -257,55 +224,40 @@ public class ComplaintListController {
 
             boolean matchesStatus = true;
             boolean matchesPriority = true;
-            boolean matchesDate = ComplaintService.isWithinDateRange(
-                    complaint,
-                    startDate,
-                    endDate
-            );
+            boolean matchesDate = ComplaintService.isWithinDateRange(complaint, startDate, endDate);
 
             if (!searchField.getText().isBlank()) {
 
-                String text =
-                        searchField.getText().toLowerCase();
+                String text = searchField.getText().toLowerCase();
 
-                matchesSearch =
-                        complaint.getDescription().toLowerCase().contains(text)
-                                ||
-                                complaint.getLocation().getAddress().toLowerCase().contains(text)
-                                ||
-                                complaint.getCategory().toString().toLowerCase().contains(text)
-                                ||
-                                complaint.getSubcategory() != null
-                                        && complaint.getSubcategory().toString().toLowerCase().contains(text);
+                matchesSearch = complaint.getDescription().toLowerCase().contains(text)
+                    ||
+                    complaint.getLocation().getAddress().toLowerCase().contains(text)
+                    ||
+                    complaint.getCategory().toString().toLowerCase().contains(text)
+                    ||
+                    complaint.getSubcategory() != null
+                        && complaint.getSubcategory().toString().toLowerCase().contains(text);
             }
 
             if (subcategoryFilter.getValue() != null) {
                 matchesSubcategory = complaint.getSubcategory() == subcategoryFilter.getValue();
             }
 
-            if(categoryFilter.getValue()!=null){
-
-                matchesCategory=
-                        complaint.getCategory()==categoryFilter.getValue();
+            if (categoryFilter.getValue() != null) {
+                matchesCategory = complaint.getCategory() == categoryFilter.getValue();
             }
 
-            if(statusFilter.getValue()!=null){
-
-                matchesStatus=
-                        complaint.getStatus()==statusFilter.getValue();
+            if (statusFilter.getValue() != null) {
+                matchesStatus = complaint.getStatus() == statusFilter.getValue();
             }
 
             if (priorityFilter.getValue() != null) {
                 matchesPriority = complaint.getPriority() == priorityFilter.getValue();
             }
 
-            return matchesSearch &&
-                    matchesCategory &&
-                    matchesSubcategory &&
-                    matchesStatus &&
-                    matchesPriority &&
-                    matchesDate;
-
+            return matchesSearch && matchesCategory && matchesSubcategory &&
+                matchesStatus && matchesPriority && matchesDate;
         });
     }
 
@@ -324,16 +276,15 @@ public class ComplaintListController {
         }
     }
 
-    private void configureStatusBadges(){
-
-        statusColumn.setCellFactory(column -> new TableCell<>(){
+    private void configureStatusBadges() {
+        statusColumn.setCellFactory(column -> new TableCell<>() {
 
             @Override
-            protected void updateItem(ComplaintStatus status, boolean empty){
+            protected void updateItem(ComplaintStatus status, boolean empty) {
 
                 super.updateItem(status,empty);
 
-                if(empty || status==null){
+                if (empty || status==null) {
 
                     setGraphic(null);
 
@@ -344,32 +295,22 @@ public class ComplaintListController {
 
                 badge.getStyleClass().add("status-badge");
 
-                switch(status){
+                switch(status) {
+                    case PENDENTE -> badge.getStyleClass().add("status-pending");
 
-                    case PENDENTE ->
-                            badge.getStyleClass().add("status-pending");
+                    case EM_ANALISE -> badge.getStyleClass().add("status-analysis");
 
-                    case EM_ANALISE ->
-                            badge.getStyleClass().add("status-analysis");
+                    case EM_EXECUCAO -> badge.getStyleClass().add("status-execution");
 
-                    case EM_EXECUCAO ->
-                            badge.getStyleClass().add("status-execution");
+                    case RESOLVIDO -> badge.getStyleClass().add("status-resolved");
 
-                    case RESOLVIDO ->
-                            badge.getStyleClass().add("status-resolved");
-
-                    case CANCELADO ->
-                            badge.getStyleClass().add("status-cancelled");
+                    case CANCELADO -> badge.getStyleClass().add("status-cancelled");
                 }
 
                 setGraphic(badge);
-
                 setText(null);
-
             }
-
         });
-
     }
 
     private void configurePriorityBadges() {
@@ -384,53 +325,44 @@ public class ComplaintListController {
                 }
 
                 Label badge = new Label(priority.toString());
-                badge.getStyleClass().addAll(
-                        "priority-badge",
-                        "priority-" + priority.name().toLowerCase()
-                );
+                badge.getStyleClass().addAll("priority-badge", "priority-" + priority.name().toLowerCase());
                 setGraphic(badge);
                 setText(null);
             }
         });
     }
 
-    private void configureActions(){
+    private void configureActions() {
+        actionColumn.setCellFactory(column -> new TableCell<>() {
 
-        actionColumn.setCellFactory(column -> new TableCell<>(){
-
-            private final MenuButton menu=new MenuButton("Ações");
+            private final MenuButton menu = new MenuButton("Ações");
 
             @Override
-            protected void updateItem(Void item,boolean empty){
+            protected void updateItem(Void item,boolean empty) {
 
                 super.updateItem(item,empty);
 
-                if(empty){
-
+                if (empty){
                     setGraphic(null);
-
                     return;
                 }
 
-                Complaint complaint=
-                        getTableView().getItems().get(getIndex());
+                Complaint complaint = getTableView().getItems().get(getIndex());
 
                 menu.getItems().clear();
 
-                for(ComplaintStatus status:ComplaintStatus.values()){
+                for(ComplaintStatus status:ComplaintStatus.values()) {
 
-                    MenuItem itemStatus=
-                            new MenuItem(status.toString());
+                    MenuItem itemStatus = new MenuItem(status.toString());
 
-                    itemStatus.setOnAction(e->{
+                    itemStatus.setOnAction(e-> {
 
                         if (complaint.getStatus() == status) {
                             return;
                         }
 
                         String note = "";
-                        if (status == ComplaintStatus.CANCELADO
-                                && complaint.getStatus() != ComplaintStatus.CANCELADO) {
+                        if (status == ComplaintStatus.CANCELADO && complaint.getStatus() != ComplaintStatus.CANCELADO) {
                             TextInputDialog dialog = new TextInputDialog();
                             dialog.setTitle("Cancelar reclamação");
                             dialog.setHeaderText("Informe a justificativa do cancelamento.");
@@ -445,32 +377,20 @@ public class ComplaintListController {
                             note = result.get();
                         }
 
-                        ComplaintService.updateStatus(
-                                complaint,
-                                status,
-                                UserSession.getLoggedUser(),
-                                note
-                        );
+                        ComplaintService.updateStatus(complaint, status, UserSession.getLoggedUser(), note);
 
                         complaintsTable.refresh();
                         NotificationManager.success("Status atualizado para " + status + ".");
-
                     });
-
                     menu.getItems().add(itemStatus);
-
                 }
-
                 setGraphic(menu);
-
             }
-
         });
-
     }
 
     @FXML
-    private void clearFilters(){
+    private void clearFilters() {
 
         searchField.clear();
 
@@ -491,9 +411,7 @@ public class ComplaintListController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/ComplaintDetails.fxml")
-            );
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ComplaintDetails.fxml"));
             Parent view = loader.load();
 
             ComplaintDetailsController controller = loader.getController();
@@ -510,11 +428,7 @@ public class ComplaintListController {
             complaintsTable.refresh();
             applyFilters();
         } catch (IOException exception) {
-            showAlert(
-                    Alert.AlertType.ERROR,
-                    "Erro",
-                    "Não foi possível abrir os detalhes da reclamação."
-            );
+            showAlert(Alert.AlertType.ERROR, "Erro", "Não foi possível abrir os detalhes da reclamação.");
             exception.printStackTrace();
         }
     }
@@ -522,20 +436,14 @@ public class ComplaintListController {
     @FXML
     private void exportCsv() {
         if (filteredList == null || filteredList.isEmpty()) {
-            showAlert(
-                    Alert.AlertType.INFORMATION,
-                    "Exportação",
-                    "Não há reclamações para exportar."
-            );
+            showAlert(Alert.AlertType.INFORMATION, "Exportação", "Não há reclamações para exportar.");
             return;
         }
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Exportar reclamações");
         fileChooser.setInitialFileName("reclamacoes-" + LocalDate.now() + ".csv");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Arquivo CSV (*.csv)", "*.csv")
-        );
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arquivo CSV (*.csv)", "*.csv"));
 
         File selectedFile = fileChooser.showSaveDialog(complaintsTable.getScene().getWindow());
         if (selectedFile == null) {
@@ -545,39 +453,31 @@ public class ComplaintListController {
         File destination = ensureCsvExtension(selectedFile);
         try {
             writeCsv(destination);
-            NotificationManager.success(
-                    filteredList.size() + " reclamação(ões) exportada(s) com sucesso."
-            );
+            NotificationManager.success(filteredList.size() + " reclamação(ões) exportada(s) com sucesso.");
         } catch (IOException exception) {
-            showAlert(
-                    Alert.AlertType.ERROR,
-                    "Erro na exportação",
-                    "Não foi possível salvar o arquivo:\n" + exception.getMessage()
-            );
+            showAlert(Alert.AlertType.ERROR, "Erro na exportação",
+                    "Não foi possível salvar o arquivo:\n" + exception.getMessage());
         }
     }
 
     private void writeCsv(File destination) throws IOException {
-        try (BufferedWriter writer = Files.newBufferedWriter(
-                destination.toPath(),
-                StandardCharsets.UTF_8
-        )) {
-            // BOM facilita a identificação de UTF-8 pelo Excel.
+        try (BufferedWriter writer = Files.newBufferedWriter(destination.toPath(), StandardCharsets.UTF_8)) {
+            // facilita a identificação de UTF-8 pelo Excel.
             writer.write('\uFEFF');
             writer.write("Categoria;Subcategoria;Prioridade;Endereço;Descrição;Status;Data");
             writer.newLine();
 
             for (Complaint complaint : filteredList) {
                 writer.write(String.join(";",
-                        csvValue(complaint.getCategory().toString()),
-                        csvValue(complaint.getSubcategory() == null
-                                ? ""
-                                : complaint.getSubcategory().toString()),
-                        csvValue(complaint.getPriority().toString()),
-                        csvValue(complaint.getLocation().getAddress()),
-                        csvValue(complaint.getDescription()),
-                        csvValue(complaint.getStatus().toString()),
-                        csvValue(complaint.getDate().toString())
+                    csvValue(complaint.getCategory().toString()),
+                    csvValue(complaint.getSubcategory() == null
+                        ? ""
+                        : complaint.getSubcategory().toString()),
+                    csvValue(complaint.getPriority().toString()),
+                    csvValue(complaint.getLocation().getAddress()),
+                    csvValue(complaint.getDescription()),
+                    csvValue(complaint.getStatus().toString()),
+                    csvValue(complaint.getDate().toString())
                 ));
                 writer.newLine();
             }
