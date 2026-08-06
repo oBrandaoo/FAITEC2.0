@@ -7,7 +7,7 @@
 <BorderPane fx:id="mainRoot"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.controller.MainController"
-            stylesheets="@../css/common.css,@../css/main.css,@../css/accessibility.css">
+            stylesheets="@../css/main.css,@../css/accessibility.css">
 
     <left>
 

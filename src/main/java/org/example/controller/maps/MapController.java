@@ -1,5 +1,13 @@
 package org.example.controller.maps;
 
+import java.util.function.Consumer;
+
+import org.example.model.Complaint;
+import org.example.model.Location;
+import org.example.model.enums.MapMode;
+import org.example.service.ComplaintService;
+import org.example.util.MapBridge;
+
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,13 +16,6 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
-import org.example.model.enums.MapMode;
-import org.example.model.Location;
-import org.example.model.Complaint;
-import org.example.service.ComplaintService;
-import org.example.util.MapBridge;
-
-import java.util.function.Consumer;
 
 public class MapController {
 
@@ -104,9 +105,6 @@ public class MapController {
     }
 
     public void notifyLocation(Location location) {
-
-        System.out.println("Location: " + location.getAddress());
-
         selectedLocation = location;
 
         addressLabel.setText(location.getAddress());
