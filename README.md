@@ -41,7 +41,7 @@ e `Cancelado`. As prioridades são: `Baixa`, `Média`, `Alta` e `Urgente`.
 A lista de reclamações possui:
 
 - pesquisa por descrição, endereço ou categoria;
-- filtros por categoria, status e prioridade;
+- filtros por categoria, status, prioridade e período de datas;
 - identificação visual de status e prioridade;
 - abertura dos detalhes por botão ou clique duplo;
 - ações de mudança de status para os perfis de gestão;
@@ -112,7 +112,7 @@ A classe principal configurada no Maven é `org.example.MainApp`.
 
 ## Testes automatizados
 
-A suíte possui 26 testes unitários distribuídos entre modelos, serviço de
+A suíte possui 30 testes unitários distribuídos entre modelos, serviço de
 reclamações, permissões e sessão do usuário.
 
 ```bash
@@ -126,6 +126,7 @@ Cobertura funcional da suíte:
 - edição dos dados da reclamação;
 - inclusão, substituição e imutabilidade da lista de anexos;
 - carregamento e filtragem dos mocks por perfil;
+- filtro por período com datas inclusivas e limites opcionais;
 - inclusão de reclamações na coleção em memória;
 - dados e senha do usuário;
 - matriz de permissões dos três perfis;
