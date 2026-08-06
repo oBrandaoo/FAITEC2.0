@@ -88,13 +88,10 @@ public class ComplaintFormController {
 
         ComplaintService.aplicarEmTodos(root);
 
-        categoryBox.getItems().setAll(
-                ComplaintCategory.values()
-        );
+        categoryBox.getItems().setAll(ComplaintCategory.values());
         subcategoryBox.setDisable(true);
         categoryBox.valueProperty().addListener((observable, oldCategory, newCategory) ->
-                updateSubcategories(newCategory)
-        );
+            updateSubcategories(newCategory));
         priorityBox.getItems().setAll(ComplaintPriority.values());
         priorityBox.setValue(ComplaintPriority.MEDIA);
 
@@ -114,13 +111,12 @@ public class ComplaintFormController {
         }
 
         setAddressSearchLoading(true);
-        CompletableFuture
-                .supplyAsync(() -> GeocodingService.search(address))
+        CompletableFuture.supplyAsync(() -> GeocodingService.search(address))
                 .thenAccept(location -> Platform.runLater(() -> {
                     setAddressSearchLoading(false);
                     if (location == null) {
                         NotificationManager.error(
-                                "Endereço não encontrado. Tente informar rua e número."
+                            "Endereço não encontrado. Tente informar rua e número."
                         );
                         return;
                     }
@@ -172,19 +168,15 @@ public class ComplaintFormController {
                 PENDENTE,
                 priorityBox.getValue(),
                 java.time.LocalDate.now(),
-                UserSession.getLoggedUser() == null
-                        ? "SYSTEM"
-                        : UserSession.getLoggedUser().getId(),
-                UserSession.getLoggedUser() == null
-                        ? "Sistema"
-                        : UserSession.getLoggedUser().getName()
+                UserSession.getLoggedUser() == null ? "SYSTEM"
+                    : UserSession.getLoggedUser().getId(),
+                UserSession.getLoggedUser() == null ? "Sistema"
+                    : UserSession.getLoggedUser().getName()
         );
 
         ComplaintService.addComplaint(complaint);
 
-        selectedAttachments.forEach(file ->
-                complaint.addAttachment(file.getAbsolutePath())
-        );
+        selectedAttachments.forEach(file -> complaint.addAttachment(file.getAbsolutePath()));
 
         clearForm();
         NotificationManager.success("Reclamação registrada com sucesso.");
@@ -203,30 +195,28 @@ public class ComplaintFormController {
         setSelectedLocation(complaint.getLocation());
 
         selectedAttachments.clear();
-        complaint.getAttachmentPaths().stream()
-                .map(File::new)
-                .filter(File::isFile)
-                .forEach(selectedAttachments::add);
+        complaint.getAttachmentPaths().stream().map(File::new)
+            .filter(File::isFile).forEach(selectedAttachments::add);
         refreshAttachmentPreview();
     }
 
     private void saveEditingComplaint() {
         String responsible = UserSession.getLoggedUser() == null
-                ? "Sistema"
-                : UserSession.getLoggedUser().getName();
+            ? "Sistema"
+            : UserSession.getLoggedUser().getName();
 
         boolean detailsChanged = editingComplaint.updateDetails(
-                categoryBox.getValue(),
-                subcategoryBox.getValue(),
-                selectedLocation,
-                descriptionArea.getText().trim(),
-                priorityBox.getValue(),
-                responsible
+            categoryBox.getValue(),
+            subcategoryBox.getValue(),
+            selectedLocation,
+            descriptionArea.getText().trim(),
+            priorityBox.getValue(),
+            responsible
         );
 
         List<String> paths = selectedAttachments.stream()
-                .map(File::getAbsolutePath)
-                .toList();
+            .map(File::getAbsolutePath)
+            .toList();
         boolean attachmentsChanged = editingComplaint.replaceAttachments(paths);
         if (attachmentsChanged) {
             editingComplaint.addHistoryNote(responsible, "Fotos da reclamação atualizadas.");
@@ -246,7 +236,7 @@ public class ComplaintFormController {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Selecionar fotos");
         chooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Imagens (*.png, *.jpg, *.jpeg)", "*.png", "*.jpg", "*.jpeg")
+            new FileChooser.ExtensionFilter("Imagens (*.png, *.jpg, *.jpeg)", "*.png", "*.jpg", "*.jpeg")
         );
 
         List<File> files = chooser.showOpenMultipleDialog(addressField.getScene().getWindow());
@@ -264,7 +254,7 @@ public class ComplaintFormController {
                 continue;
             }
             boolean alreadySelected = selectedAttachments.stream()
-                    .anyMatch(selected -> selected.getAbsolutePath().equals(file.getAbsolutePath()));
+                .anyMatch(selected -> selected.getAbsolutePath().equals(file.getAbsolutePath()));
             if (!alreadySelected) {
                 selectedAttachments.add(file);
             }
@@ -276,9 +266,7 @@ public class ComplaintFormController {
         attachmentPreview.getChildren().clear();
 
         for (File file : selectedAttachments) {
-            ImageView imageView = new ImageView(
-                    new Image(file.toURI().toString(), 82, 68, true, true)
-            );
+            ImageView imageView = new ImageView(new Image(file.toURI().toString(), 82, 68, true, true));
             imageView.setFitWidth(82);
             imageView.setFitHeight(68);
             imageView.setPreserveRatio(true);
@@ -295,8 +283,7 @@ public class ComplaintFormController {
             imageBox.getStyleClass().add("attachment-image-box");
 
             String displayName = file.getName().length() > 15
-                    ? file.getName().substring(0, 12) + "..."
-                    : file.getName();
+                ? file.getName().substring(0, 12) + "..." : file.getName();
             Label nameLabel = new Label(displayName);
             nameLabel.getStyleClass().add("attachment-name");
 
