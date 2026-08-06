@@ -130,6 +130,21 @@ public class ComplaintService {
                 .toList();
     }
 
+    public static boolean isWithinDateRange(
+            Complaint complaint,
+            LocalDate startDate,
+            LocalDate endDate
+    ) {
+        if (complaint == null || complaint.getDate() == null) {
+            return false;
+        }
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            return false;
+        }
+        return (startDate == null || !complaint.getDate().isBefore(startDate))
+                && (endDate == null || !complaint.getDate().isAfter(endDate));
+    }
+
     public static void updateStatus(
             Complaint complaint,
             ComplaintStatus newStatus,

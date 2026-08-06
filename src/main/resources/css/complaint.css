@@ -20,6 +20,17 @@
     -fx-font-size: 13px;
 }
 
+.filter-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748B;
+}
+
+.filter-error {
+    -fx-font-size: 11px;
+    -fx-text-fill: #B91C1C;
+}
+
 .label {
     -fx-font-weight: bold;
 }

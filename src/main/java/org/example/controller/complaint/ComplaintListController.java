@@ -27,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -56,6 +57,15 @@ public class ComplaintListController {
 
     @FXML
     private ComboBox<ComplaintPriority> priorityFilter;
+
+    @FXML
+    private DatePicker startDateFilter;
+
+    @FXML
+    private DatePicker endDateFilter;
+
+    @FXML
+    private Label dateRangeErrorLabel;
 
     @FXML
     private TableView<Complaint> complaintsTable;
@@ -207,9 +217,20 @@ public class ComplaintListController {
 
         statusFilter.valueProperty().addListener((o,a,b)->applyFilters());
         priorityFilter.valueProperty().addListener((o,a,b)->applyFilters());
+        startDateFilter.valueProperty().addListener((o,a,b)->applyFilters());
+        endDateFilter.valueProperty().addListener((o,a,b)->applyFilters());
     }
 
     private void applyFilters() {
+
+        LocalDate startDate = startDateFilter.getValue();
+        LocalDate endDate = endDateFilter.getValue();
+        boolean invalidDateRange = startDate != null
+                && endDate != null
+                && startDate.isAfter(endDate);
+
+        dateRangeErrorLabel.setVisible(invalidDateRange);
+        dateRangeErrorLabel.setManaged(invalidDateRange);
 
         filteredList.setPredicate(complaint -> {
 
@@ -219,6 +240,11 @@ public class ComplaintListController {
 
             boolean matchesStatus = true;
             boolean matchesPriority = true;
+            boolean matchesDate = ComplaintService.isWithinDateRange(
+                    complaint,
+                    startDate,
+                    endDate
+            );
 
             if (!searchField.getText().isBlank()) {
 
@@ -252,7 +278,8 @@ public class ComplaintListController {
             return matchesSearch &&
                     matchesCategory &&
                     matchesStatus &&
-                    matchesPriority;
+                    matchesPriority &&
+                    matchesDate;
 
         });
     }
@@ -411,6 +438,8 @@ public class ComplaintListController {
 
         statusFilter.setValue(null);
         priorityFilter.setValue(null);
+        startDateFilter.setValue(null);
+        endDateFilter.setValue(null);
     }
 
     @FXML

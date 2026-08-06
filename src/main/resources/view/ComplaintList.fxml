@@ -26,7 +26,8 @@
                    fx:id="subtitleLabel"
                    styleClass="subtitle"/>
 
-            <HBox spacing="12" alignment="CENTER_LEFT">
+            <VBox spacing="10">
+              <HBox spacing="12" alignment="CENTER_LEFT">
 
                 <TextField fx:id="searchField"
                            promptText="Pesquisar reclamação..."
@@ -44,6 +45,32 @@
                           promptText="Prioridade"
                           prefWidth="130"/>
 
+              </HBox>
+
+              <HBox spacing="10" alignment="CENTER_LEFT">
+
+                <Label text="Período:" styleClass="filter-label"/>
+
+                <DatePicker fx:id="startDateFilter"
+                            promptText="Data inicial"
+                            accessibleText="Data inicial do período"
+                            prefWidth="145"/>
+
+                <Label text="até" styleClass="filter-label"/>
+
+                <DatePicker fx:id="endDateFilter"
+                            promptText="Data final"
+                            accessibleText="Data final do período"
+                            prefWidth="145"/>
+
+                <Label fx:id="dateRangeErrorLabel"
+                       text="A data inicial deve ser anterior à final."
+                       visible="false"
+                       managed="false"
+                       styleClass="filter-error"/>
+
+                <Pane HBox.hgrow="ALWAYS"/>
+
                 <Button text="Limpar"
                         onAction="#clearFilters"/>
 
@@ -56,7 +83,8 @@
                         disable="true"
                         onAction="#showDetails"/>
 
-            </HBox>
+              </HBox>
+            </VBox>
 
             <TableView fx:id="complaintsTable"
                        VBox.vgrow="ALWAYS">

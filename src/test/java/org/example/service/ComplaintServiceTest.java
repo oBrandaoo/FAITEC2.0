@@ -77,6 +77,66 @@ class ComplaintServiceTest {
     }
 
     @Test
+    void dateFilterShouldIncludeInitialAndFinalDates() {
+        Complaint complaint = complaintOn(LocalDate.of(2026, 8, 6));
+
+        assertTrue(ComplaintService.isWithinDateRange(
+                complaint,
+                LocalDate.of(2026, 8, 6),
+                LocalDate.of(2026, 8, 6)
+        ));
+    }
+
+    @Test
+    void dateFilterShouldRejectDatesOutsideThePeriod() {
+        Complaint complaint = complaintOn(LocalDate.of(2026, 8, 6));
+
+        assertFalse(ComplaintService.isWithinDateRange(
+                complaint,
+                LocalDate.of(2026, 8, 7),
+                null
+        ));
+        assertFalse(ComplaintService.isWithinDateRange(
+                complaint,
+                null,
+                LocalDate.of(2026, 8, 5)
+        ));
+    }
+
+    @Test
+    void dateFilterShouldSupportOpenPeriods() {
+        Complaint complaint = complaintOn(LocalDate.of(2026, 8, 6));
+
+        assertTrue(ComplaintService.isWithinDateRange(complaint, null, null));
+        assertTrue(ComplaintService.isWithinDateRange(
+                complaint,
+                LocalDate.of(2026, 8, 1),
+                null
+        ));
+        assertTrue(ComplaintService.isWithinDateRange(
+                complaint,
+                null,
+                LocalDate.of(2026, 8, 10)
+        ));
+    }
+
+    @Test
+    void dateFilterShouldRejectInvalidPeriodOrNullComplaint() {
+        Complaint complaint = complaintOn(LocalDate.of(2026, 8, 6));
+
+        assertFalse(ComplaintService.isWithinDateRange(
+                complaint,
+                LocalDate.of(2026, 8, 10),
+                LocalDate.of(2026, 8, 1)
+        ));
+        assertFalse(ComplaintService.isWithinDateRange(
+                null,
+                LocalDate.of(2026, 8, 1),
+                LocalDate.of(2026, 8, 10)
+        ));
+    }
+
+    @Test
     void shouldAddComplaintToInMemoryCollection() {
         int initialSize = ComplaintService.getAllComplaints().size();
         addedComplaint = complaint();
@@ -136,13 +196,17 @@ class ComplaintServiceTest {
     }
 
     private Complaint complaint() {
+        return complaintOn(LocalDate.now());
+    }
+
+    private Complaint complaintOn(LocalDate date) {
         return new Complaint(
                 ComplaintCategory.ESGOTO,
                 new Location(-22.25, -45.70, "Santa Rita do Sapucaí/MG"),
                 "Reclamação criada pelo teste.",
                 ComplaintStatus.PENDENTE,
                 ComplaintPriority.MEDIA,
-                LocalDate.now(),
+                date,
                 "USR-TEST",
                 "Usuário de teste"
         );
