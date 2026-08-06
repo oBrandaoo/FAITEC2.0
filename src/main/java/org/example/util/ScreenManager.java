@@ -1,11 +1,11 @@
 package org.example.util;
 
-import javafx.fxml.FXML;
+import org.example.model.User;
+import org.example.model.enums.UserRole;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import org.example.model.User;
-import org.example.model.enums.UserRole;
 
 public class ScreenManager {
 
@@ -38,9 +38,5 @@ public class ScreenManager {
                 ? "CitizenHome.fxml"
                 : "Home.fxml";
         loadScreen(home);
-    }
-
-    public interface DataReceiver<T> {
-        void setData(T data);
     }
 }

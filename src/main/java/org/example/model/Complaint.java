@@ -61,10 +61,6 @@ public class Complaint {
         ));
     }
 
-    public void setCategory(ComplaintCategory category) {
-        this.category = category;
-    }
-
     public void changeStatus(
             ComplaintStatus newStatus,
             String responsible,
