@@ -22,7 +22,7 @@ notificação em toast.
 
 ### Reclamações
 
-- cadastro com categoria, prioridade, descrição e localização;
+- cadastro com categoria, subcategoria opcional dependente, prioridade, descrição e localização;
 - busca de endereço restrita ao contexto de Santa Rita do Sapucaí;
 - seleção de localização em uma janela de mapa;
 - inclusão de até quatro imagens PNG ou JPEG, limitadas a 5 MB cada;
@@ -35,13 +35,16 @@ notificação em toast.
 
 Os status disponíveis são: `Pendente`, `Em análise`, `Em execução`, `Resolvido`
 e `Cancelado`. As prioridades são: `Baixa`, `Média`, `Alta` e `Urgente`.
+As categorias possuem um catálogo fixo de subcategorias opcionais. Entre elas está
+`Trânsito e mobilidade`, com opções para semáforo, sinalização, faixa de
+pedestres, veículo abandonado e congestionamento recorrente.
 
 ### Consulta e exportação
 
 A lista de reclamações possui:
 
-- pesquisa por descrição, endereço ou categoria;
-- filtros por categoria, status, prioridade e período de datas;
+- pesquisa por descrição, endereço, categoria ou subcategoria;
+- filtros por categoria, subcategoria, status, prioridade e período de datas;
 - identificação visual de status e prioridade;
 - abertura dos detalhes por botão ou clique duplo;
 - ações de mudança de status para os perfis de gestão;
@@ -112,7 +115,7 @@ A classe principal configurada no Maven é `org.example.MainApp`.
 
 ## Testes automatizados
 
-A suíte possui 30 testes unitários distribuídos entre modelos, serviço de
+A suíte possui 33 testes unitários distribuídos entre modelos, serviço de
 reclamações, permissões e sessão do usuário.
 
 ```bash
@@ -124,6 +127,7 @@ Cobertura funcional da suíte:
 - criação e histórico inicial de reclamações;
 - mudanças de status e responsável pela alteração;
 - edição dos dados da reclamação;
+- vínculo e validação entre categorias e subcategorias;
 - inclusão, substituição e imutabilidade da lista de anexos;
 - carregamento e filtragem dos mocks por perfil;
 - filtro por período com datas inclusivas e limites opcionais;
