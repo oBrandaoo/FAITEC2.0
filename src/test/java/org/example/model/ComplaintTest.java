@@ -3,6 +3,7 @@ package org.example.model;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
+import org.example.model.enums.ComplaintSubcategory;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ class ComplaintTest {
 
         assertAll(
                 () -> assertEquals(ComplaintCategory.BURACO_RUA, complaint.getCategory()),
+                () -> assertEquals(ComplaintSubcategory.BURACO_EM_VIA, complaint.getSubcategory()),
                 () -> assertEquals(ComplaintPriority.ALTA, complaint.getPriority()),
                 () -> assertEquals(ComplaintStatus.PENDENTE, complaint.getStatus()),
                 () -> assertEquals(registrationDate, complaint.getDate()),
@@ -76,6 +78,7 @@ class ComplaintTest {
 
         boolean changed = complaint.updateDetails(
                 ComplaintCategory.ILUMINACAO_PUBLICA,
+                ComplaintSubcategory.POSTE_APAGADO,
                 newLocation,
                 "Poste apagado durante a noite.",
                 ComplaintPriority.URGENTE,
@@ -85,6 +88,7 @@ class ComplaintTest {
         assertTrue(changed);
         assertAll(
                 () -> assertEquals(ComplaintCategory.ILUMINACAO_PUBLICA, complaint.getCategory()),
+                () -> assertEquals(ComplaintSubcategory.POSTE_APAGADO, complaint.getSubcategory()),
                 () -> assertEquals(newLocation, complaint.getLocation()),
                 () -> assertEquals("Poste apagado durante a noite.", complaint.getDescription()),
                 () -> assertEquals(ComplaintPriority.URGENTE, complaint.getPriority()),
@@ -104,6 +108,7 @@ class ComplaintTest {
 
         boolean changed = complaint.updateDetails(
                 complaint.getCategory(),
+                complaint.getSubcategory(),
                 equivalentLocation,
                 complaint.getDescription(),
                 complaint.getPriority(),
@@ -153,9 +158,41 @@ class ComplaintTest {
         );
     }
 
+    @Test
+    void shouldRejectSubcategoryFromAnotherCategory() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Complaint(
+                        ComplaintCategory.ESGOTO,
+                        ComplaintSubcategory.SEMAFORO_DEFEITO,
+                        new Location(-22.25, -45.70, "Santa Rita do Sapucaí/MG"),
+                        "Classificação inválida.",
+                        ComplaintStatus.PENDENTE,
+                        ComplaintPriority.MEDIA,
+                        LocalDate.now()
+                )
+        );
+    }
+
+    @Test
+    void shouldAllowComplaintWithoutSubcategory() {
+        Complaint complaint = new Complaint(
+                ComplaintCategory.TRANSITO_MOBILIDADE,
+                null,
+                new Location(-22.25, -45.70, "Santa Rita do Sapucaí/MG"),
+                "Problema de trânsito ainda não classificado.",
+                ComplaintStatus.PENDENTE,
+                ComplaintPriority.MEDIA,
+                LocalDate.now()
+        );
+
+        assertNull(complaint.getSubcategory());
+    }
+
     private Complaint complaint(LocalDate date) {
         return new Complaint(
                 ComplaintCategory.BURACO_RUA,
+                ComplaintSubcategory.BURACO_EM_VIA,
                 new Location(
                         -22.252218,
                         -45.703128,

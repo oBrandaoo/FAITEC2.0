@@ -3,6 +3,7 @@ package org.example.model;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
+import org.example.model.enums.ComplaintSubcategory;
 import org.example.model.enums.UserRole;
 import org.example.model.enums.UserStatus;
 import org.junit.jupiter.api.Test;
@@ -64,9 +65,24 @@ class UserAndEnumsTest {
                 () -> assertEquals("Administrador", UserRole.ADMINISTRADOR.toString()),
                 () -> assertEquals("Ativa", UserStatus.ATIVA.toString()),
                 () -> assertEquals("Buraco na rua", ComplaintCategory.BURACO_RUA.toString()),
+                () -> assertEquals("Trânsito e mobilidade", ComplaintCategory.TRANSITO_MOBILIDADE.toString()),
+                () -> assertEquals("Semáforo com defeito", ComplaintSubcategory.SEMAFORO_DEFEITO.toString()),
                 () -> assertEquals("Urgente", ComplaintPriority.URGENTE.toString()),
                 () -> assertEquals("Em análise", ComplaintStatus.EM_ANALISE.toString())
         );
+    }
+
+    @Test
+    void subcategoriesShouldBeGroupedByCategory() {
+        var trafficSubcategories = ComplaintSubcategory.forCategory(
+                ComplaintCategory.TRANSITO_MOBILIDADE
+        );
+
+        assertEquals(5, trafficSubcategories.size());
+        assertTrue(trafficSubcategories.stream().allMatch(subcategory ->
+                subcategory.belongsTo(ComplaintCategory.TRANSITO_MOBILIDADE)
+        ));
+        assertTrue(ComplaintSubcategory.forCategory(null).isEmpty());
     }
 
     @Test

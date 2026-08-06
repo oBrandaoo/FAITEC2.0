@@ -6,6 +6,7 @@ import org.example.model.User;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
+import org.example.model.enums.ComplaintSubcategory;
 import org.example.model.enums.UserRole;
 import org.example.model.enums.UserStatus;
 import org.junit.jupiter.api.AfterEach;
@@ -40,6 +41,10 @@ class ComplaintServiceTest {
         ));
         assertTrue(complaints.stream().anyMatch(item ->
                 item.getStatus() == ComplaintStatus.RESOLVIDO
+        ));
+        assertTrue(complaints.stream().anyMatch(item ->
+                item.getCategory() == ComplaintCategory.TRANSITO_MOBILIDADE
+                        && item.getSubcategory() == ComplaintSubcategory.SEMAFORO_DEFEITO
         ));
     }
 
@@ -202,6 +207,7 @@ class ComplaintServiceTest {
     private Complaint complaintOn(LocalDate date) {
         return new Complaint(
                 ComplaintCategory.ESGOTO,
+                ComplaintSubcategory.VAZAMENTO_ESGOTO,
                 new Location(-22.25, -45.70, "Santa Rita do Sapucaí/MG"),
                 "Reclamação criada pelo teste.",
                 ComplaintStatus.PENDENTE,
