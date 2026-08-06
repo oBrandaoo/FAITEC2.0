@@ -60,12 +60,6 @@
     -fx-background-color: #EEF4FF;
 }
 
-.form-scroll {
-    -fx-background-color: transparent;
-    -fx-background: transparent;
-    -fx-border-color: transparent;
-}
-
 .complaint-form-scroll {
     -fx-background-color: transparent;
     -fx-background: #F3F6FA;

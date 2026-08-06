@@ -21,12 +21,6 @@
     -fx-padding: 0;
 }
 
-.about-title {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #0F172A;
-}
-
 .about-subtitle {
     -fx-font-size: 15px;
     -fx-text-fill: #64748B;

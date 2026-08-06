@@ -25,11 +25,6 @@
     -fx-padding: 0;
 }
 
-.brand-caption, .location-caption {
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(255, 255, 255, 0.72);
-}
-
 .hero-title {
     -fx-font-size: 34px;
     -fx-font-weight: bold;
