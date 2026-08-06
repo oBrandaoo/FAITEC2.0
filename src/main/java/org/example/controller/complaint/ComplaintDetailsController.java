@@ -75,16 +75,13 @@ public class ComplaintDetailsController {
     public void setComplaint(Complaint complaint) {
         this.complaint = complaint;
         categoryLabel.setText(complaint.getCategory().toString());
-        subcategoryLabel.setText(complaint.getSubcategory() == null
-                ? "Não informada"
-                : complaint.getSubcategory().toString());
+        subcategoryLabel.setText(complaint.getSubcategory() == null ? "Não informada" 
+            : complaint.getSubcategory().toString());
         priorityLabel.setText(complaint.getPriority().toString());
         dateLabel.setText(complaint.getDate().toString());
         addressLabel.setText(complaint.getLocation().getAddress());
-        coordinatesLabel.setText(String.format(
-                "%.6f, %.6f",
-                complaint.getLocation().getLatitude(),
-                complaint.getLocation().getLongitude()
+        coordinatesLabel.setText(String.format("%.6f, %.6f", complaint.getLocation().getLatitude(),
+            complaint.getLocation().getLongitude()
         ));
         descriptionArea.setText(complaint.getDescription());
         statusBox.setValue(complaint.getStatus());
@@ -96,10 +93,7 @@ public class ComplaintDetailsController {
     @FXML
     private void showOnMap() {
         if (complaint != null) {
-            MapDialog.showLocation(
-                    complaint.getLocation(),
-                    categoryLabel.getScene().getWindow()
-            );
+            MapDialog.showLocation(complaint.getLocation(), categoryLabel.getScene().getWindow());
         }
     }
 
@@ -113,11 +107,8 @@ public class ComplaintDetailsController {
 
     private boolean canCitizenModify() {
         User user = UserSession.getLoggedUser();
-        return complaint != null
-                && user != null
-                && user.getRole() == UserRole.CIDADAO
-                && user.getId().equals(complaint.getCreatorId())
-                && complaint.getStatus() == ComplaintStatus.PENDENTE;
+        return complaint != null && user != null && user.getRole() == UserRole.CIDADAO
+            && user.getId().equals(complaint.getCreatorId()) && complaint.getStatus() == ComplaintStatus.PENDENTE;
     }
 
     @FXML
@@ -128,9 +119,7 @@ public class ComplaintDetailsController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/ComplaintForm.fxml")
-            );
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ComplaintForm.fxml"));
             Parent view = loader.load();
             ComplaintFormController controller = loader.getController();
             controller.setEditingComplaint(complaint);
@@ -177,12 +166,8 @@ public class ComplaintDetailsController {
             return;
         }
 
-        ComplaintService.updateStatus(
-                complaint,
-                ComplaintStatus.CANCELADO,
-                UserSession.getLoggedUser(),
-                result.get()
-        );
+        ComplaintService.updateStatus(complaint, ComplaintStatus.CANCELADO,
+            UserSession.getLoggedUser(), result.get());
         NotificationManager.success("Reclamação cancelada.");
         close();
     }
@@ -200,10 +185,7 @@ public class ComplaintDetailsController {
         }
 
         if (newStatus == ComplaintStatus.CANCELADO && noteArea.getText().isBlank()) {
-            Alert alert = new Alert(
-                    Alert.AlertType.WARNING,
-                    "Informe uma justificativa para cancelar a reclamação."
-            );
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Informe uma justificativa para cancelar a reclamação.");
             alert.setHeaderText(null);
             alert.initOwner(categoryLabel.getScene().getWindow());
             alert.initModality(Modality.WINDOW_MODAL);
@@ -211,21 +193,16 @@ public class ComplaintDetailsController {
             return;
         }
 
-        ComplaintService.updateStatus(
-                complaint,
-                newStatus,
-                UserSession.getLoggedUser(),
-                noteArea.getText()
-        );
+        ComplaintService.updateStatus(complaint, newStatus, UserSession.getLoggedUser(), noteArea.getText());
         NotificationManager.success("Status da reclamação atualizado.");
         close();
     }
 
     private void loadHistory() {
         var items = complaint.getHistory().stream()
-                .sorted(Comparator.comparing(ComplaintHistoryEntry::getChangedAt).reversed())
-                .map(this::formatHistoryEntry)
-                .toList();
+            .sorted(Comparator.comparing(ComplaintHistoryEntry::getChangedAt).reversed())
+            .map(this::formatHistoryEntry)
+            .toList();
         historyList.setItems(FXCollections.observableArrayList(items));
     }
 
@@ -238,9 +215,7 @@ public class ComplaintDetailsController {
                 continue;
             }
 
-            ImageView thumbnail = new ImageView(
-                    new Image(file.toURI().toString(), 112, 86, true, true)
-            );
+            ImageView thumbnail = new ImageView(new Image(file.toURI().toString(), 112, 86, true, true));
             thumbnail.setFitWidth(112);
             thumbnail.setFitHeight(86);
             thumbnail.setPreserveRatio(true);
@@ -264,9 +239,7 @@ public class ComplaintDetailsController {
         StackPane root = new StackPane(imageView);
         root.getStyleClass().add("image-viewer");
         Scene scene = new Scene(root, 900, 640);
-        scene.getStylesheets().add(
-                getClass().getResource("/css/complaint.css").toExternalForm()
-        );
+        scene.getStylesheets().add(getClass().getResource("/css/complaint.css").toExternalForm());
 
         Stage dialog = new Stage();
         dialog.initOwner(categoryLabel.getScene().getWindow());
@@ -278,15 +251,11 @@ public class ComplaintDetailsController {
 
     private String formatHistoryEntry(ComplaintHistoryEntry entry) {
         String transition = entry.getPreviousStatus() == null
-                ? entry.getNewStatus().toString()
-                : entry.getPreviousStatus() == entry.getNewStatus()
-                        ? "Atualização da reclamação"
-                        : entry.getPreviousStatus() + "  →  " + entry.getNewStatus();
+            ? entry.getNewStatus().toString() : entry.getPreviousStatus() == entry.getNewStatus()
+                ? "Atualização da reclamação" : entry.getPreviousStatus() + "  →  " + entry.getNewStatus();
         String note = entry.getNote().isBlank() ? "" : "\n" + entry.getNote();
         return HISTORY_DATE_FORMAT.format(entry.getChangedAt())
-                + "  •  " + entry.getResponsible()
-                + "\n" + transition
-                + note;
+                + "  •  " + entry.getResponsible() + "\n" + transition + note;
     }
 
     @FXML
