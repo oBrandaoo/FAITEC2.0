@@ -1,8 +1,8 @@
 package org.example.model;
 
-import org.example.model.enums.ComplaintStatus;
-
 import java.time.LocalDateTime;
+
+import org.example.model.enums.ComplaintStatus;
 
 public class ComplaintHistoryEntry {
     private final LocalDateTime changedAt;
@@ -11,13 +11,8 @@ public class ComplaintHistoryEntry {
     private final String responsible;
     private final String note;
 
-    public ComplaintHistoryEntry(
-            LocalDateTime changedAt,
-            ComplaintStatus previousStatus,
-            ComplaintStatus newStatus,
-            String responsible,
-            String note
-    ) {
+    public ComplaintHistoryEntry(LocalDateTime changedAt, ComplaintStatus previousStatus,
+        ComplaintStatus newStatus, String responsible, String note) {
         this.changedAt = changedAt;
         this.previousStatus = previousStatus;
         this.newStatus = newStatus;

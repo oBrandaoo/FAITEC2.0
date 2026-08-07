@@ -51,8 +51,7 @@ public enum ComplaintSubcategory {
             return List.of();
         }
         return Arrays.stream(values())
-                .filter(subcategory -> subcategory.belongsTo(category))
-                .toList();
+            .filter(subcategory -> subcategory.belongsTo(category)).toList();
     }
 
     @Override

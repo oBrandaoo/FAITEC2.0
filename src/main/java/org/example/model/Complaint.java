@@ -25,29 +25,14 @@ public class Complaint {
     private final List<String> attachmentPaths = new ArrayList<>();
     private final List<ComplaintHistoryEntry> history = new ArrayList<>();
 
-    public Complaint(
-            ComplaintCategory category,
-            ComplaintSubcategory subcategory,
-            Location location,
-            String description,
-            ComplaintStatus status,
-            ComplaintPriority priority,
-            LocalDate date
-    ) {
+    public Complaint(ComplaintCategory category, ComplaintSubcategory subcategory, Location location, 
+        String description, ComplaintStatus status, ComplaintPriority priority, LocalDate date) {
         this(category, subcategory, location, description, status, priority, date, "SYSTEM", "Sistema");
     }
 
-    public Complaint(
-            ComplaintCategory category,
-            ComplaintSubcategory subcategory,
-            Location location,
-            String description,
-            ComplaintStatus status,
-            ComplaintPriority priority,
-            LocalDate date,
-            String creatorId,
-            String creatorName
-    ) {
+    public Complaint(ComplaintCategory category, ComplaintSubcategory subcategory, Location location,
+        String description, ComplaintStatus status, ComplaintPriority priority, LocalDate date,
+        String creatorId, String creatorName) {
         validateClassification(category, subcategory);
         this.category = category;
         this.subcategory = subcategory;
@@ -58,49 +43,29 @@ public class Complaint {
         this.date = date;
         this.creatorId = creatorId;
         this.creatorName = creatorName;
-        history.add(new ComplaintHistoryEntry(
-                date.atStartOfDay(),
-                null,
-                status,
-                creatorName,
-                "Reclamação registrada."
-        ));
+        history.add(new ComplaintHistoryEntry(date.atStartOfDay(), null, status,
+            creatorName,"Reclamação registrada."));
     }
 
-    public void changeStatus(
-            ComplaintStatus newStatus,
-            String responsible,
-            String note
-    ) {
+    public void changeStatus(ComplaintStatus newStatus, String responsible, String note) {
         if (newStatus == null || newStatus == status) {
             return;
         }
 
         ComplaintStatus previousStatus = status;
         status = newStatus;
-        history.add(new ComplaintHistoryEntry(
-                LocalDateTime.now(),
-                previousStatus,
-                newStatus,
-                responsible,
-                note == null ? "" : note.trim()
-        ));
+        history.add(new ComplaintHistoryEntry(LocalDateTime.now(), previousStatus,
+            newStatus, responsible, note == null ? "" : note.trim()));
     }
 
-    public boolean updateDetails(
-            ComplaintCategory newCategory,
-            ComplaintSubcategory newSubcategory,
-            Location newLocation,
-            String newDescription,
-            ComplaintPriority newPriority,
-            String responsible
-    ) {
+    public boolean updateDetails(ComplaintCategory newCategory, ComplaintSubcategory newSubcategory,
+            Location newLocation, String newDescription, ComplaintPriority newPriority, String responsible) {
         validateClassification(newCategory, newSubcategory);
         boolean changed = category != newCategory
-                || subcategory != newSubcategory
-                || priority != newPriority
-                || !Objects.equals(description, newDescription)
-                || !sameLocation(location, newLocation);
+            || subcategory != newSubcategory
+            || priority != newPriority
+            || !Objects.equals(description, newDescription)
+            || !sameLocation(location, newLocation);
         if (!changed) {
             return false;
         }
@@ -115,13 +80,7 @@ public class Complaint {
     }
 
     public void addHistoryNote(String responsible, String note) {
-        history.add(new ComplaintHistoryEntry(
-                LocalDateTime.now(),
-                status,
-                status,
-                responsible,
-                note
-        ));
+        history.add(new ComplaintHistoryEntry(LocalDateTime.now(), status, status, responsible, note));
     }
 
     private boolean sameLocation(Location first, Location second) {
@@ -144,10 +103,7 @@ public class Complaint {
         return subcategory;
     }
 
-    private static void validateClassification(
-            ComplaintCategory category,
-            ComplaintSubcategory subcategory
-    ) {
+    private static void validateClassification(ComplaintCategory category, ComplaintSubcategory subcategory) {
         Objects.requireNonNull(category, "A categoria é obrigatória.");
         if (subcategory != null && !subcategory.belongsTo(category)) {
             throw new IllegalArgumentException("A subcategoria não pertence à categoria selecionada.");

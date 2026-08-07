@@ -10,12 +10,8 @@ public enum UserRole {
     private final boolean canManageComplaints;
     private final boolean canViewMap;
 
-    UserRole(
-            String displayName,
-            boolean canCreateComplaint,
-            boolean canManageComplaints,
-            boolean canViewMap
-    ) {
+    UserRole(String displayName, boolean canCreateComplaint, boolean canManageComplaints,
+        boolean canViewMap) {
         this.displayName = displayName;
         this.canCreateComplaint = canCreateComplaint;
         this.canManageComplaints = canManageComplaints;
