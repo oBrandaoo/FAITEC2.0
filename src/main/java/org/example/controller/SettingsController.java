@@ -53,7 +53,7 @@ public class SettingsController {
         fontSizeBox.setValue(AccessibilityManager.getFontSize());
 
         fontSizeBox.valueProperty().addListener(
-                (observable, oldValue, newValue) -> AccessibilityManager.setFontSize(newValue)
+            (observable, oldValue, newValue) -> AccessibilityManager.setFontSize(newValue)
         );
     }
 
@@ -61,20 +61,12 @@ public class SettingsController {
     private void logout(ActionEvent event) {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
-        ButtonType confirmButton = new ButtonType(
-                "Sair",
-                ButtonBar.ButtonData.OK_DONE
-        );
-        ButtonType cancelButton = new ButtonType(
-                "Cancelar",
-                ButtonBar.ButtonData.CANCEL_CLOSE
-        );
+        ButtonType confirmButton = new ButtonType("Sair", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButton = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        Alert confirmation = new Alert(
-                Alert.AlertType.CONFIRMATION,
-                "Você precisará informar novamente seu usuário e senha para acessar o sistema.",
-                cancelButton,
-                confirmButton
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION,
+            "Você precisará informar novamente seu usuário e senha para acessar o sistema.",
+            cancelButton, confirmButton
         );
         confirmation.setTitle("Confirmar saída");
         confirmation.setHeaderText("Deseja realmente sair da sua conta?");
