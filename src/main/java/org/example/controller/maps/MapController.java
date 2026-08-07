@@ -52,10 +52,7 @@ public class MapController {
 
                 JSObject window = (JSObject) engine.executeScript("window");
 
-                window.setMember(
-                        "javaBridge",
-                        new MapBridge(this)
-                );
+                window.setMember("javaBridge", new MapBridge(this));
 
                 updateMapInteraction();
 
@@ -63,7 +60,6 @@ public class MapController {
                     showComplaintMarkers();
                 }
             }
-
         });
 
         engine.load(
@@ -94,9 +90,7 @@ public class MapController {
     private void updateMapInteraction() {
         if (engine != null
                 && engine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
-            engine.executeScript(
-                    "setSelectionEnabled(" + (mode == MapMode.SELECT) + ");"
-            );
+            engine.executeScript("setSelectionEnabled(" + (mode == MapMode.SELECT) + ");");
         }
     }
 
@@ -117,21 +111,15 @@ public class MapController {
     }
 
     public void centerOn(double lat, double lng) {
-
-        engine.executeScript(
-                "centerMap(" + lat + "," + lng + ");"
-                        + "addComplaintMarker(" + lat + "," + lng + ",'Local da reclamação');"
-        );
+        engine.executeScript("centerMap(" + lat + "," + lng + ");"
+            + "addComplaintMarker(" + lat + "," + lng + ",'Local da reclamação');");
     }
 
     public void setDisplayedLocation(Location location) {
         selectedLocation = location;
         addressLabel.setText(location.getAddress());
 
-        Runnable centerAction = () -> centerOn(
-                location.getLatitude(),
-                location.getLongitude()
-        );
+        Runnable centerAction = () -> centerOn(location.getLatitude(), location.getLongitude());
 
         if (engine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
             centerAction.run();
@@ -152,40 +140,34 @@ public class MapController {
         for (Complaint complaint : ComplaintService.getAllComplaints()) {
             Location location = complaint.getLocation();
             String popup = "<b>" + escapeHtml(complaint.getCategory().toString()) + "</b>"
-                    + (complaint.getSubcategory() == null
-                            ? ""
-                            : "<br>" + escapeHtml(complaint.getSubcategory().toString()))
-                    + "<br>Prioridade: " + escapeHtml(complaint.getPriority().toString())
-                    + "<br>Status: " + escapeHtml(complaint.getStatus().toString())
-                    + "<br>" + escapeHtml(location.getAddress());
+                + (complaint.getSubcategory() == null
+                    ? "" : "<br>" + escapeHtml(complaint.getSubcategory().toString()))
+                + "<br>Prioridade: " + escapeHtml(complaint.getPriority().toString())
+                + "<br>Status: " + escapeHtml(complaint.getStatus().toString())
+                + "<br>" + escapeHtml(location.getAddress());
 
-            engine.executeScript(
-                    "addComplaintMarker("
-                            + location.getLatitude() + ","
-                            + location.getLongitude() + ","
-                            + jsString(popup) + ","
-                            + jsString(complaint.getPriority().name())
-                            + ");"
-            );
+            engine.executeScript("addComplaintMarker("
+                + location.getLatitude() + "," + location.getLongitude() + ","
+                + jsString(popup) + "," + jsString(complaint.getPriority().name()) + ");");
         }
     }
 
     private String escapeHtml(String value) {
         return value
-                .replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("\"", "&quot;")
-                .replace("'", "&#39;");
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("\"", "&quot;")
+            .replace("'", "&#39;");
     }
 
     private String jsString(String value) {
         return "'" + value
-                .replace("\\", "\\\\")
-                .replace("'", "\\'")
-                .replace("\r", "\\r")
-                .replace("\n", "\\n")
-                + "'";
+            .replace("\\", "\\\\")
+            .replace("'", "\\'")
+            .replace("\r", "\\r")
+            .replace("\n", "\\n")
+            + "'";
     }
 
     private boolean loading = false;
@@ -199,23 +181,16 @@ public class MapController {
     }
 
     public void showLoading() {
-
-        engine.executeScript(
-                "showLoading(); setSelectionEnabled(false);"
-        );
+        engine.executeScript("showLoading(); setSelectionEnabled(false);");
     }
 
     public void hideLoading() {
-
-        engine.executeScript(
-                "hideLoading();"
-        );
+        engine.executeScript("hideLoading();");
         updateMapInteraction();
     }
 
     @FXML
     private void confirm() {
-
         if (selectedLocation == null) {
             return;
         }
@@ -229,7 +204,6 @@ public class MapController {
 
     @FXML
     private void cancel() {
-
         stage.close();
     }
 
