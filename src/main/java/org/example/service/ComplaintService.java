@@ -1,10 +1,9 @@
 package org.example.service;
 
-import javafx.animation.ScaleTransition;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.util.Duration;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.example.model.Complaint;
 import org.example.model.Location;
 import org.example.model.User;
@@ -13,9 +12,11 @@ import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
 import org.example.model.enums.ComplaintSubcategory;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import javafx.animation.ScaleTransition;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.util.Duration;
 
 public class ComplaintService {
 
@@ -149,15 +150,10 @@ public class ComplaintService {
             return new ArrayList<>(complaints);
         }
         return complaints.stream()
-                .filter(complaint -> user.getId().equals(complaint.getCreatorId()))
-                .toList();
+                .filter(complaint -> user.getId().equals(complaint.getCreatorId())).toList();
     }
 
-    public static boolean isWithinDateRange(
-            Complaint complaint,
-            LocalDate startDate,
-            LocalDate endDate
-    ) {
+    public static boolean isWithinDateRange(Complaint complaint, LocalDate startDate, LocalDate endDate) {
         if (complaint == null || complaint.getDate() == null) {
             return false;
         }
@@ -168,19 +164,13 @@ public class ComplaintService {
                 && (endDate == null || !complaint.getDate().isAfter(endDate));
     }
 
-    public static void updateStatus(
-            Complaint complaint,
-            ComplaintStatus newStatus,
-            User responsible,
-            String note
-    ) {
+    public static void updateStatus(Complaint complaint, ComplaintStatus newStatus,
+        User responsible, String note) {
         if (complaint == null || newStatus == null) {
             return;
         }
 
-        String responsibleName = responsible == null
-                ? "Sistema"
-                : responsible.getName();
+        String responsibleName = responsible == null ? "Sistema" : responsible.getName();
         complaint.changeStatus(newStatus, responsibleName, note);
     }
 

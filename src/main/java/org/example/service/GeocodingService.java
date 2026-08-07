@@ -1,15 +1,15 @@
 package org.example.service;
 
-import org.example.model.Location;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URLEncoder;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
+import org.example.model.Location;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class GeocodingService {
 
@@ -20,13 +20,13 @@ public class GeocodingService {
         try {
             String query = address + ", Santa Rita do Sapucaí, MG, Brasil";
             String url = "https://nominatim.openstreetmap.org/search"
-                    + "?format=jsonv2"
-                    + "&limit=1"
-                    + "&countrycodes=br"
-                    + "&q=" + URLEncoder.encode(query, StandardCharsets.UTF_8);
+                + "?format=jsonv2"
+                + "&limit=1"
+                + "&countrycodes=br"
+                + "&q=" + URLEncoder.encode(query, StandardCharsets.UTF_8);
 
             HttpURLConnection connection =
-                    (HttpURLConnection) new URL(url).openConnection();
+                (HttpURLConnection) new URL(url).openConnection();
             configure(connection);
 
             JSONArray results = new JSONArray(readResponse(connection));
@@ -36,9 +36,9 @@ public class GeocodingService {
 
             JSONObject result = results.getJSONObject(0);
             return new Location(
-                    result.getDouble("lat"),
-                    result.getDouble("lon"),
-                    result.optString("display_name", address)
+                result.getDouble("lat"),
+                result.getDouble("lon"),
+                result.optString("display_name", address)
             );
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -49,20 +49,16 @@ public class GeocodingService {
     public static Location reverse(double latitude, double longitude) {
         try {
             String url = "https://nominatim.openstreetmap.org/reverse"
-                    + "?format=jsonv2"
-                    + "&lat=" + latitude
-                    + "&lon=" + longitude;
+                + "?format=jsonv2"
+                + "&lat=" + latitude
+                + "&lon=" + longitude;
 
             HttpURLConnection connection =
-                    (HttpURLConnection) new URL(url).openConnection();
+                (HttpURLConnection) new URL(url).openConnection();
             configure(connection);
 
             JSONObject json = new JSONObject(readResponse(connection));
-            return new Location(
-                    latitude,
-                    longitude,
-                    json.optString("display_name", "Endereço não encontrado")
-            );
+            return new Location(latitude, longitude, json.optString("display_name", "Endereço não encontrado"));
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
@@ -77,7 +73,7 @@ public class GeocodingService {
 
     private static String readResponse(HttpURLConnection connection) throws Exception {
         try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8)
+            new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8)
         )) {
             StringBuilder response = new StringBuilder();
             String line;
