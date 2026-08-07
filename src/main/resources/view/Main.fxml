@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane fx:id="mainRoot"
@@ -21,9 +23,14 @@
 
             <HBox spacing="12" alignment="CENTER_LEFT">
 
-                <StackPane styleClass="logoCircle">
-                    <Label text="CM"
-                           styleClass="logoInitials"/>
+                <StackPane>
+                    <ImageView fitWidth="50"
+                               preserveRatio="true"
+                               smooth="true">
+                        <image>
+                            <Image url="@../images/logoSemNome.png"/>
+                        </image>
+                    </ImageView>
                 </StackPane>
 
                 <VBox spacing="2">
