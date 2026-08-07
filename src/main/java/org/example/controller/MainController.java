@@ -1,13 +1,13 @@
 package org.example.controller;
 
-import org.example.util.ScreenManager;
-import org.example.util.NotificationManager;
-import org.example.util.AccessibilityManager;
 import org.example.model.User;
+import org.example.util.AccessibilityManager;
+import org.example.util.NotificationManager;
+import org.example.util.ScreenManager;
 import org.example.util.UserSession;
 
-import javafx.fxml.FXML;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -35,15 +35,12 @@ public class MainController {
 
     @FXML
     public void initialize() {
-
         ScreenManager.setMainContainer(contentArea);
         NotificationManager.setContainer(toastLayer);
         AccessibilityManager.setApplicationRoot(mainRoot);
 
         Platform.runLater(() -> mainRoot.getScene().addEventFilter(
-                KeyEvent.KEY_PRESSED,
-                this::handleShortcut
-        ));
+            KeyEvent.KEY_PRESSED, this::handleShortcut));
 
         configurePermissions();
         ScreenManager.loadHomeScreen();
@@ -58,12 +55,12 @@ public class MainController {
         if (code == KeyCode.DIGIT1 || code == KeyCode.NUMPAD1) {
             goHome();
         } else if ((code == KeyCode.DIGIT2 || code == KeyCode.NUMPAD2)
-                && newComplaintButton.isVisible()) {
+            && newComplaintButton.isVisible()) {
             goComplaint();
         } else if (code == KeyCode.DIGIT3 || code == KeyCode.NUMPAD3) {
             goComplaints();
         } else if ((code == KeyCode.DIGIT4 || code == KeyCode.NUMPAD4)
-                && mapButton.isVisible()) {
+            && mapButton.isVisible()) {
             goMap();
         } else if (code == KeyCode.DIGIT5 || code == KeyCode.NUMPAD5) {
             goSettings();
