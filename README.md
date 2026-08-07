@@ -48,7 +48,7 @@ A lista de reclamações possui:
 - identificação visual de status e prioridade;
 - abertura dos detalhes por botão ou clique duplo;
 - ações de mudança de status para os perfis de gestão;
-- exportação dos registros filtrados para CSV UTF-8.
+- exportação dos registros filtrados para CSV (UTF-8).
 
 O cidadão visualiza somente reclamações associadas ao seu identificador. A
 exportação CSV e as ações administrativas ficam disponíveis apenas para os
@@ -110,8 +110,6 @@ Na raiz do projeto:
 ```bash
 mvn clean javafx:run
 ```
-
-A classe principal configurada no Maven é `org.example.MainApp`.
 
 ## Testes automatizados
 
