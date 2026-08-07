@@ -47,8 +47,8 @@ public final class AccessibilityManager {
         }
 
         applicationRoot.getStyleClass().removeAll(
-                "accessibility-font-large",
-                "accessibility-font-extra-large"
+            "accessibility-font-large",
+            "accessibility-font-extra-large"
         );
 
         if (fontSize == FontSize.GRANDE) {

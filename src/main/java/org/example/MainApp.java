@@ -10,9 +10,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/Login.fxml")
-        );
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
 
         Scene scene = new Scene(loader.load());
         stage.setTitle("Cidade em Dia");

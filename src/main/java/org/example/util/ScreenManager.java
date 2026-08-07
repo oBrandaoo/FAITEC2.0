@@ -17,9 +17,7 @@ public class ScreenManager {
 
     public static <T> T loadScreen(String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    ScreenManager.class.getResource("/view/" + fxml)
-            );
+            FXMLLoader loader = new FXMLLoader(ScreenManager.class.getResource("/view/" + fxml));
 
             Node view = loader.load();
             mainContainer.getChildren().setAll(view);
@@ -35,8 +33,7 @@ public class ScreenManager {
     public static void loadHomeScreen() {
         User user = UserSession.getLoggedUser();
         String home = user != null && user.getRole() == UserRole.CIDADAO
-                ? "CitizenHome.fxml"
-                : "Home.fxml";
+            ? "CitizenHome.fxml" : "Home.fxml";
         loadScreen(home);
     }
 }
