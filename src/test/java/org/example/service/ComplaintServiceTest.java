@@ -77,6 +77,18 @@ class ComplaintServiceTest {
     }
 
     @Test
+    void citizenShouldTrackOwnAndOtherPublicComplaints() {
+        User citizen = user("USR-003", UserRole.CIDADAO);
+
+        List<Complaint> trackable = ComplaintService.getTrackableComplaints(citizen);
+
+        assertEquals(ComplaintService.getAllComplaints().size(), trackable.size());
+        assertTrue(trackable.stream().anyMatch(item ->
+                !citizen.getId().equals(item.getCreatorId())
+        ));
+    }
+
+    @Test
     void shouldReturnEmptyListWithoutAuthenticatedUser() {
         assertTrue(ComplaintService.getComplaintsFor(null).isEmpty());
     }

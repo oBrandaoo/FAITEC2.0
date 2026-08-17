@@ -56,7 +56,7 @@ class UserAndEnumsTest {
 
         assertTrue(role.canCreateComplaint());
         assertFalse(role.canManageComplaints());
-        assertFalse(role.canViewMap());
+        assertTrue(role.canViewMap());
     }
 
     @Test
@@ -83,6 +83,18 @@ class UserAndEnumsTest {
                 subcategory.belongsTo(ComplaintCategory.TRANSITO_MOBILIDADE)
         ));
         assertTrue(ComplaintSubcategory.forCategory(null).isEmpty());
+    }
+
+    @Test
+    void complaintStatusesShouldExposeTrackingProgress() {
+        assertAll(
+                () -> assertEquals(0.20, ComplaintStatus.PENDENTE.getTrackingProgress()),
+                () -> assertEquals(0.45, ComplaintStatus.EM_ANALISE.getTrackingProgress()),
+                () -> assertEquals(0.75, ComplaintStatus.EM_EXECUCAO.getTrackingProgress()),
+                () -> assertEquals(1.00, ComplaintStatus.RESOLVIDO.getTrackingProgress()),
+                () -> assertFalse(ComplaintStatus.PENDENTE.getTrackingDescription().isBlank()),
+                () -> assertFalse(ComplaintStatus.CANCELADO.getTrackingDescription().isBlank())
+        );
     }
 
     @Test
