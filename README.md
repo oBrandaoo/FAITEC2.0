@@ -15,7 +15,7 @@ autenticação, a interface e as opções do menu são ajustadas conforme o perf
 |---|---|---|---:|---:|---:|
 | Administrador | `admin` | `1234` | Sim | Sim | Sim |
 | Atendente | `atendente` | `1234` | Não | Sim | Sim |
-| Cidadão | `cidadao` | `1234` | Sim | Apenas as próprias | Não |
+| Cidadão | `cidadao` | `1234` | Sim | Apenas as próprias | Sim |
 
 O logout exige confirmação e, quando concluído, retorna ao login com uma
 notificação em toast.
@@ -30,6 +30,8 @@ notificação em toast.
 - justificativa obrigatória para cancelamento;
 - alteração de status por administrador ou atendente;
 - histórico de cadastro, alterações e mudanças de status;
+- janela de acompanhamento com progresso, etapa atual e última atualização;
+- navegação entre o problema selecionado e os demais problemas públicos da cidade;
 - visualização das imagens anexadas e do local no mapa;
 - dados de demonstração com endereços de Santa Rita do Sapucaí.
 
@@ -113,7 +115,7 @@ mvn clean javafx:run
 
 ## Testes automatizados
 
-A suíte possui 33 testes unitários distribuídos entre modelos, serviço de
+A suíte possui 35 testes unitários distribuídos entre modelos, serviço de
 reclamações, permissões e sessão do usuário.
 
 ```bash
@@ -124,6 +126,7 @@ Cobertura funcional da suíte:
 
 - criação e histórico inicial de reclamações;
 - mudanças de status e responsável pela alteração;
+- progresso e mensagens de acompanhamento de cada status;
 - edição dos dados da reclamação;
 - vínculo e validação entre categorias e subcategorias;
 - inclusão, substituição e imutabilidade da lista de anexos;
