@@ -153,6 +153,13 @@ public class ComplaintService {
                 .filter(complaint -> user.getId().equals(complaint.getCreatorId())).toList();
     }
 
+    public static List<Complaint> getTrackableComplaints(User user) {
+        if (user == null) {
+            return List.of();
+        }
+        return new ArrayList<>(complaints);
+    }
+
     public static boolean isWithinDateRange(Complaint complaint, LocalDate startDate, LocalDate endDate) {
         if (complaint == null || complaint.getDate() == null) {
             return false;

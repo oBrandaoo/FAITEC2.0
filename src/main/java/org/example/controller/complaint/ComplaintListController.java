@@ -420,15 +420,16 @@ public class ComplaintListController {
             Stage dialog = new Stage();
             dialog.initOwner(complaintsTable.getScene().getWindow());
             dialog.initModality(Modality.WINDOW_MODAL);
-            dialog.setTitle("Detalhes da reclamação");
-            dialog.setResizable(false);
+            dialog.setTitle("Acompanhamento das reclamações");
+            dialog.setMinWidth(980);
+            dialog.setMinHeight(700);
             dialog.setScene(new Scene(view));
             dialog.showAndWait();
 
             complaintsTable.refresh();
             applyFilters();
         } catch (IOException exception) {
-            showAlert(Alert.AlertType.ERROR, "Erro", "Não foi possível abrir os detalhes da reclamação.");
+            showAlert(Alert.AlertType.ERROR, "Erro", "Não foi possível abrir o acompanhamento da reclamação.");
             exception.printStackTrace();
         }
     }

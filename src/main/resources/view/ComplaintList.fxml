@@ -84,7 +84,7 @@
                         onAction="#exportCsv"/>
 
                 <Button fx:id="detailsButton"
-                        text="Ver detalhes"
+                        text="Acompanhar"
                         disable="true"
                         onAction="#showDetails"/>
 
