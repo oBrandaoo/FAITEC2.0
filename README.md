@@ -30,8 +30,8 @@ notificação em toast.
 - justificativa obrigatória para cancelamento;
 - alteração de status por administrador ou atendente;
 - histórico de cadastro, alterações e mudanças de status;
-- janela de acompanhamento com progresso, etapa atual e última atualização;
-- navegação entre o problema selecionado e os demais problemas públicos da cidade;
+- tela de acompanhamento acessível abaixo de `Mapa` na sidebar, com progresso, etapa atual e última atualização;
+- navegação entre os problemas públicos da cidade diretamente pelo painel do mapa;
 - visualização das imagens anexadas e do local no mapa;
 - dados de demonstração com endereços de Santa Rita do Sapucaí.
 
@@ -59,15 +59,18 @@ perfis que podem gerenciar reclamações.
 ### Painéis e mapa
 
 O painel administrativo apresenta quantidade total, pendentes, em andamento,
-resolvidas e urgentes, além de taxa de resolução, gráfico por categoria,
-gráfico por prioridade e uma lista de reclamações urgentes recentes.
+resolvidas e urgentes, além de gráficos por categoria e prioridade. O indicador
+de urgentes possui um atalho para abrir a lista já filtrada.
 
 O painel do cidadão apresenta os totais das próprias reclamações e suas
 atividades recentes.
 
 O mapa principal exibe marcadores das reclamações cadastradas, diferenciados
-por prioridade. A seleção por clique é habilitada somente quando o mapa é
-aberto pelo formulário para escolher uma localização.
+por prioridade. A seleção por clique é habilitada somente quando o mapa é aberto
+pelo formulário para escolher uma localização.
+
+A opção `Acompanhamento`, posicionada logo abaixo de `Mapa` na sidebar, permite
+selecionar problemas públicos, consultar o progresso e abrir sua localização.
 
 ### Configurações e acessibilidade
 
@@ -85,7 +88,8 @@ Atalhos disponíveis:
 | `Alt+2` | Nova reclamação, quando permitida |
 | `Alt+3` | Reclamações |
 | `Alt+4` | Mapa, quando permitido |
-| `Alt+5` | Configurações |
+| `Alt+5` | Acompanhamento, quando permitido |
+| `Alt+6` | Configurações |
 | `Alt+0` | Sobre o sistema |
 
 ## Tecnologias e serviços
