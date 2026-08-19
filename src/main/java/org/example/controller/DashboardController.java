@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import java.util.Comparator;
 import java.util.List;
 
 import org.example.model.Complaint;
@@ -8,7 +7,9 @@ import org.example.model.User;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
+import org.example.controller.complaint.ComplaintListController;
 import org.example.service.ComplaintService;
+import org.example.util.ScreenManager;
 import org.example.util.UserSession;
 
 import javafx.collections.FXCollections;
@@ -17,8 +18,6 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
 
 public class DashboardController {
 
@@ -28,11 +27,8 @@ public class DashboardController {
     @FXML private Label inProgressLabel;
     @FXML private Label resolvedLabel;
     @FXML private Label urgentLabel;
-    @FXML private Label resolutionRateLabel;
-    @FXML private ProgressBar resolutionProgress;
     @FXML private PieChart categoryChart;
     @FXML private BarChart<String, Number> priorityChart;
-    @FXML private ListView<String> urgentList;
 
     @FXML
     public void initialize() {
@@ -61,13 +57,8 @@ public class DashboardController {
         resolvedLabel.setText(String.valueOf(resolved));
         urgentLabel.setText(String.valueOf(urgent));
 
-        double rate = complaints.isEmpty() ? 0 : (double) resolved / complaints.size();
-        resolutionProgress.setProgress(rate);
-        resolutionRateLabel.setText(String.format("%.0f%%", rate * 100));
-
         loadCategoryChart(complaints);
         loadPriorityChart(complaints);
-        loadUrgentList(complaints);
     }
 
     private long countStatus(List<Complaint> complaints, ComplaintStatus status) {
@@ -103,18 +94,11 @@ public class DashboardController {
         priorityChart.setLegendVisible(false);
     }
 
-    private void loadUrgentList(List<Complaint> complaints) {
-        List<String> items = complaints.stream()
-            .filter(item -> item.getPriority() == ComplaintPriority.URGENTE)
-            .sorted(Comparator.comparing(Complaint::getDate).reversed())
-            .limit(5)
-            .map(item -> item.getDate()
-                + "  •  "
-                + item.getCategory()
-                + "\n"
-                + item.getLocation().getAddress()).toList();
-
-        urgentList.setItems(FXCollections.observableArrayList(items));
-        urgentList.setPlaceholder(new Label("Nenhuma reclamação urgente."));
+    @FXML
+    private void showUrgentComplaints() {
+        ComplaintListController controller = ScreenManager.loadScreen("ComplaintList.fxml");
+        if (controller != null) {
+            controller.filterByPriority(ComplaintPriority.URGENTE);
+        }
     }
 }

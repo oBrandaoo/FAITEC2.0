@@ -10,62 +10,74 @@
             fitToWidth="true"
             styleClass="dashboard-scroll"
             stylesheets="@../css/home.css">
-    <VBox spacing="24" styleClass="dashboard">
-        <padding>
-            <Insets top="32" right="36" bottom="36" left="36"/>
-        </padding>
+    <StackPane styleClass="dashboard">
+      <VBox spacing="24" maxWidth="1200" styleClass="dashboard-content">
+          <padding>
+              <Insets top="32" right="36" bottom="36" left="36"/>
+          </padding>
 
-        <VBox spacing="5">
-            <Label fx:id="welcomeLabel" text="Visão geral" styleClass="dashboard-title"/>
-            <Label text="Acompanhe os principais indicadores das reclamações."
-                   styleClass="dashboard-subtitle"/>
-        </VBox>
+        <HBox alignment="CENTER_LEFT" spacing="16">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label fx:id="welcomeLabel" text="Visão geral" styleClass="dashboard-title"/>
+                <Label text="Acompanhe os principais indicadores das reclamações."
+                       styleClass="dashboard-subtitle"/>
+            </VBox>
+            <Button text="Ver reclamações urgentes"
+                    translateY="6"
+                    accessibleText="Abrir lista filtrada por reclamações urgentes"
+                    onAction="#showUrgentComplaints"
+                    styleClass="urgent-link-button"/>
+        </HBox>
 
-        <HBox spacing="14">
-            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+        <HBox spacing="14" alignment="CENTER">
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
                 <Label text="TOTAL" styleClass="metric-name"/>
                 <Label fx:id="totalLabel" text="0" styleClass="metric-value"/>
             </VBox>
-            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
                 <Label text="PENDENTES" styleClass="metric-name"/>
                 <Label fx:id="pendingLabel" text="0" styleClass="metric-value metric-pending"/>
             </VBox>
-            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
                 <Label text="EM ANDAMENTO" styleClass="metric-name"/>
                 <Label fx:id="inProgressLabel" text="0" styleClass="metric-value metric-progress"/>
             </VBox>
-            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
                 <Label text="RESOLVIDAS" styleClass="metric-name"/>
                 <Label fx:id="resolvedLabel" text="0" styleClass="metric-value metric-resolved"/>
             </VBox>
-            <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
                 <Label text="URGENTES" styleClass="metric-name"/>
                 <Label fx:id="urgentLabel" text="0" styleClass="metric-value metric-urgent"/>
             </VBox>
         </HBox>
 
-        <VBox spacing="10" styleClass="dashboard-card">
-            <HBox alignment="CENTER_LEFT">
-                <Label text="Taxa de resolução" styleClass="card-title"/>
-                <Pane HBox.hgrow="ALWAYS"/>
-                <Label fx:id="resolutionRateLabel" text="0%" styleClass="rate-value"/>
-            </HBox>
-            <ProgressBar fx:id="resolutionProgress"
-                         progress="0"
-                         maxWidth="Infinity"/>
-        </VBox>
+        <GridPane hgap="18">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+            </columnConstraints>
 
-        <HBox spacing="18">
-            <VBox spacing="8" styleClass="dashboard-card" HBox.hgrow="ALWAYS">
+            <VBox spacing="8"
+                  maxWidth="Infinity"
+                  styleClass="dashboard-card"
+                  GridPane.columnIndex="0">
                 <Label text="Reclamações por categoria" styleClass="card-title"/>
                 <PieChart fx:id="categoryChart"
                           prefHeight="320"
-                          legendSide="BOTTOM"/>
+                          legendSide="BOTTOM"
+                          VBox.vgrow="ALWAYS"/>
             </VBox>
 
-            <VBox spacing="8" styleClass="dashboard-card" HBox.hgrow="ALWAYS">
+            <VBox spacing="12"
+                  maxWidth="Infinity"
+                  styleClass="dashboard-card"
+                  GridPane.columnIndex="1">
                 <Label text="Reclamações por prioridade" styleClass="card-title"/>
-                <BarChart fx:id="priorityChart" prefHeight="320">
+                <BarChart fx:id="priorityChart"
+                          prefHeight="320"
+                          accessibleText="Gráfico de reclamações por prioridade"
+                          VBox.vgrow="ALWAYS">
                     <xAxis>
                         <CategoryAxis/>
                     </xAxis>
@@ -76,11 +88,8 @@
                     </yAxis>
                 </BarChart>
             </VBox>
-        </HBox>
+        </GridPane>
 
-        <VBox spacing="12" styleClass="dashboard-card">
-            <Label text="Reclamações urgentes recentes" styleClass="card-title"/>
-            <ListView fx:id="urgentList" prefHeight="150"/>
-        </VBox>
-    </VBox>
+      </VBox>
+    </StackPane>
 </ScrollPane>
