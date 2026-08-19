@@ -73,12 +73,18 @@
                     onAction="#goMap"
                     styleClass="menuButton"/>
 
+            <Button text="◉   Acompanhamento"
+                    accessibleText="Acompanhamento dos problemas. Atalho Alt mais 5"
+                    fx:id="trackingButton"
+                    onAction="#goTracking"
+                    styleClass="menuButton"/>
+
             <Pane VBox.vgrow="ALWAYS"/>
 
             <Separator styleClass="separator"/>
 
             <Button text="⚙   Configurações"
-                    accessibleText="Configurações e acessibilidade. Atalho Alt mais 5"
+                    accessibleText="Configurações e acessibilidade. Atalho Alt mais 6"
                     onAction="#goSettings"
                     styleClass="menuButton"/>
 

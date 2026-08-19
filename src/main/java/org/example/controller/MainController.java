@@ -30,6 +30,7 @@ public class MainController {
     @FXML private Button newComplaintButton;
     @FXML private Button complaintsButton;
     @FXML private Button mapButton;
+    @FXML private Button trackingButton;
     @FXML private Label loggedUserLabel;
     @FXML private Label loggedUserRoleLabel;
 
@@ -63,6 +64,8 @@ public class MainController {
             && mapButton.isVisible()) {
             goMap();
         } else if (code == KeyCode.DIGIT5 || code == KeyCode.NUMPAD5) {
+            goTracking();
+        } else if (code == KeyCode.DIGIT6 || code == KeyCode.NUMPAD6) {
             goSettings();
         } else if (code == KeyCode.DIGIT0 || code == KeyCode.NUMPAD0) {
             goAbout();
@@ -80,6 +83,7 @@ public class MainController {
 
         setAvailable(newComplaintButton, user.getRole().canCreateComplaint());
         setAvailable(mapButton, user.getRole().canViewMap());
+        setAvailable(trackingButton, user.getRole().canViewMap());
         if (!user.getRole().canManageComplaints()) {
             complaintsButton.setText("📋   Minhas reclamações");
         }
@@ -110,6 +114,11 @@ public class MainController {
     @FXML
     private void goMap() {
         ScreenManager.loadScreen("map/MapView.fxml");
+    }
+
+    @FXML
+    private void goTracking() {
+        ScreenManager.loadScreen("ComplaintTracking.fxml");
     }
 
     @FXML

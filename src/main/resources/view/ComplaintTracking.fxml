@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controller.complaint.ComplaintTrackingController"
+      spacing="22"
+      styleClass="tracking-page"
+      stylesheets="@../css/complaint.css,@../css/tracking.css">
+    <padding>
+        <Insets top="28" right="28" bottom="28" left="28"/>
+    </padding>
+
+    <VBox spacing="14"
+          minWidth="280"
+          prefWidth="310"
+          maxWidth="340"
+          styleClass="tracking-navigation">
+        <VBox spacing="4">
+            <Label text="Problemas da cidade" styleClass="tracking-navigation-title"/>
+            <Label text="Selecione um relato para acompanhar."
+                   wrapText="true"
+                   styleClass="tracking-muted"/>
+        </VBox>
+
+        <ListView fx:id="complaintsList"
+                  accessibleText="Problemas públicos disponíveis para acompanhamento"
+                  VBox.vgrow="ALWAYS"
+                  styleClass="tracking-list"/>
+    </VBox>
+
+    <StackPane HBox.hgrow="ALWAYS">
+        <Label fx:id="emptyLabel"
+               text="Nenhum problema disponível para acompanhamento."
+               visible="false"
+               managed="false"
+               styleClass="tracking-empty"/>
+
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    styleClass="tracking-scroll"
+                    StackPane.alignment="CENTER">
+            <VBox fx:id="trackingDetails"
+                  spacing="17"
+                  maxWidth="900"
+                  styleClass="tracking-content">
+                <VBox spacing="5">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="Acompanhamento" styleClass="tracking-page-title"/>
+                        <Label fx:id="ownershipLabel"
+                               text="Relato público"
+                               styleClass="tracking-ownership"/>
+                    </HBox>
+                    <Label text="Consulte a etapa atual e o histórico do atendimento."
+                           styleClass="tracking-muted"/>
+                </VBox>
+
+                <VBox spacing="12" styleClass="tracking-progress-card">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Situação atual" styleClass="tracking-eyebrow"/>
+                            <Label fx:id="statusLabel"
+                                   text="Status"
+                                   styleClass="tracking-status-badge"/>
+                        </VBox>
+                        <Label fx:id="lastUpdateLabel"
+                               text="Última atualização"
+                               styleClass="tracking-muted"/>
+                    </HBox>
+
+                    <Label fx:id="trackingDescriptionLabel"
+                           wrapText="true"
+                           styleClass="tracking-progress-description"/>
+
+                    <ProgressBar fx:id="progressBar"
+                                 progress="0"
+                                 maxWidth="Infinity"
+                                 accessibleText="Progresso do atendimento"/>
+
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Recebida" styleClass="tracking-step"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Label text="Análise" styleClass="tracking-step"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Label text="Execução" styleClass="tracking-step"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Label text="Conclusão" styleClass="tracking-step"/>
+                    </HBox>
+                </VBox>
+
+                <VBox spacing="13" styleClass="tracking-card">
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Problema relatado" styleClass="tracking-section-title"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="mapButton"
+                                text="Ver no mapa"
+                                disable="true"
+                                onAction="#showOnMap"
+                                styleClass="secondary-button"/>
+                    </HBox>
+
+                    <GridPane hgap="20" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="115"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <Label text="Categoria" styleClass="details-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label fx:id="categoryLabel" wrapText="true"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Subcategoria" styleClass="details-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label fx:id="subcategoryLabel" wrapText="true"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Prioridade" styleClass="details-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="priorityLabel"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Registrada em" styleClass="details-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label fx:id="registrationDateLabel"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                        <Label text="Endereço" styleClass="details-label"
+                               GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <Label fx:id="addressLabel" wrapText="true"
+                               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                    </GridPane>
+
+                    <VBox spacing="6">
+                        <Label text="Descrição" styleClass="details-label"/>
+                        <TextArea fx:id="descriptionArea"
+                                  editable="false"
+                                  wrapText="true"
+                                  prefRowCount="3"/>
+                    </VBox>
+                </VBox>
+
+                <VBox spacing="7" styleClass="tracking-card" VBox.vgrow="ALWAYS">
+                    <Label text="Linha do tempo" styleClass="tracking-section-title"/>
+                    <Label text="Atualizações registradas para este problema."
+                           styleClass="tracking-muted"/>
+                    <ListView fx:id="historyList"
+                              prefHeight="190"
+                              VBox.vgrow="ALWAYS"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </StackPane>
+</HBox>

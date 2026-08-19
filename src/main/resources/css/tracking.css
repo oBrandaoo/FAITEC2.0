@@ -1,0 +1,191 @@
+.tracking-page {
+    -fx-background-color: #F3F6FA;
+}
+
+.tracking-navigation,
+.tracking-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 14;
+    -fx-padding: 18;
+}
+
+.tracking-navigation-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.tracking-muted {
+    -fx-font-size: 11px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #64748B;
+}
+
+.tracking-list {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.tracking-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 4 0;
+}
+
+.tracking-list-content {
+    -fx-background-color: #F8FAFC;
+    -fx-background-radius: 10;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 10;
+    -fx-padding: 11;
+}
+
+.tracking-list .list-cell:filled:hover .tracking-list-content {
+    -fx-background-color: #EFF6FF;
+    -fx-border-color: #BFDBFE;
+}
+
+.tracking-list .list-cell:filled:selected .tracking-list-content {
+    -fx-background-color: #DBEAFE;
+    -fx-border-color: #60A5FA;
+}
+
+.tracking-list-category {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.tracking-list-metadata,
+.tracking-list-address {
+    -fx-font-size: 10px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #64748B;
+}
+
+.tracking-list-address {
+    -fx-text-fill: #475569;
+}
+
+.tracking-scroll,
+.tracking-scroll > .viewport,
+.tracking-content {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.tracking-page-title {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.tracking-ownership {
+    -fx-background-radius: 14;
+    -fx-padding: 5 10;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.tracking-ownership-own {
+    -fx-background-color: #DCFCE7;
+    -fx-text-fill: #15803D;
+}
+
+.tracking-ownership-public {
+    -fx-background-color: #DBEAFE;
+    -fx-text-fill: #1D4ED8;
+}
+
+.tracking-progress-card {
+    -fx-background-color: linear-gradient(to right, #EFF6FF, #F8FAFC);
+    -fx-background-radius: 14;
+    -fx-border-color: #BFDBFE;
+    -fx-border-radius: 14;
+    -fx-padding: 19;
+}
+
+.tracking-eyebrow {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748B;
+}
+
+.tracking-status-badge {
+    -fx-padding: 6 12;
+    -fx-background-radius: 20;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tracking-status-pendente {
+    -fx-background-color: #FEF3C7;
+    -fx-text-fill: #92400E;
+}
+
+.tracking-status-em_analise {
+    -fx-background-color: #CFFAFE;
+    -fx-text-fill: #155E75;
+}
+
+.tracking-status-em_execucao {
+    -fx-background-color: #FFEDD5;
+    -fx-text-fill: #9A3412;
+}
+
+.tracking-status-resolvido {
+    -fx-background-color: #DCFCE7;
+    -fx-text-fill: #166534;
+}
+
+.tracking-status-cancelado {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #991B1B;
+}
+
+.tracking-progress-description {
+    -fx-font-size: 13px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #334155;
+}
+
+.tracking-progress-card .progress-bar {
+    -fx-accent: #2563EB;
+}
+
+.tracking-progress-card .progress-bar > .track {
+    -fx-background-color: #DBEAFE;
+    -fx-background-radius: 6;
+}
+
+.tracking-progress-card .progress-bar > .bar {
+    -fx-background-radius: 6;
+    -fx-padding: 6;
+}
+
+.tracking-step {
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748B;
+}
+
+.tracking-section-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.tracking-content .list-cell {
+    -fx-padding: 9 12;
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #E2E8F0 transparent;
+    -fx-font-weight: normal;
+    -fx-text-fill: #334155;
+}
+
+.tracking-empty {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748B;
+}

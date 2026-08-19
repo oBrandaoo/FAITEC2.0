@@ -19,41 +19,26 @@ import netscape.javascript.JSObject;
 
 public class MapController {
 
-    @FXML
-    private WebView mapView;
-
-    @FXML
-    private Label addressLabel;
-
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Button cancelButton;
+    @FXML private WebView mapView;
+    @FXML private Label addressLabel;
+    @FXML private Button confirmButton;
+    @FXML private Button cancelButton;
 
     private Stage stage;
-
     private Location selectedLocation;
-
     private WebEngine engine;
-
     private MapMode mode = MapMode.OVERVIEW;
-
     private Consumer<Location> locationListener;
+    private boolean loading;
 
     @FXML
     public void initialize() {
-
         engine = mapView.getEngine();
 
         engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-
             if (newState == Worker.State.SUCCEEDED) {
-
                 JSObject window = (JSObject) engine.executeScript("window");
-
                 window.setMember("javaBridge", new MapBridge(this));
-
                 updateMapInteraction();
 
                 if (mode == MapMode.OVERVIEW) {
@@ -62,12 +47,7 @@ public class MapController {
             }
         });
 
-        engine.load(
-                getClass()
-                        .getResource("/map/map.html")
-                        .toExternalForm()
-        );
-
+        engine.load(getClass().getResource("/map/map.html").toExternalForm());
         setMode(mode);
     }
 
@@ -100,9 +80,7 @@ public class MapController {
 
     public void notifyLocation(Location location) {
         selectedLocation = location;
-
         addressLabel.setText(location.getAddress());
-
         confirmButton.setDisable(false);
     }
 
@@ -111,15 +89,21 @@ public class MapController {
     }
 
     public void centerOn(double lat, double lng) {
-        engine.executeScript("centerMap(" + lat + "," + lng + ");"
-            + "addComplaintMarker(" + lat + "," + lng + ",'Local da reclamação');");
+        engine.executeScript(
+                "centerMap(" + lat + "," + lng + ");"
+                        + "addComplaintMarker(" + lat + "," + lng
+                        + ",'Local da reclamação');"
+        );
     }
 
     public void setDisplayedLocation(Location location) {
         selectedLocation = location;
         addressLabel.setText(location.getAddress());
 
-        Runnable centerAction = () -> centerOn(location.getLatitude(), location.getLongitude());
+        Runnable centerAction = () -> centerOn(
+                location.getLatitude(),
+                location.getLongitude()
+        );
 
         if (engine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
             centerAction.run();
@@ -140,37 +124,41 @@ public class MapController {
         for (Complaint complaint : ComplaintService.getAllComplaints()) {
             Location location = complaint.getLocation();
             String popup = "<b>" + escapeHtml(complaint.getCategory().toString()) + "</b>"
-                + (complaint.getSubcategory() == null
-                    ? "" : "<br>" + escapeHtml(complaint.getSubcategory().toString()))
-                + "<br>Prioridade: " + escapeHtml(complaint.getPriority().toString())
-                + "<br>Status: " + escapeHtml(complaint.getStatus().toString())
-                + "<br>" + escapeHtml(location.getAddress());
+                    + (complaint.getSubcategory() == null
+                            ? ""
+                            : "<br>" + escapeHtml(complaint.getSubcategory().toString()))
+                    + "<br>Prioridade: " + escapeHtml(complaint.getPriority().toString())
+                    + "<br>Status: " + escapeHtml(complaint.getStatus().toString())
+                    + "<br>" + escapeHtml(location.getAddress());
 
-            engine.executeScript("addComplaintMarker("
-                + location.getLatitude() + "," + location.getLongitude() + ","
-                + jsString(popup) + "," + jsString(complaint.getPriority().name()) + ");");
+            engine.executeScript(
+                    "addComplaintMarker("
+                            + location.getLatitude() + ","
+                            + location.getLongitude() + ","
+                            + jsString(popup) + ","
+                            + jsString(complaint.getPriority().name())
+                            + ");"
+            );
         }
     }
 
     private String escapeHtml(String value) {
         return value
-            .replace("&", "&amp;")
-            .replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace("\"", "&quot;")
-            .replace("'", "&#39;");
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
     }
 
     private String jsString(String value) {
         return "'" + value
-            .replace("\\", "\\\\")
-            .replace("'", "\\'")
-            .replace("\r", "\\r")
-            .replace("\n", "\\n")
-            + "'";
+                .replace("\\", "\\\\")
+                .replace("'", "\\'")
+                .replace("\r", "\\r")
+                .replace("\n", "\\n")
+                + "'";
     }
-
-    private boolean loading = false;
 
     public boolean isLoading() {
         return loading;
@@ -194,11 +182,9 @@ public class MapController {
         if (selectedLocation == null) {
             return;
         }
-
         if (locationListener != null) {
             locationListener.accept(selectedLocation);
         }
-
         stage.close();
     }
 
@@ -206,5 +192,4 @@ public class MapController {
     private void cancel() {
         stage.close();
     }
-
 }

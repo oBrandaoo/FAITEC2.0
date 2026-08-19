@@ -33,7 +33,7 @@ public class ScreenManager {
     public static void loadHomeScreen() {
         User user = UserSession.getLoggedUser();
         String home = user != null && user.getRole() == UserRole.CIDADAO
-            ? "CitizenHome.fxml" : "Home.fxml";
+            ? "CitizenHome.fxml" : "home.fxml";
         loadScreen(home);
     }
 }

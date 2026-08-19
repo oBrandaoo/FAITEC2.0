@@ -2,7 +2,6 @@ package org.example.controller.complaint;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
@@ -25,16 +24,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -51,112 +47,36 @@ public class ComplaintDetailsController {
     @FXML private Label dateLabel;
     @FXML private Label addressLabel;
     @FXML private Label coordinatesLabel;
-    @FXML private Label trackingStatusLabel;
-    @FXML private Label trackingDescriptionLabel;
-    @FXML private Label lastUpdateLabel;
-    @FXML private Label otherComplaintsTitleLabel;
-    @FXML private ProgressBar trackingProgress;
     @FXML private TextArea descriptionArea;
     @FXML private ComboBox<ComplaintStatus> statusBox;
     @FXML private TextArea noteArea;
     @FXML private ListView<String> historyList;
-    @FXML private ListView<Complaint> otherComplaintsList;
     @FXML private FlowPane attachmentGallery;
     @FXML private Label noAttachmentsLabel;
     @FXML private Button saveButton;
     @FXML private Button editButton;
     @FXML private Button cancelComplaintButton;
-    @FXML private VBox managementBox;
 
     private Complaint complaint;
 
     @FXML
     public void initialize() {
         statusBox.getItems().setAll(ComplaintStatus.values());
-        configurePermissions();
-        configureComplaintNavigation();
-    }
 
-    private void configurePermissions() {
         User user = UserSession.getLoggedUser();
         boolean canManage = user != null && user.getRole().canManageComplaints();
         statusBox.setDisable(!canManage);
         noteArea.setDisable(!canManage);
-        managementBox.setVisible(canManage);
-        managementBox.setManaged(canManage);
         saveButton.setVisible(canManage);
         saveButton.setManaged(canManage);
         editButton.setVisible(false);
         editButton.setManaged(false);
         cancelComplaintButton.setVisible(false);
         cancelComplaintButton.setManaged(false);
-
-        otherComplaintsTitleLabel.setText(canManage
-                ? "Problemas registrados"
-                : "Problemas da cidade");
     }
 
-    private void configureComplaintNavigation() {
-        otherComplaintsList.setCellFactory(list -> new ListCell<>() {
-            private final Label category = new Label();
-            private final Label metadata = new Label();
-            private final Label address = new Label();
-            private final VBox content = new VBox(5, category, metadata, address);
-
-            {
-                category.getStyleClass().add("tracking-list-category");
-                metadata.getStyleClass().add("tracking-list-metadata");
-                address.getStyleClass().add("tracking-list-address");
-                address.setWrapText(true);
-                content.getStyleClass().add("tracking-list-content");
-            }
-
-            @Override
-            protected void updateItem(Complaint item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                    return;
-                }
-
-                String subcategory = item.getSubcategory() == null
-                        ? "Sem subcategoria"
-                        : item.getSubcategory().toString();
-                category.setText(item.getCategory().toString());
-                metadata.setText(item.getStatus() + "  •  " + DATE_FORMAT.format(item.getDate())
-                        + "\n" + subcategory);
-                address.setText(item.getLocation().getAddress());
-                setAccessibleText(item.getCategory() + ", " + item.getStatus()
-                        + ", " + item.getLocation().getAddress());
-                setText(null);
-                setGraphic(content);
-            }
-        });
-
-        otherComplaintsList.getSelectionModel().selectedItemProperty().addListener(
-                (observable, previous, selected) -> {
-                    if (selected != null && selected != complaint) {
-                        displayComplaint(selected);
-                    }
-                }
-        );
-    }
-
-    public void setComplaint(Complaint selectedComplaint) {
-        var visibleComplaints = ComplaintService
-                .getTrackableComplaints(UserSession.getLoggedUser())
-                .stream()
-                .sorted(Comparator.comparing(Complaint::getDate).reversed())
-                .toList();
-
-        otherComplaintsList.setItems(FXCollections.observableArrayList(visibleComplaints));
-        displayComplaint(selectedComplaint);
-        otherComplaintsList.getSelectionModel().select(selectedComplaint);
-    }
-
-    private void displayComplaint(Complaint selectedComplaint) {
-        complaint = selectedComplaint;
+    public void setComplaint(Complaint complaint) {
+        this.complaint = complaint;
         categoryLabel.setText(complaint.getCategory().toString());
         subcategoryLabel.setText(complaint.getSubcategory() == null
                 ? "Não informada"
@@ -171,31 +91,9 @@ public class ComplaintDetailsController {
         ));
         descriptionArea.setText(complaint.getDescription());
         statusBox.setValue(complaint.getStatus());
-        noteArea.clear();
-        updateTrackingSummary();
         loadAttachments();
         loadHistory();
         configureCitizenActions();
-    }
-
-    private void updateTrackingSummary() {
-        ComplaintStatus status = complaint.getStatus();
-        trackingStatusLabel.setText(status.toString());
-        trackingDescriptionLabel.setText(status.getTrackingDescription());
-        trackingProgress.setProgress(status.getTrackingProgress());
-
-        trackingStatusLabel.getStyleClass().removeIf(style ->
-                style.startsWith("tracking-status-")
-        );
-        trackingStatusLabel.getStyleClass().add(
-                "tracking-status-" + status.name().toLowerCase()
-        );
-
-        LocalDateTime lastUpdate = complaint.getHistory().stream()
-                .map(ComplaintHistoryEntry::getChangedAt)
-                .max(LocalDateTime::compareTo)
-                .orElse(complaint.getDate().atStartOfDay());
-        lastUpdateLabel.setText("Última atualização: " + HISTORY_DATE_FORMAT.format(lastUpdate));
     }
 
     @FXML
@@ -247,8 +145,7 @@ public class ComplaintDetailsController {
             });
             dialog.showAndWait();
 
-            displayComplaint(complaint);
-            otherComplaintsList.refresh();
+            setComplaint(complaint);
         } catch (IOException exception) {
             NotificationManager.error("Não foi possível abrir a edição da reclamação.");
             exception.printStackTrace();
@@ -284,8 +181,8 @@ public class ComplaintDetailsController {
                 UserSession.getLoggedUser(),
                 result.get()
         );
-        refreshCurrentComplaint();
         NotificationManager.success("Reclamação cancelada.");
+        close();
     }
 
     @FXML
@@ -296,7 +193,7 @@ public class ComplaintDetailsController {
 
         ComplaintStatus newStatus = statusBox.getValue();
         if (newStatus == complaint.getStatus()) {
-            NotificationManager.info("O status selecionado já está aplicado.");
+            close();
             return;
         }
 
@@ -318,13 +215,8 @@ public class ComplaintDetailsController {
                 UserSession.getLoggedUser(),
                 noteArea.getText()
         );
-        refreshCurrentComplaint();
         NotificationManager.success("Status da reclamação atualizado.");
-    }
-
-    private void refreshCurrentComplaint() {
-        displayComplaint(complaint);
-        otherComplaintsList.refresh();
+        close();
     }
 
     private void loadHistory() {
