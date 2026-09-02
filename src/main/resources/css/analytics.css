@@ -1,0 +1,104 @@
+.analytics-scroll {
+    -fx-background-color: transparent;
+    -fx-background: #F3F6FA;
+    -fx-border-color: transparent;
+}
+
+.analytics-page, .analytics-content {
+    -fx-background-color: #F3F6FA;
+}
+
+.page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.page-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748B;
+}
+
+.updated-label {
+    -fx-background-color: #E2E8F0;
+    -fx-background-radius: 8;
+    -fx-padding: 7 11;
+    -fx-font-size: 11px;
+    -fx-text-fill: #475569;
+}
+
+.ai-badge {
+    -fx-background-color: #7C3AED;
+    -fx-background-radius: 6;
+    -fx-padding: 4 7;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.metric-card, .content-card, .ai-card {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 13;
+    -fx-background-radius: 13;
+    -fx-padding: 20;
+}
+
+.metric-card {
+    -fx-spacing: 4;
+}
+
+.ai-card {
+    -fx-background-color: linear-gradient(to bottom right, #F5F3FF, #FFFFFF);
+    -fx-border-color: #DDD6FE;
+}
+
+.metric-name {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748B;
+}
+
+.metric-value {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1D4ED8;
+}
+
+.metric-caption {
+    -fx-font-size: 11px;
+    -fx-text-fill: #64748B;
+}
+
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.privacy-note {
+    -fx-font-size: 10px;
+    -fx-text-fill: #7C3AED;
+}
+
+.insights-list, .critical-list {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.insights-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 10 4;
+    -fx-text-fill: #312E81;
+}
+
+.critical-list .list-cell {
+    -fx-background-color: white;
+    -fx-padding: 11 8;
+    -fx-text-fill: #334155;
+    -fx-border-color: transparent transparent #E2E8F0 transparent;
+}
+
+.critical-list .list-cell:filled:hover {
+    -fx-background-color: #F8FAFC;
+}

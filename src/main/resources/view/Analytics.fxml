@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.AnalyticsController"
+            fitToWidth="true"
+            styleClass="analytics-scroll"
+            stylesheets="@../css/analytics.css">
+    <StackPane styleClass="analytics-page">
+        <VBox spacing="24" maxWidth="1120" styleClass="analytics-content">
+            <padding>
+                <Insets top="32" right="36" bottom="36" left="36"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="IA" styleClass="ai-badge"/>
+                        <Label text="Análises e inteligência" styleClass="page-title"/>
+                    </HBox>
+                    <Label text="Transforme os registros em prioridades e apoio para tomada de decisão."
+                           styleClass="page-subtitle"/>
+                </VBox>
+                <Label fx:id="updatedAtLabel" text="Atualizado hoje" styleClass="updated-label"/>
+            </HBox>
+
+            <HBox spacing="14" alignment="CENTER">
+                <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
+                    <Label text="TAXA DE RESOLUÇÃO" styleClass="metric-name"/>
+                    <Label fx:id="resolutionRateLabel" text="0%" styleClass="metric-value"/>
+                    <Label text="Entre demandas encerradas" styleClass="metric-caption"/>
+                </VBox>
+                <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
+                    <Label text="IDADE MÉDIA DA FILA" styleClass="metric-name"/>
+                    <Label fx:id="averageAgeLabel" text="0 dias" styleClass="metric-value"/>
+                    <Label text="Demandas ainda abertas" styleClass="metric-caption"/>
+                </VBox>
+                <VBox maxWidth="Infinity" styleClass="metric-card" HBox.hgrow="ALWAYS">
+                    <Label text="FILA ATIVA" styleClass="metric-name"/>
+                    <Label fx:id="openQueueLabel" text="0" styleClass="metric-value"/>
+                    <Label text="Pendentes ou em atendimento" styleClass="metric-caption"/>
+                </VBox>
+            </HBox>
+
+            <GridPane hgap="18">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="55" hgrow="ALWAYS"/>
+                    <ColumnConstraints percentWidth="45" hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <VBox spacing="10" maxWidth="Infinity" styleClass="ai-card" GridPane.columnIndex="0">
+                    <Label text="Análise inteligente" styleClass="card-title"/>
+                    <Label text="Alertas e recomendações explicáveis gerados com os dados atuais."
+                           wrapText="true" styleClass="metric-caption"/>
+                    <ListView fx:id="insightsList" prefHeight="260" mouseTransparent="true"
+                              focusTraversable="false" styleClass="insights-list" VBox.vgrow="ALWAYS"/>
+                    <Label text="Processamento local: nenhum dado é enviado para serviços externos."
+                           styleClass="privacy-note"/>
+                </VBox>
+
+                <VBox spacing="10" maxWidth="Infinity" styleClass="content-card" GridPane.columnIndex="1">
+                    <Label text="Fila crítica sugerida" styleClass="card-title"/>
+                    <Label text="Ordenada por prioridade, espera e etapa atual."
+                           styleClass="metric-caption"/>
+                    <ListView fx:id="criticalList" prefHeight="300"
+                              styleClass="critical-list" VBox.vgrow="ALWAYS"/>
+                </VBox>
+            </GridPane>
+        </VBox>
+    </StackPane>
+</ScrollPane>

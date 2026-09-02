@@ -81,7 +81,7 @@
                 <Label text="Atalhos de teclado" styleClass="fieldLabel"/>
                 <Label text="Alt+1 Início   •   Alt+2 Nova reclamação   •   Alt+3 Reclamações"
                        wrapText="true" styleClass="shortcutText"/>
-                <Label text="Alt+4 Mapa   •   Alt+5 Acompanhamento   •   Alt+6 Configurações   •   Alt+0 Sobre"
+                <Label text="Alt+4 Mapa   •   Alt+5 Acompanhamento   •   Alt+6 Configurações   •   Alt+7 Análises   •   Alt+0 Sobre"
                        wrapText="true" styleClass="shortcutText"/>
             </VBox>
         </VBox>

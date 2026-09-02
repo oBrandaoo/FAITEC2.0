@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.model.User;
+import org.example.model.enums.UserRole;
 import org.example.util.AccessibilityManager;
 import org.example.util.NotificationManager;
 import org.example.util.ScreenManager;
@@ -29,6 +30,7 @@ public class MainController {
 
     @FXML private Button newComplaintButton;
     @FXML private Button complaintsButton;
+    @FXML private Button analyticsButton;
     @FXML private Button mapButton;
     @FXML private Button trackingButton;
     @FXML private Label loggedUserLabel;
@@ -67,6 +69,9 @@ public class MainController {
             goTracking();
         } else if (code == KeyCode.DIGIT6 || code == KeyCode.NUMPAD6) {
             goSettings();
+        } else if ((code == KeyCode.DIGIT7 || code == KeyCode.NUMPAD7)
+            && analyticsButton.isVisible()) {
+            goAnalytics();
         } else if (code == KeyCode.DIGIT0 || code == KeyCode.NUMPAD0) {
             goAbout();
         } else {
@@ -84,6 +89,7 @@ public class MainController {
         setAvailable(newComplaintButton, user.getRole().canCreateComplaint());
         setAvailable(mapButton, user.getRole().canViewMap());
         setAvailable(trackingButton, user.getRole().canViewMap());
+        setAvailable(analyticsButton, user.getRole() == UserRole.ADMINISTRADOR);
         if (!user.getRole().canManageComplaints()) {
             complaintsButton.setText("📋   Minhas reclamações");
         }
@@ -109,6 +115,11 @@ public class MainController {
     @FXML
     private void goComplaints() {
         ScreenManager.loadScreen("ComplaintList.fxml");
+    }
+
+    @FXML
+    private void goAnalytics() {
+        ScreenManager.loadScreen("Analytics.fxml");
     }
 
     @FXML

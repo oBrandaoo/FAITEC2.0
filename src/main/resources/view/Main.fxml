@@ -67,6 +67,12 @@
                     onAction="#goComplaints"
                     styleClass="menuButton"/>
 
+            <Button text="▥   Análises e IA"
+                    accessibleText="Análises e inteligência. Atalho Alt mais 7"
+                    fx:id="analyticsButton"
+                    onAction="#goAnalytics"
+                    styleClass="menuButton"/>
+
             <Button text="🗺   Mapa"
                     accessibleText="Mapa de reclamações. Atalho Alt mais 4"
                     fx:id="mapButton"
