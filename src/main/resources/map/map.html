@@ -63,11 +63,16 @@
 
     }).setView([-22.252,-45.703],13);
 
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    const tileLayer = L.tileLayer(
+        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
-        maxZoom:19
-    }).addTo(map);
+        maxZoom:19,
+        updateWhenIdle:true,
+        keepBuffer:2,
+        attribution:'&copy; OpenStreetMap'
+    });
+
+    tileLayer.addTo(map);
 
     map.on("click",function(e){
 
@@ -175,11 +180,14 @@
 
     }
 
-    setTimeout(function(){
+    function invalidateMapSize(){
+        map._sizeChanged = true;
+        map.invalidateSize({pan: false, animate: false});
+    }
 
-        map.invalidateSize();
+    window.addEventListener("resize", invalidateMapSize);
 
-    },200);
+    setTimeout(invalidateMapSize, 200);
 
 </script>
 

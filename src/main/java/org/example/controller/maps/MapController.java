@@ -9,12 +9,15 @@ import org.example.service.ComplaintService;
 import org.example.util.MapBridge;
 
 import javafx.concurrent.Worker;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import netscape.javascript.JSObject;
 
 public class MapController {
@@ -30,16 +33,23 @@ public class MapController {
     private MapMode mode = MapMode.OVERVIEW;
     private Consumer<Location> locationListener;
     private boolean loading;
+    private final PauseTransition mapResizeDebounce =
+            new PauseTransition(Duration.millis(100));
 
     @FXML
     public void initialize() {
         engine = mapView.getEngine();
+
+        mapResizeDebounce.setOnFinished(event -> invalidateMapSize());
+        mapView.widthProperty().addListener((obs, oldValue, newValue) -> scheduleMapResize());
+        mapView.heightProperty().addListener((obs, oldValue, newValue) -> scheduleMapResize());
 
         engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
                 JSObject window = (JSObject) engine.executeScript("window");
                 window.setMember("javaBridge", new MapBridge(this));
                 updateMapInteraction();
+                Platform.runLater(this::scheduleMapResize);
 
                 if (mode == MapMode.OVERVIEW) {
                     showComplaintMarkers();
@@ -49,6 +59,17 @@ public class MapController {
 
         engine.load(getClass().getResource("/map/map.html").toExternalForm());
         setMode(mode);
+    }
+
+    private void scheduleMapResize() {
+        mapResizeDebounce.playFromStart();
+    }
+
+    private void invalidateMapSize() {
+        if (engine != null
+                && engine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
+            engine.executeScript("invalidateMapSize();");
+        }
     }
 
     public void setMode(MapMode mode) {
