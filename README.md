@@ -90,6 +90,7 @@ Atalhos disponíveis:
 | `Alt+4` | Mapa, quando permitido |
 | `Alt+5` | Acompanhamento, quando permitido |
 | `Alt+6` | Configurações |
+| `Alt+7` | Análises e IA, somente para administrador |
 | `Alt+0` | Sobre o sistema |
 
 ## Tecnologias e serviços
