@@ -9,9 +9,6 @@ import javafx.stage.Stage;
 public class MainApp {
 
     public static void main(String[] args) {
-        if (System.getProperty("os.name", "").startsWith("Windows")) {
-            System.setProperty("prism.allowhidpi", "false");
-        }
         Application.launch(FxApplication.class, args);
     }
 

@@ -8,6 +8,12 @@
     <link rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
+    <!--
+        O WebView do JavaFX no Windows pode aplicar a escala HiDPI duas vezes nas
+        transformacoes 3D do Leaflet. Isso desloca e recorta somente os tiles do
+        mapa. A flag precisa existir antes do carregamento da biblioteca.
+    -->
+    <script>window.L_DISABLE_3D = true;</script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
