@@ -77,6 +77,28 @@ class ComplaintServiceTest {
     }
 
     @Test
+    void demonstrationDataSupportsEveryMapOwnerAndPriorityFilter() {
+        List<Complaint> all = ComplaintService.getAllComplaints();
+
+        for (User user : org.example.controller.LoginController.getAvailableUsers()) {
+            assertFalse(ComplaintMapFilterService.filter(all, user, true, null).isEmpty(),
+                    "O filtro 'Minhas' deve encontrar registros para " + user.getName());
+        }
+
+        for (ComplaintPriority priority : ComplaintPriority.values()) {
+            assertFalse(ComplaintMapFilterService.filter(all, null, false, priority).isEmpty(),
+                    "O filtro de prioridade deve encontrar registros para " + priority);
+        }
+    }
+
+    @Test
+    void demonstrationDataContainsNearbyReportsThatCanBeGroupedOnTheMap() {
+        assertTrue(ComplaintClusterService.groupByProximity(
+                ComplaintService.getAllComplaints()).stream()
+                .anyMatch(cluster -> cluster.count() >= 3));
+    }
+
+    @Test
     void citizenShouldTrackOwnAndOtherPublicComplaints() {
         User citizen = user("USR-003", UserRole.CIDADAO);
 
