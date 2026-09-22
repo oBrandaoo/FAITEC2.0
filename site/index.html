@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cidade em Dia: conectando moradores, gestão pública e soluções para uma cidade melhor." />
+    <meta name="theme-color" content="#071b2d" />
+    <title>Cidade em Dia — A cidade em movimento</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site-noise" aria-hidden="true"></div>
+
+    <header class="topbar" id="topo">
+      <a class="brand" href="#topo" aria-label="Cidade em Dia, início">
+        <span class="brand-mark"><img src="../src/main/resources/images/logoSemNome.png" alt="" /></span>
+        <span class="brand-name">cidade <b>em dia</b></span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+        <span class="sr-only">Abrir menu</span>
+      </button>
+
+      <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+        <a class="nav-link is-active" href="#solucao">A solução</a>
+        <a class="nav-link" href="#painel">Painel</a>
+        <a class="nav-link" href="#fluxo">Como funciona</a>
+        <a class="nav-link" href="#demonstracao">Demonstração</a>
+      </nav>
+
+      <a class="nav-cta" href="#contato">Falar sobre o projeto <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main>
+      <section class="hero section-wrap" id="inicio">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span class="pulse-dot"></span> plataforma cívica para a cidade</div>
+          <h1>Uma cidade mais atenta começa com <span>você.</span></h1>
+          <p class="hero-lead">O Cidade em Dia transforma relatos do cotidiano em informação, acompanhamento e ação — aproximando quem vive a cidade de quem cuida dela.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#painel">Explorar a experiência <span aria-hidden="true">→</span></a>
+            <button class="button button-quiet" type="button" data-open-modal>Ver como funciona <span class="play-icon" aria-hidden="true">▶</span></button>
+          </div>
+          <div class="hero-proof">
+            <div class="avatar-stack" aria-hidden="true">
+              <span>MC</span><span>JS</span><span>AL</span><span>+</span>
+            </div>
+            <p><strong>Uma rede que participa</strong><br /><span>feito para moradores e gestão pública</span></p>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal reveal-delay" aria-label="Prévia do painel Cidade em Dia">
+          <div class="visual-glow glow-blue"></div>
+          <div class="visual-glow glow-green"></div>
+          <div class="hero-dashboard glass-card">
+            <div class="dashboard-topline">
+              <div class="window-dots"><i></i><i></i><i></i></div>
+              <span>cidadeemdia / visão geral</span>
+              <button type="button" aria-label="Mais opções">•••</button>
+            </div>
+            <div class="dashboard-heading">
+              <div><span class="mini-label">quarta, 22 maio 2024</span><h2>Bom dia, cidade.</h2></div>
+              <span class="user-chip">RB</span>
+            </div>
+            <div class="metric-row">
+              <div class="metric"><span>chamados ativos</span><strong data-count="247">0</strong><small class="metric-up">↗ 12% esta semana</small></div>
+              <div class="metric"><span>resolvidos</span><strong data-count="83" data-suffix="%">0%</strong><small>meta mensal: 80%</small></div>
+            </div>
+            <div class="mini-map">
+              <div class="map-label map-label-one"><span class="map-pin blue"></span> Centro</div>
+              <div class="map-label map-label-two"><span class="map-pin green"></span> Jardim América</div>
+              <div class="map-label map-label-three"><span class="map-pin amber"></span> Bela Vista</div>
+              <svg viewBox="0 0 500 220" preserveAspectRatio="none" aria-hidden="true">
+                <path class="map-road road-one" d="M-10 75 C 80 38, 104 126, 194 94 S 342 16, 520 68" />
+                <path class="map-road road-two" d="M48 222 C 80 168, 129 161, 178 184 S 278 225, 334 173 S 405 76, 515 86" />
+                <path class="map-road road-three" d="M155 -10 C 139 65, 217 90, 251 118 S 300 180, 270 230" />
+              </svg>
+              <div class="map-dot dot-blue"></div><div class="map-dot dot-blue two"></div><div class="map-dot dot-green"></div><div class="map-dot dot-amber"></div><div class="map-dot dot-green two"></div>
+              <div class="map-scale"><span></span><small>500 m</small></div>
+            </div>
+            <div class="dashboard-footer"><span><i class="status-live"></i> dados atualizados agora</span><a href="#painel">abrir painel →</a></div>
+          </div>
+          <div class="floating-card floating-alert"><span class="alert-icon">!</span><div><strong>3 chamados urgentes</strong><small>atenção da gestão</small></div><span class="floating-arrow">↗</span></div>
+          <div class="floating-card floating-status"><span class="check-icon">✓</span><div><strong>Rua do Comércio</strong><small>resolvido em 2 dias</small></div></div>
+        </div>
+      </section>
+
+      <div class="impact-strip section-wrap reveal" aria-label="Indicadores do projeto">
+        <div><strong>5</strong><span>etapas de atendimento</span></div>
+        <div><strong>4</strong><span>níveis de prioridade</span></div>
+        <div><strong>100%</strong><span>rastreabilidade do chamado</span></div>
+        <div class="impact-note"><span class="impact-line"></span><span>mais transparência para decisões melhores</span></div>
+      </div>
+
+      <section class="section section-wrap" id="solucao">
+        <div class="section-heading split-heading reveal">
+          <div><div class="eyebrow eyebrow-dark">a solução</div><h2>O pulso da cidade,<br /><em>em um só lugar.</em></h2></div>
+          <p>Do primeiro relato à resolução, cada etapa fica clara para quem participa. Menos ruído, mais contexto e uma cidade que responde melhor.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card feature-blue reveal">
+            <div class="feature-icon icon-report"><span>＋</span></div>
+            <span class="feature-number">01</span><h3>Relate sem complicação</h3><p>Registre um problema com categoria, prioridade, localização e até quatro imagens.</p><a href="#fluxo" class="text-link">ver o fluxo <span>→</span></a>
+          </article>
+          <article class="feature-card feature-lime reveal reveal-delay-sm">
+            <div class="feature-icon icon-map"><span>⌖</span></div>
+            <span class="feature-number">02</span><h3>Encontre no mapa</h3><p>Uma visão pública dos pontos que precisam de atenção, com filtros por prioridade.</p><a href="#painel" class="text-link">explorar mapa <span>→</span></a>
+          </article>
+          <article class="feature-card feature-navy reveal reveal-delay-md">
+            <div class="feature-icon icon-track"><span>↗</span></div>
+            <span class="feature-number">03</span><h3>Acompanhe de verdade</h3><p>Veja o andamento, o responsável pela mudança e a última atualização do chamado.</p><a href="#fluxo" class="text-link">entender etapas <span>→</span></a>
+          </article>
+          <article class="feature-card feature-sand reveal reveal-delay-lg">
+            <div class="feature-icon icon-insight"><span>⌁</span></div>
+            <span class="feature-number">04</span><h3>Decida com contexto</h3><p>Painéis e filtros ajudam a gestão a priorizar o que realmente importa agora.</p><a href="#painel" class="text-link">ver indicadores <span>→</span></a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section panel-section" id="painel">
+        <div class="section-wrap">
+          <div class="section-heading centered-heading reveal">
+            <div class="eyebrow eyebrow-light">uma experiência, três visões</div>
+            <h2>Informação certa para<br /><em>cada pessoa.</em></h2>
+            <p>Troque de perfil e veja como a mesma cidade ganha novas possibilidades de cuidado.</p>
+          </div>
+          <div class="panel-switcher reveal" role="tablist" aria-label="Perfis do painel">
+            <button class="profile-tab is-active" type="button" role="tab" aria-selected="true" data-profile="citizen"><span class="tab-symbol">◌</span> Cidadão</button>
+            <button class="profile-tab" type="button" role="tab" aria-selected="false" data-profile="manager"><span class="tab-symbol">▦</span> Gestão</button>
+            <button class="profile-tab" type="button" role="tab" aria-selected="false" data-profile="tracking"><span class="tab-symbol">⌁</span> Acompanhamento</button>
+          </div>
+          <div class="interactive-panel glass-card reveal">
+            <div class="interactive-sidebar">
+              <div class="mini-brand"><img src="../src/main/resources/images/logoSemNome.png" alt="" /><span>cidade<br /><b>em dia</b></span></div>
+              <div class="sidebar-user"><span class="user-chip user-chip-light">RB</span><div><strong id="side-name">Olá, Rafael</strong><small id="side-role">morador</small></div></div>
+              <nav class="side-nav" aria-label="Prévia de navegação"><a class="side-nav-link is-current" href="#painel">⌂ <span>Visão geral</span></a><a class="side-nav-link" href="#demonstracao">⊙ <span id="side-action">Novo chamado</span></a><a class="side-nav-link" href="#fluxo">◷ <span>Meus chamados</span><i>3</i></a><a class="side-nav-link" href="#painel">⌖ <span>Mapa da cidade</span></a></nav>
+              <div class="sidebar-bottom"><span class="sidebar-help">?</span><span>Central de ajuda</span></div>
+            </div>
+            <div class="interactive-main">
+              <div class="interactive-top"><div><span class="mini-label" id="panel-kicker">visão do morador</span><h3 id="panel-title">O que está acontecendo por aí?</h3></div><button class="notify-button" aria-label="Notificações">♢<i></i></button></div>
+              <div class="panel-content" id="profile-citizen">
+                <div class="panel-stat-grid"><div class="panel-stat panel-stat-highlight"><span>seus chamados</span><strong>12</strong><small>+2 este mês</small></div><div class="panel-stat"><span>em andamento</span><strong>04</strong><small>acompanhe de perto</small></div><div class="panel-stat"><span>resolvidos</span><strong>08</strong><small>que bom, hein?</small></div></div>
+                <div class="panel-lower"><div class="activity-card"><div class="card-header"><h4>Atividade recente</h4><a href="#fluxo">ver tudo</a></div><div class="activity-row"><span class="activity-status status-analysis">↻</span><div><strong>Semáforo com defeito</strong><small>Em análise · há 2h</small></div><span class="activity-arrow">→</span></div><div class="activity-row"><span class="activity-status status-done">✓</span><div><strong>Buraco na Rua do Comércio</strong><small>Resolvido · ontem</small></div><span class="activity-arrow">→</span></div><div class="activity-row"><span class="activity-status status-pending">•</span><div><strong>Iluminação pública</strong><small>Pendente · há 3 dias</small></div><span class="activity-arrow">→</span></div></div><div class="category-card"><div class="card-header"><h4>Chamados por tema</h4><span>2024</span></div><div class="bar-chart"><div style="--bar: 88%"><span>Mobilidade</span><i></i><b>38</b></div><div style="--bar: 64%"><span>Iluminação</span><i></i><b>24</b></div><div style="--bar: 46%"><span>Limpeza</span><i></i><b>17</b></div><div style="--bar: 31%"><span>Calçadas</span><i></i><b>11</b></div></div></div></div>
+              </div>
+              <div class="panel-content is-hidden" id="profile-manager">
+                <div class="panel-stat-grid"><div class="panel-stat panel-stat-highlight"><span>chamados totais</span><strong>247</strong><small>+12% esta semana</small></div><div class="panel-stat"><span>urgentes</span><strong>03</strong><small class="danger-text">atenção necessária</small></div><div class="panel-stat"><span>taxa de solução</span><strong>83<small>%</small></strong><small>acima da meta</small></div></div>
+                <div class="panel-lower"><div class="activity-card"><div class="card-header"><h4>Fila de atenção</h4><a href="#demonstracao">abrir fila</a></div><div class="activity-row"><span class="priority-dot priority-high"></span><div><strong>Congestionamento recorrente</strong><small>Urgente · Centro</small></div><span class="activity-arrow">→</span></div><div class="activity-row"><span class="priority-dot priority-medium"></span><div><strong>Faixa de pedestres apagada</strong><small>Alta · Jardim América</small></div><span class="activity-arrow">→</span></div><div class="activity-row"><span class="priority-dot priority-low"></span><div><strong>Coleta irregular</strong><small>Média · Bela Vista</small></div><span class="activity-arrow">→</span></div></div><div class="category-card insight-card"><div class="card-header"><h4>Tempo médio</h4><span>últimos 30 dias</span></div><strong class="big-insight">2,4 <small>dias</small></strong><div class="insight-line"><span>melhor que no mês anterior</span><b>↓ 18%</b></div><div class="sparkline"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+              </div>
+              <div class="panel-content is-hidden" id="profile-tracking">
+                <div class="tracking-head"><div><span class="mini-label">chamado #CED-0247</span><h4>Buraco na Rua do Comércio</h4><span class="location-label">⌖ Centro · Santa Rita do Sapucaí</span></div><span class="tracking-badge">em execução</span></div>
+                <div class="progress-track"><div class="progress-fill"></div><div class="progress-point is-done">✓</div><div class="progress-point is-done">✓</div><div class="progress-point is-current">3</div><div class="progress-point">4</div></div><div class="progress-labels"><span>Registrado</span><span>Em análise</span><span class="current-label">Em execução</span><span>Resolvido</span></div>
+                <div class="tracking-update"><span class="update-icon">↗</span><div><strong>Equipe de obras atualizou o chamado</strong><small>“O reparo foi programado para esta semana.” · há 4h</small></div><a href="#fluxo">ver histórico →</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-wrap workflow-section" id="fluxo">
+        <div class="workflow-copy reveal"><div class="eyebrow eyebrow-dark">do relato à solução</div><h2>Clareza em<br /><em>cada passo.</em></h2><p>Um fluxo simples para quem reporta e poderoso para quem resolve. A cidade acompanha junto.</p><a class="button button-dark" href="#demonstracao">ver uma demonstração <span>→</span></a></div>
+        <div class="timeline reveal reveal-delay"><div class="timeline-line"></div><article class="timeline-item is-complete"><div class="timeline-marker">✓</div><div><span>01 · cidadão</span><h3>Você registra</h3><p>Conte o que aconteceu, indique o local e adicione uma foto.</p></div></article><article class="timeline-item is-complete"><div class="timeline-marker">✓</div><div><span>02 · gestão</span><h3>A equipe analisa</h3><p>O chamado ganha categoria, prioridade e responsável.</p></div></article><article class="timeline-item is-current"><div class="timeline-marker">03</div><div><span>03 · cidade</span><h3>Todo mundo acompanha</h3><p>Cada mudança de status fica registrada e visível.</p></div></article><article class="timeline-item"><div class="timeline-marker">04</div><div><span>04 · resultado</span><h3>O problema é resolvido</h3><p>O ciclo fecha com transparência e histórico completo.</p></div></article></div>
+      </section>
+
+      <section class="section demo-section" id="demonstracao">
+        <div class="section-wrap">
+          <div class="section-heading split-heading reveal"><div><div class="eyebrow eyebrow-dark">demonstração</div><h2>Veja a cidade<br /><em>em movimento.</em></h2></div><p>Uma amostra visual das principais telas do projeto. Quando tiver os screenshots finais, basta adicionar aqui — o espaço já está preparado.</p></div>
+          <div class="showcase-grid">
+            <article class="showcase-card showcase-wide reveal"><div class="showcase-copy"><span class="showcase-tag">01 · visão pública</span><h3>O mapa que dá contexto.</h3><p>Localize os chamados e encontre os pontos que precisam de cuidado.</p><a href="#painel" class="text-link">explorar o painel <span>→</span></a></div><div class="mock-screen map-screen"><div class="mock-toolbar"><span class="mock-logo">cidade <b>em dia</b></span><span class="mock-pill">todos os chamados⌄</span></div><div class="mock-map-field"><div class="mock-road r1"></div><div class="mock-road r2"></div><div class="mock-road r3"></div><span class="mock-pin mp1">!</span><span class="mock-pin mp2">✓</span><span class="mock-pin mp3">!</span><span class="mock-pin mp4">•</span><div class="mock-map-card"><small>chamado selecionado</small><strong>Semáforo com defeito</strong><span>Centro · Alta prioridade</span></div></div></div></article>
+            <article class="showcase-card reveal reveal-delay-sm"><div class="showcase-copy"><span class="showcase-tag">02 · acompanhamento</span><h3>Progresso sem dúvida.</h3><p>O morador sabe em que etapa seu chamado está.</p></div><div class="mock-screen tracking-screen"><div class="mock-screen-head"><span>chamado #CED-0247</span><i>•••</i></div><strong>Buraco na Rua do Comércio</strong><small>Centro · registrado há 2 dias</small><div class="mock-progress"><span class="done">✓</span><i></i><span class="done">✓</span><i></i><span class="current">3</span><i></i><span>4</span></div><div class="mock-status-list"><span><i class="green-check">✓</i> Chamado recebido</span><span><i class="green-check">✓</i> Em análise pela equipe</span><span><i class="blue-check">↗</i> Reparo em execução</span></div></div></article>
+            <article class="showcase-card reveal reveal-delay-md"><div class="showcase-copy"><span class="showcase-tag">03 · gestão</span><h3>Prioridades à vista.</h3><p>Indicadores que ajudam a escolher o próximo passo.</p></div><div class="mock-screen analytics-screen"><div class="mock-screen-head"><span>resumo operacional</span><span class="mock-date">mai, 2024⌄</span></div><div class="mock-kpis"><div><small>ativos</small><strong>247</strong></div><div><small>resolvidos</small><strong>83%</strong></div></div><div class="mock-bars"><i style="height: 44%"></i><i style="height: 61%"></i><i style="height: 54%"></i><i class="active" style="height: 82%"></i><i style="height: 67%"></i><i style="height: 92%"></i><i style="height: 72%"></i></div><div class="mock-chart-labels"><span>seg</span><span>ter</span><span>qua</span><span>qui</span><span>sex</span><span>sáb</span><span>dom</span></div></div></article>
+          </div>
+          <label class="upload-zone reveal" for="demo-upload"><span class="upload-plus">＋</span><span><strong>Adicione imagens reais do projeto</strong><small>PNG ou JPG · você pode selecionar mais de uma</small></span><span class="upload-action">escolher arquivos <span>↗</span></span><input id="demo-upload" type="file" accept="image/png,image/jpeg,image/webp" multiple /></label>
+          <div class="uploaded-gallery" id="uploaded-gallery" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="section faq-section section-wrap">
+        <div class="faq-intro reveal"><div class="eyebrow eyebrow-dark">perguntas rápidas</div><h2>Feito para a cidade<br /><em>de verdade.</em></h2><p>Algumas respostas sobre a proposta do Cidade em Dia.</p></div>
+        <div class="faq-list reveal reveal-delay"><button class="faq-item is-open" type="button"><span>Quem pode usar o Cidade em Dia?</span><i>＋</i><p>Qualquer morador pode registrar e acompanhar reclamações. A gestão conta com ferramentas para organizar, priorizar e resolver as demandas.</p></button><button class="faq-item" type="button"><span>Que tipo de chamado pode ser registrado?</span><i>＋</i><p>Mobilidade, iluminação, limpeza, calçadas e outros temas urbanos. Cada chamado pode receber categoria, subcategoria e prioridade.</p></button><button class="faq-item" type="button"><span>As informações ficam visíveis para todos?</span><i>＋</i><p>Os problemas públicos podem ser consultados no mapa e o morador acompanha o histórico dos próprios chamados com transparência.</p></button><button class="faq-item" type="button"><span>Posso colocar imagens na apresentação?</span><i>＋</i><p>Sim. A seção de demonstração acima já permite selecionar imagens locais para criar uma galeria visual do projeto.</p></button></div>
+      </section>
+
+      <section class="final-cta section-wrap reveal" id="contato"><div class="cta-orbit orbit-one"></div><div class="cta-orbit orbit-two"></div><div class="eyebrow eyebrow-light">cidade em dia · projeto faitec 2.0</div><h2>Mais participação.<br /><em>Mais cidade.</em></h2><p>Uma experiência digital para transformar pequenos relatos em grandes melhorias.</p><a class="button button-light" href="#demonstracao">Quero conhecer o projeto <span>→</span></a><div class="cta-signature"><span class="signature-line"></span><span>feito para Santa Rita do Sapucaí, MG</span></div></section>
+    </main>
+
+    <footer class="footer section-wrap"><a class="brand" href="#topo"><span class="brand-mark"><img src="../src/main/resources/images/logoSemNome.png" alt="" /></span><span class="brand-name">cidade <b>em dia</b></span></a><span>FAITEC 2.0 · projeto acadêmico</span><a href="#topo">voltar ao topo ↑</a></footer>
+
+    <div class="modal-backdrop" id="demo-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden><div class="demo-modal"><button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button><span class="eyebrow eyebrow-dark">em 3 passos</span><h2 id="modal-title">Como a cidade entra<br /><em>em movimento.</em></h2><div class="modal-steps"><div><span>01</span><strong>Relate</strong><small>O morador registra o que precisa de atenção.</small></div><div><span>02</span><strong>Organize</strong><small>A gestão analisa e prioriza cada chamado.</small></div><div><span>03</span><strong>Acompanhe</strong><small>Todos acompanham o caminho até a solução.</small></div></div><a class="button button-dark" href="#fluxo" data-close-modal>ver o fluxo completo <span>→</span></a></div></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
