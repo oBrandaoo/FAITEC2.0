@@ -66,8 +66,11 @@ O painel do cidadão apresenta os totais das próprias reclamações e suas
 atividades recentes.
 
 O mapa principal exibe marcadores das reclamações cadastradas, diferenciados
-por prioridade. A seleção por clique é habilitada somente quando o mapa é aberto
-pelo formulário para escolher uma localização.
+por prioridade. O painel de filtros permite alternar entre todas as reclamações
+e as do usuário logado, além de filtrar por prioridade. Os controles de
+visualização alternam entre mapa padrão e imagem de satélite, e também permitem
+exibir e aproximar os limites municipais. A seleção por clique é habilitada
+somente quando o mapa é aberto pelo formulário para escolher uma localização.
 
 A opção `Acompanhamento`, posicionada logo abaixo de `Mapa` na sidebar, permite
 selecionar problemas públicos, consultar o progresso e abrir sua localização.
