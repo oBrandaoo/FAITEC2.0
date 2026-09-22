@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Arquitetura, diagramas, modelos, fluxos e telas do projeto Cidade em Dia." />
+    <meta name="theme-color" content="#071b2d" />
+    <title>Visão técnica — Cidade em Dia</title>
+    <link rel="stylesheet" href="tech.css" />
+  </head>
+  <body>
+    <header class="tech-header">
+      <a class="tech-brand" href="index.html" aria-label="Cidade em Dia — voltar ao site">
+        <span class="tech-brand-icon"><img src="../src/main/resources/images/logoSemNome.png" alt="" /></span>
+        <span>cidade <b>em dia</b><small>caderno técnico</small></span>
+      </a>
+      <button class="tech-menu-toggle" type="button" aria-expanded="false" aria-controls="tech-nav"><span></span><span></span><span></span><span class="sr-only">Abrir navegação</span></button>
+      <nav class="tech-nav" id="tech-nav" aria-label="Navegação técnica">
+        <a href="#arquitetura">Arquitetura</a><a href="#fluxos">Fluxos</a><a href="#dominio">Domínio</a><a href="#perfis">Perfis</a><a href="#telas">Telas</a><a href="#qualidade">Qualidade</a>
+      </nav>
+      <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Visão do projeto</a>
+    </header>
+
+    <main>
+      <section class="tech-hero" id="topo">
+        <div class="hero-grid-lines" aria-hidden="true"></div>
+        <div class="tech-shell hero-layout">
+          <div class="hero-copy reveal">
+            <div class="tech-eyebrow"><span></span> documento de arquitetura · faitec 2.0</div>
+            <h1>Por dentro do<br /><em>Cidade em Dia.</em></h1>
+            <p>Uma leitura visual da estrutura JavaFX, dos fluxos de atendimento, das regras de acesso e das decisões técnicas do projeto.</p>
+            <div class="hero-buttons"><a class="tech-button tech-button-green" href="#arquitetura">Explorar arquitetura <span>↓</span></a><button class="tech-button tech-button-outline" type="button" id="presentation-toggle"><span>⛶</span> Modo apresentação</button></div>
+            <div class="hero-meta"><span><i>01</i> arquitetura em camadas</span><span><i>02</i> diagramas baseados no código</span><span><i>03</i> implementação demonstrável</span></div>
+          </div>
+          <div class="hero-orbit reveal reveal-delay" aria-label="Resumo da arquitetura do sistema">
+            <div class="orbit-ring ring-a"></div><div class="orbit-ring ring-b"></div>
+            <div class="orbit-core"><img src="../src/main/resources/images/logoSemNome.png" alt="" /><span>JavaFX<br /><b>desktop</b></span></div>
+            <div class="orbit-node node-view"><span>01</span><b>Interface</b><small>FXML · CSS</small></div>
+            <div class="orbit-node node-control"><span>02</span><b>Controle</b><small>Controllers</small></div>
+            <div class="orbit-node node-domain"><span>03</span><b>Domínio</b><small>Model · Services</small></div>
+            <div class="orbit-node node-data"><span>04</span><b>Estado</b><small>Memória local</small></div>
+            <span class="orbit-caption">fluxo de responsabilidades</span>
+          </div>
+        </div>
+        <div class="tech-shell metric-rail reveal"><div><strong>Java 21</strong><span>alvo configurado no Maven</span></div><div><strong>JavaFX 21</strong><span>Controls · FXML · Web</span></div><div><strong>4 camadas</strong><span>UI · controllers · domínio · util</span></div><div><strong>35 testes</strong><span>suíte descrita no README</span></div></div>
+      </section>
+
+      <div class="tech-shell section-index"><span>GUIA TÉCNICO</span><a href="#arquitetura">01 arquitetura</a><a href="#fluxos">02 fluxos</a><a href="#dominio">03 domínio</a><a href="#perfis">04 permissões</a><a href="#telas">05 interfaces</a><a href="#qualidade">06 qualidade</a></div>
+
+      <section class="tech-section tech-shell" id="arquitetura">
+        <div class="section-intro reveal"><div class="tech-eyebrow eyebrow-blue">01 / arquitetura</div><h2>Responsabilidades<br /><em>bem separadas.</em></h2><p>O aplicativo inicia no JavaFX, carrega as telas FXML e deixa os controllers coordenarem a interface. Os serviços aplicam regras ao domínio mantido em memória.</p></div>
+        <div class="architecture-board reveal">
+          <div class="arch-top"><span class="board-label">VISÃO DE COMPONENTES</span><span class="board-path">src/main/java/org/example</span></div>
+          <div class="arch-start"><span class="arch-step">PONTO DE ENTRADA</span><strong>MainApp</strong><small>inicia JavaFX · abre Login.fxml</small></div>
+          <div class="arch-arrow down-arrow"><span>carrega a interface</span><i>↓</i></div>
+          <div class="arch-layer layer-ui"><div class="layer-number">01</div><div class="layer-title"><span>APRESENTAÇÃO</span><strong>FXML + CSS</strong></div><div class="layer-items"><span>Login.fxml</span><span>Main.fxml</span><span>ComplaintForm.fxml</span><span>MapView.fxml</span><span>demais views</span></div><div class="layer-note">layout · componentes · estilos</div></div>
+          <div class="arch-arrow"><span>eventos de interface</span><i>↓</i></div>
+          <div class="arch-layer layer-controller"><div class="layer-number">02</div><div class="layer-title"><span>COORDENAÇÃO</span><strong>Controllers</strong></div><div class="layer-items"><span>LoginController</span><span>MainController</span><span>Complaint*</span><span>MapController</span><span>Dashboard / Analytics</span></div><div class="layer-note">recebe ações · atualiza a view</div></div>
+          <div class="arch-arrow"><span>consulta e comandos</span><i>↓</i></div>
+          <div class="arch-split">
+            <div class="arch-layer layer-service"><div class="layer-number">03</div><div class="layer-title"><span>REGRAS DE NEGÓCIO</span><strong>Services</strong></div><div class="layer-items"><span>ComplaintService</span><span>Analytics</span><span>MapFilter</span><span>Clustering</span><span>UrgencyRanking</span></div></div>
+            <div class="arch-layer layer-model"><div class="layer-number">04</div><div class="layer-title"><span>MODELO DE DOMÍNIO</span><strong>Model + enums</strong></div><div class="layer-items"><span>Complaint</span><span>User</span><span>Location</span><span>HistoryEntry</span><span>Status / Priority</span></div></div>
+          </div>
+          <div class="arch-arrow"><span>dados de demonstração</span><i>↓</i></div>
+          <div class="arch-bottom">
+            <div class="memory-node"><span>ESTADO DA APLICAÇÃO</span><strong>Listas em memória</strong><small>mocks carregados pelo ComplaintService</small></div>
+            <div class="support-node"><span>UTILITÁRIOS COMPARTILHADOS</span><strong>ScreenManager · UserSession · MapBridge</strong><small>navegação · sessão · integração Java ↔ mapa</small></div>
+          </div>
+          <div class="arch-side-note"><b>Persistência</b><span>O protótipo não utiliza banco de dados. Registros criados durante a execução não persistem ao fechar.</span></div>
+        </div>
+        <div class="architecture-notes"><article><span>A</span><div><strong>Navegação de telas</strong><p><code>ScreenManager</code> carrega o FXML selecionado dentro do contêiner principal.</p></div></article><article><span>B</span><div><strong>Regra junto ao domínio</strong><p><code>Complaint</code> registra alterações de status e mantém o histórico da reclamação.</p></div></article><article><span>C</span><div><strong>Serviços testáveis</strong><p>Filtros, agrupamento geográfico, ranking e métricas ficam isolados em serviços.</p></div></article></div>
+      </section>
+
+      <section class="tech-section flow-section" id="fluxos"><div class="tech-shell">
+        <div class="section-intro reveal"><div class="tech-eyebrow eyebrow-green">02 / fluxos</div><h2>Do relato à<br /><em>resposta pública.</em></h2><p>O fluxo atravessa formulário, modelo, serviço e telas de consulta. A equipe atualiza o status e a aplicação acrescenta essa mudança ao histórico.</p></div>
+        <div class="flow-board reveal"><div class="board-label">FLUXO PRINCIPAL · CADASTRO E ATENDIMENTO</div><div class="flow-steps"><article class="flow-step"><span>01 · ENTRADA</span><div class="flow-icon icon-citizen">＋</div><strong>Morador registra</strong><p>Categoria, prioridade, descrição, endereço e anexos.</p><small>ComplaintFormController</small></article><i class="flow-connector">→</i><article class="flow-step"><span>02 · VALIDAÇÃO</span><div class="flow-icon icon-form">✓</div><strong>Dados validados</strong><p>Categoria/subcategoria, localização e campos obrigatórios.</p><small>formulário + Complaint</small></article><i class="flow-connector">→</i><article class="flow-step"><span>03 · REGISTRO</span><div class="flow-icon icon-service">▤</div><strong>Reclamação criada</strong><p>Recebe status inicial e primeira entrada no histórico.</p><small>ComplaintService · List</small></article><i class="flow-connector">→</i><article class="flow-step"><span>04 · OPERAÇÃO</span><div class="flow-icon icon-team">⌁</div><strong>Equipe acompanha</strong><p>Filtros, mapa, fila de prioridade e atualização de status.</p><small>controllers + services</small></article><i class="flow-connector">→</i><article class="flow-step"><span>05 · TRANSPARÊNCIA</span><div class="flow-icon icon-public">↗</div><strong>Histórico consultável</strong><p>Morador vê etapa atual, responsável e atualizações.</p><small>ComplaintTrackingController</small></article></div>
+          <div class="flow-footnote"><span class="footnote-mark">i</span><span>Os anexos são referências a arquivos locais escolhidos pelo usuário. O projeto não envia nem armazena esses arquivos em um servidor.</span></div>
+        </div>
+        <div class="map-integration reveal"><div class="map-integration-copy"><span class="board-label">SUBSISTEMA DO MAPA</span><h3>JavaFX WebView<br />conversa com Leaflet.</h3><p>A página do mapa roda no WebView. O <code>MapBridge</code> expõe callbacks Java ao JavaScript; respostas de geocodificação voltam à thread da interface com <code>Platform.runLater</code>.</p><div class="integration-tags"><span>JavaFX WebView</span><span>Leaflet 1.9.4</span><span>OpenStreetMap</span><span>Nominatim</span><span>CompletableFuture</span></div></div>
+          <div class="bridge-diagram"><div class="bridge-box bridge-java"><span>JAVA</span><strong>MapController</strong><small>filtros · marcadores · seleção</small></div><div class="bridge-link"><span>MapBridge</span><i>⇄</i></div><div class="bridge-box bridge-web"><span>JAVASCRIPT</span><strong>map.html · Leaflet</strong><small>mapa · eventos · camada visual</small></div><div class="bridge-service"><span>REQUISIÇÃO ASSÍNCRONA</span><strong>GeocodingService → Nominatim</strong><small>busca de endereço · geocodificação reversa</small></div></div>
+        </div>
+      </div></section>
+
+      <section class="tech-section tech-shell" id="dominio">
+        <div class="section-intro reveal"><div class="tech-eyebrow eyebrow-blue">03 / modelo de domínio</div><h2>O que o sistema<br /><em>representa.</em></h2><p>O diagrama destaca as entidades principais e os vínculos que aparecem no código. Estados categóricos são enums; histórico e anexos pertencem a cada reclamação.</p></div>
+        <div class="uml-board reveal"><div class="uml-toolbar"><span class="board-label">DIAGRAMA DE CLASSES · NÚCLEO DO DOMÍNIO</span><span class="uml-legend"><i></i> entidade <i></i> enum</span></div>
+          <div class="uml-canvas" role="img" aria-label="Diagrama UML: User tem papel UserRole; Complaint contém Location, histórico e anexos, e referencia enums de categoria, subcategoria, prioridade e status.">
+            <svg class="uml-lines" viewBox="0 0 1000 505" preserveAspectRatio="none" aria-hidden="true"><path d="M220 125 H390 V205"/><path d="M500 130 V190"/><path d="M610 250 H735"/><path d="M500 315 V390"/><path d="M390 250 H250 V390"/><path d="M610 280 H735 V390"/><path d="M500 315 V390 H500"/><path d="M610 232 H890 V125"/><path d="M610 295 H905 V295"/></svg>
+            <article class="uml-class user-class"><header>User</header><p>id: String<br />name: String<br />status: UserStatus</p><footer>passwordMatches(candidate)</footer></article>
+            <article class="uml-class enum-class role-class"><header>UserRole «enum»</header><p>ADMINISTRADOR<br />ATENDENTE<br />CIDADAO</p><footer>permissões por papel</footer></article>
+            <article class="uml-class complaint-class"><header>Complaint</header><p>category · subcategory<br />description · priority · status<br />date · creatorId · creatorName</p><footer>changeStatus(…)<br />updateDetails(…)<br />addHistoryNote(…)</footer></article>
+            <article class="uml-class location-class"><header>Location</header><p>latitude: double<br />longitude: double<br />address: String</p></article>
+            <article class="uml-class history-class"><header>ComplaintHistoryEntry</header><p>changedAt: LocalDateTime<br />previousStatus · newStatus<br />responsible · note</p></article>
+            <article class="uml-class enum-class status-class"><header>ComplaintStatus «enum»</header><p>PENDENTE · EM_ANALISE<br />EM_EXECUCAO · RESOLVIDO<br />CANCELADO</p><footer>trackingProgress</footer></article>
+            <article class="uml-class enum-class classification-class"><header>Classificação «enum»</header><p>ComplaintCategory<br />ComplaintSubcategory<br />ComplaintPriority</p><footer>subcategoria valida categoria</footer></article>
+            <span class="uml-relation rel-role">1 papel</span><span class="uml-relation rel-location">1 localização</span><span class="uml-relation rel-history">0..* histórico</span><span class="uml-relation rel-status">status</span><span class="uml-relation rel-classification">classificação</span>
+          </div>
+          <div class="uml-mobile-notice">Deslize horizontalmente para explorar o diagrama.</div>
+          <div class="model-rules"><article><span>01</span><strong>Classificação validada</strong><p>Uma subcategoria só pode ser atribuída se pertencer à categoria selecionada.</p></article><article><span>02</span><strong>Histórico protegido</strong><p>A lista de eventos é exposta como somente leitura; as alterações entram pelo modelo.</p></article><article><span>03</span><strong>Anexos por caminho</strong><p>A reclamação guarda uma lista de caminhos locais, limitada no formulário a quatro imagens.</p></article></div>
+        </div>
+      </section>
+
+      <section class="tech-section permissions-section" id="perfis"><div class="tech-shell">
+        <div class="section-intro reveal"><div class="tech-eyebrow eyebrow-green">04 / controle de acesso</div><h2>O papel define<br /><em>o que aparece.</em></h2><p>As permissões estão encapsuladas em <code>UserRole</code> e são aplicadas pelo <code>MainController</code> ao montar a navegação.</p></div>
+        <div class="permission-layout reveal"><div class="permission-table-wrap"><table class="permission-table"><thead><tr><th>CAPACIDADE</th><th>ADMINISTRADOR</th><th>ATENDENTE</th><th>CIDADÃO</th></tr></thead><tbody><tr><td>Criar reclamação</td><td class="yes">✓</td><td class="no">—</td><td class="yes">✓</td></tr><tr><td>Consultar lista</td><td class="yes">✓</td><td class="yes">✓</td><td class="limited">Próprias</td></tr><tr><td>Alterar status / gerenciar fila</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr><tr><td>Ver mapa público</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr><tr><td>Acessar análises e IA</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td></tr><tr><td>Exportar CSV</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr></tbody></table><p class="table-caption">A tabela combina permissões de <code>UserRole</code> com os filtros de propriedade aplicados nas telas de reclamações.</p></div>
+          <aside class="shortcut-card"><span class="board-label">NAVEGAÇÃO RÁPIDA</span><h3>Atalhos de teclado</h3><p>Implementados no filtro de eventos do <code>MainController</code>.</p><div class="shortcut-grid"><kbd>Alt 1</kbd><span>Início</span><kbd>Alt 2</kbd><span>Nova reclamação</span><kbd>Alt 3</kbd><span>Reclamações</span><kbd>Alt 4</kbd><span>Mapa</span><kbd>Alt 5</kbd><span>Acompanhamento</span><kbd>Alt 7</kbd><span>Análises (admin)</span><kbd>Alt 0</kbd><span>Sobre o sistema</span></div></aside></div>
+      </div></section>
+
+      <section class="tech-section tech-shell" id="telas">
+        <div class="section-intro reveal"><div class="tech-eyebrow eyebrow-blue">05 / telas do sistema</div><h2>O código em<br /><em>uso real.</em></h2><p>Capturas da versão atual conectam os diagramas às interfaces entregues. Selecione uma tela para explorar.</p></div>
+        <div class="screen-gallery reveal"><div class="screen-picker" role="tablist" aria-label="Telas do Cidade em Dia">
+          <button class="screen-tab is-active" type="button" role="tab" aria-selected="true" data-screen="mapa"><span>01</span> Mapa</button><button class="screen-tab" type="button" role="tab" aria-selected="false" data-screen="acompanhamento"><span>02</span> Acompanhamento</button><button class="screen-tab" type="button" role="tab" aria-selected="false" data-screen="analisesIA"><span>03</span> Análises e IA</button><button class="screen-tab" type="button" role="tab" aria-selected="false" data-screen="inicial"><span>04</span> Painel inicial</button><button class="screen-tab" type="button" role="tab" aria-selected="false" data-screen="login"><span>05</span> Login</button>
+          </div><figure class="screen-viewer"><img id="active-screen" src="img/mapa.png" alt="Captura de tela do mapa do Cidade em Dia" /><figcaption><span id="screen-caption">Mapa público · filtros por escopo e prioridade</span><a id="screen-open" href="img/mapa.png" target="_blank" rel="noopener">abrir imagem ↗</a></figcaption></figure></div>
+      </section>
+
+      <section class="tech-section quality-section" id="qualidade"><div class="tech-shell">
+        <div class="section-intro reveal"><div class="tech-eyebrow eyebrow-green">06 / qualidade e decisões</div><h2>Critérios claros<br /><em>para evoluir.</em></h2><p>O projeto prioriza regras verificáveis, integração substituível e feedback transparente. Estas são as decisões mais relevantes para avaliar o protótipo.</p></div>
+        <div class="quality-grid reveal"><article class="quality-card quality-highlight"><span class="quality-index">01 / TESTES</span><h3>Regras fora da janela.</h3><p>JUnit Jupiter cobre modelos, sessão, permissões, serviços de reclamação, mapa e análises. A suíte não abre telas nem depende de chamadas ao Nominatim.</p><div class="quality-tags"><span>JUnit Jupiter 5.10.2</span><span>Maven Surefire 3.2.5</span></div></article><article class="quality-card"><span class="quality-index">02 / PRIVACIDADE E DEPENDÊNCIAS</span><h3>Geocodificação sob demanda.</h3><p>Busca de endereço e limites municipais dependem de conexão. A ponte assíncrona preserva a responsividade da interface.</p><div class="quality-tags"><span>Nominatim</span><span>OpenStreetMap</span></div></article><article class="quality-card"><span class="quality-index">03 / ESCOPO DO PROTÓTIPO</span><h3>Dados de demonstração.</h3><p>Usuários e chamados começam como mocks. O estado é mantido em memória e se perde quando a aplicação termina.</p><div class="quality-tags"><span>sem banco de dados</span><span>sem backend</span></div></article><article class="quality-card"><span class="quality-index">04 / EVOLUÇÃO</span><h3>Próxima fronteira técnica.</h3><p>Persistência, autenticação robusta, armazenamento de imagens e uma API permitiriam transformar a demonstração em serviço multiusuário.</p><div class="quality-tags"><span>API</span><span>persistência</span><span>armazenamento</span></div></article></div>
+        <div class="stack-strip"><div><span>LINGUAGEM</span><strong>Java 21</strong></div><div><span>INTERFACE</span><strong>JavaFX 21.0.10</strong></div><div><span>LAYOUT</span><strong>FXML + CSS</strong></div><div><span>MAPA</span><strong>Leaflet 1.9.4</strong></div><div><span>JSON</span><strong>org.json</strong></div><div><span>BUILD</span><strong>Maven</strong></div><div><span>TESTES</span><strong>JUnit 5</strong></div></div>
+        <p class="version-note"><b>Nota de versão:</b> esta página apresenta o alvo Java 21 e JavaFX 21.0.10 definidos atualmente no <code>pom.xml</code>. O README ainda cita Java 17; vale alinhar a documentação antes da apresentação.</p>
+      </div></section>
+
+      <section class="tech-closing tech-shell reveal"><span class="closing-mark">CED / 2.0</span><div><div class="tech-eyebrow eyebrow-green">uma cidade que se entende melhor</div><h2>Arquitetura a serviço<br />da participação.</h2></div><a href="index.html" class="tech-button tech-button-green">Voltar à apresentação <span>→</span></a></section>
+    </main>
+
+    <footer class="tech-footer tech-shell"><a href="index.html">Cidade em Dia</a><span>FAITEC 2.0 · documentação técnica visual</span><a href="#topo">voltar ao topo ↑</a></footer>
+    <script src="tech.js"></script>
+  </body>
+</html>
