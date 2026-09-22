@@ -65,8 +65,41 @@ public class GeocodingService {
         }
     }
 
+    public static String searchCityBoundaryGeoJson() {
+        try {
+            String query = "Santa Rita do Sapucaí, Minas Gerais, Brasil";
+            String url = "https://nominatim.openstreetmap.org/search"
+                + "?format=jsonv2"
+                + "&limit=5"
+                + "&countrycodes=br"
+                + "&polygon_geojson=1"
+                + "&polygon_threshold=0.001"
+                + "&q=" + URLEncoder.encode(query, StandardCharsets.UTF_8);
+
+            HttpURLConnection connection =
+                (HttpURLConnection) new URL(url).openConnection();
+            configure(connection);
+
+            JSONArray results = new JSONArray(readResponse(connection));
+            for (int index = 0; index < results.length(); index++) {
+                JSONObject geometry = results.getJSONObject(index).optJSONObject("geojson");
+                if (geometry == null) {
+                    continue;
+                }
+                String type = geometry.optString("type");
+                if ("Polygon".equals(type) || "MultiPolygon".equals(type)) {
+                    return geometry.toString();
+                }
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return null;
+    }
+
     private static void configure(HttpURLConnection connection) {
         connection.setRequestProperty("User-Agent", USER_AGENT);
+        connection.setRequestProperty("Accept-Language", "pt-BR");
         connection.setConnectTimeout(TIMEOUT_MILLIS);
         connection.setReadTimeout(TIMEOUT_MILLIS);
     }

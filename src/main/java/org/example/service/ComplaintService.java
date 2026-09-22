@@ -132,6 +132,168 @@ public class ComplaintService {
                 "USR-003",
                 "Cidadão"
         ));
+
+        // Additional records keep the map useful for demonstrating the owner
+        // and priority filters with every mock user.
+        complaints.add(new Complaint(
+                ComplaintCategory.BURACO_RUA,
+                ComplaintSubcategory.BURACO_EM_VIA,
+                new Location(
+                        -22.252310,
+                        -45.703080,
+                        "Avenida Sinhá Moreira, 138 - Centro, Santa Rita do Sapucaí/MG"
+                ),
+                "Outro morador identificou o mesmo buraco próximo à faixa.",
+                ComplaintStatus.PENDENTE,
+                ComplaintPriority.ALTA,
+                LocalDate.now().minusDays(1),
+                "USR-001",
+                "Administrador"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.BURACO_RUA,
+                ComplaintSubcategory.BURACO_EM_VIA,
+                new Location(
+                        -22.252105,
+                        -45.703205,
+                        "Avenida Sinhá Moreira, 116 - Centro, Santa Rita do Sapucaí/MG"
+                ),
+                "Buraco aumentando e dificultando a travessia de pedestres.",
+                ComplaintStatus.EM_ANALISE,
+                ComplaintPriority.MEDIA,
+                LocalDate.now().minusDays(4),
+                "USR-002",
+                "Atendente Municipal"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.ILUMINACAO_PUBLICA,
+                ComplaintSubcategory.LAMPADA_OSCILANDO,
+                new Location(
+                        -22.250842,
+                        -45.704218,
+                        "Rua Antônio de Cássia, 55 - Centro, Santa Rita do Sapucaí/MG"
+                ),
+                "Lâmpada oscila durante a noite e deixa a calçada escura.",
+                ComplaintStatus.EM_ANALISE,
+                ComplaintPriority.ALTA,
+                LocalDate.now().minusDays(6),
+                "USR-001",
+                "Administrador"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.ESGOTO,
+                ComplaintSubcategory.BUEIRO_ENTUPIDO,
+                new Location(
+                        -22.253428,
+                        -45.706114,
+                        "Rua Francisco Andrade, 205 - Centro, Santa Rita do Sapucaí/MG"
+                ),
+                "Bueiro entupido acumula água depois das chuvas.",
+                ComplaintStatus.PENDENTE,
+                ComplaintPriority.MEDIA,
+                LocalDate.now().minusDays(8),
+                "USR-001",
+                "Administrador"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.TRANSITO_MOBILIDADE,
+                ComplaintSubcategory.SINALIZACAO_AUSENTE,
+                new Location(
+                        -22.256704,
+                        -45.699846,
+                        "Rua Barão do Rio Branco, 90 - Centro, Santa Rita do Sapucaí/MG"
+                ),
+                "A sinalização da conversão está apagada no cruzamento.",
+                ComplaintStatus.PENDENTE,
+                ComplaintPriority.URGENTE,
+                LocalDate.now().minusDays(2),
+                "USR-002",
+                "Atendente Municipal"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.LIX0_ACUMULADO,
+                ComplaintSubcategory.COLETA_ATRASADA,
+                new Location(
+                        -22.246952,
+                        -45.706884,
+                        "Rua João Rennó, 410 - Centro, Santa Rita do Sapucaí/MG"
+                ),
+                "A coleta está atrasada há três dias nesta rua.",
+                ComplaintStatus.EM_EXECUCAO,
+                ComplaintPriority.MEDIA,
+                LocalDate.now().minusDays(9),
+                "USR-002",
+                "Atendente Municipal"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.ILUMINACAO_PUBLICA,
+                ComplaintSubcategory.FIACAO_EXPOSTA,
+                new Location(
+                        -22.260116,
+                        -45.704252,
+                        "Avenida Frederico de Paula Cunha, 670 - Eletrônica, Santa Rita do Sapucaí/MG"
+                ),
+                "Fiação exposta em frente ao ponto de ônibus.",
+                ComplaintStatus.PENDENTE,
+                ComplaintPriority.URGENTE,
+                LocalDate.now().minusDays(3),
+                "USR-002",
+                "Atendente Municipal"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.SEGURANCA,
+                ComplaintSubcategory.VANDALISMO,
+                new Location(
+                        -22.249126,
+                        -45.700976,
+                        "Praça Santa Rita, 12 - Centro, Santa Rita do Sapucaí/MG"
+                ),
+                "Banco e placa da praça foram danificados.",
+                ComplaintStatus.RESOLVIDO,
+                ComplaintPriority.BAIXA,
+                LocalDate.now().minusDays(18),
+                "USR-001",
+                "Administrador"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.ESGOTO,
+                ComplaintSubcategory.MAU_CHEIRO,
+                new Location(
+                        -22.251934,
+                        -45.701706,
+                        "Rua Silvestre Ferraz, 145 - Centro, Santa Rita do Sapucaí/MG"
+                ),
+                "Mau cheiro constante vindo da rede de esgoto.",
+                ComplaintStatus.EM_ANALISE,
+                ComplaintPriority.ALTA,
+                LocalDate.now().minusDays(5),
+                "USR-003",
+                "Cidadão"
+        ));
+
+        complaints.add(new Complaint(
+                ComplaintCategory.BURACO_RUA,
+                ComplaintSubcategory.ASFALTO_DANIFICADO,
+                new Location(
+                        -22.258188,
+                        -45.696742,
+                        "Rua José Pinto de Souza, 31 - Eletrônica, Santa Rita do Sapucaí/MG"
+                ),
+                "Trecho de asfalto danificado perto da escola.",
+                ComplaintStatus.PENDENTE,
+                ComplaintPriority.BAIXA,
+                LocalDate.now().minusDays(11),
+                "USR-003",
+                "Cidadão"
+        ));
     }
 
     public static void addComplaint(Complaint complaint) {

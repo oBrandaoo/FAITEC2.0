@@ -12,6 +12,7 @@ import org.example.model.Complaint;
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
+import org.example.service.ComplaintClusterService.ComplaintCluster;
 
 /** Produces local, explainable indicators from the complaints already in memory. */
 public final class ComplaintAnalyticsService {
@@ -39,18 +40,24 @@ public final class ComplaintAnalyticsService {
             .mapToLong(item -> Math.max(0, ChronoUnit.DAYS.between(item.getDate(), referenceDate)))
             .average().orElse(0);
 
-        List<Complaint> critical = open.stream()
-            .sorted(Comparator.comparingInt((Complaint item) -> riskScore(item, referenceDate)).reversed()
-                .thenComparing(Complaint::getDate, Comparator.nullsLast(Comparator.naturalOrder())))
+        List<ComplaintCluster> criticalClusters = ComplaintClusterService.groupByProximity(open).stream()
+            .sorted(Comparator.comparingInt((ComplaintCluster cluster) -> clusterRiskScore(cluster, referenceDate))
+                .reversed()
+                .thenComparing(Comparator.comparingInt(ComplaintCluster::count).reversed())
+                .thenComparing(ComplaintAnalyticsService::oldestDate,
+                    Comparator.nullsLast(Comparator.naturalOrder())))
             .limit(4)
+            .toList();
+        List<Complaint> critical = criticalClusters.stream()
+            .map(cluster -> mostCriticalComplaint(cluster, referenceDate))
             .toList();
 
         return new AnalyticsSummary(resolutionRate, averageOpenAge, open.size(), critical,
-            buildInsights(complaints, open, critical, referenceDate));
+            buildInsights(complaints, open, criticalClusters, referenceDate));
     }
 
     private static List<String> buildInsights(List<Complaint> all, List<Complaint> open,
-            List<Complaint> critical, LocalDate today) {
+            List<ComplaintCluster> criticalClusters, LocalDate today) {
         List<String> insights = new ArrayList<>();
 
         Map<ComplaintCategory, Long> openByCategory = open.stream()
@@ -78,11 +85,15 @@ public final class ComplaintAnalyticsService {
                 : " demandas estão abertas há 7 dias ou mais."));
         }
 
-        if (!critical.isEmpty()) {
-            Complaint first = critical.get(0);
+        if (!criticalClusters.isEmpty()) {
+            ComplaintCluster cluster = criticalClusters.get(0);
+            Complaint first = mostCriticalComplaint(cluster, today);
+            String groupedCount = cluster.count() > 1
+                ? " (" + cluster.count() + " registros abertos próximos)"
+                : "";
             insights.add("Próxima prioridade sugerida: " + first.getCategory() + " — "
                 + first.getPriority().toString().toLowerCase() + ", aberta há "
-                + ageInDays(first, today) + " dia(s)." );
+                + ageInDays(first, today) + " dia(s)" + groupedCount + ".");
         }
         if (all.isEmpty()) {
             insights.add("Ainda não há dados suficientes para gerar recomendações.");
@@ -104,6 +115,26 @@ public final class ComplaintAnalyticsService {
         };
         int statusWeight = item.getStatus() == ComplaintStatus.PENDENTE ? 15 : 5;
         return priorityWeight + statusWeight + (int) Math.min(30, ageInDays(item, today) * 2);
+    }
+
+    private static int clusterRiskScore(ComplaintCluster cluster, LocalDate today) {
+        return cluster.complaints().stream()
+            .mapToInt(item -> riskScore(item, today))
+            .max().orElse(0);
+    }
+
+    private static LocalDate oldestDate(ComplaintCluster cluster) {
+        return cluster.complaints().stream()
+            .map(Complaint::getDate)
+            .filter(java.util.Objects::nonNull)
+            .min(Comparator.naturalOrder())
+            .orElse(null);
+    }
+
+    private static Complaint mostCriticalComplaint(ComplaintCluster cluster, LocalDate today) {
+        return cluster.complaints().stream()
+            .max(Comparator.comparingInt((Complaint item) -> riskScore(item, today)))
+            .orElseThrow();
     }
 
     private static long ageInDays(Complaint item, LocalDate today) {
