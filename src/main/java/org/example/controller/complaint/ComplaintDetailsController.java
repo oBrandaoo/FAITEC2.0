@@ -12,6 +12,7 @@ import org.example.model.enums.ComplaintStatus;
 import org.example.model.enums.UserRole;
 import org.example.service.ComplaintService;
 import org.example.util.MapDialog;
+import org.example.util.ComboBoxStyleManager;
 import org.example.util.NotificationManager;
 import org.example.util.UserSession;
 
@@ -130,6 +131,7 @@ public class ComplaintDetailsController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ComplaintForm.fxml"));
             Parent view = loader.load();
+            ComboBoxStyleManager.applyTo(view);
             ComplaintFormController controller = loader.getController();
             controller.setEditingComplaint(complaint);
 

@@ -54,11 +54,6 @@
     -fx-text-fill: white;
 }
 
-.sidebar .menuButton:focused {
-    -fx-border-color: #79BD4E;
-    -fx-border-width: 1;
-}
-
 .sidebar .menuButtonActive {
     -fx-background-color: #1B4357;
     -fx-border-color: #2C6072;
@@ -226,13 +221,13 @@
 }
 
 .content .button:hover {
-    -fx-background-color: #F5F9F6;
-    -fx-border-color: #9CBDA0;
+    -fx-background-color: #F3F8FA;
+    -fx-border-color: #A8C4CF;
 }
 
-.content .button:focused {
-    -fx-border-color: #2485A6;
-    -fx-border-width: 1.5;
+.button:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .content .button.primary-action,
@@ -294,7 +289,7 @@
 .content .date-picker:focused {
     -fx-background-color: white;
     -fx-border-color: #398DA7;
-    -fx-border-width: 1.5;
+    -fx-border-width: 2;
 }
 
 .content .text-area .content {
@@ -338,11 +333,11 @@
 }
 
 .content .table-row-cell:hover {
-    -fx-background-color: #F0F7F1;
+    -fx-background-color: #F1F7F9;
 }
 
 .content .table-row-cell:filled:selected {
-    -fx-background-color: #E2F0DC;
+    -fx-background-color: #E3F0F4;
     -fx-text-background-color: #173D4E;
 }
 
@@ -359,11 +354,11 @@
 }
 
 .content .list-cell:filled:hover {
-    -fx-background-color: #F1F7F3;
+    -fx-background-color: #F1F7F9;
 }
 
 .content .list-cell:filled:selected {
-    -fx-background-color: #E1F0DC;
+    -fx-background-color: #E3F0F4;
     -fx-text-fill: #183E4D;
 }
 

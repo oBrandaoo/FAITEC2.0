@@ -15,6 +15,7 @@ import org.example.model.enums.ComplaintStatus;
 import org.example.model.enums.ComplaintSubcategory;
 import org.example.service.ComplaintService;
 import org.example.util.NotificationManager;
+import org.example.util.ComboBoxStyleManager;
 import org.example.util.UserSession;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -417,6 +418,7 @@ public class ComplaintListController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ComplaintDetails.fxml"));
             Parent view = loader.load();
+            ComboBoxStyleManager.applyTo(view);
 
             ComplaintDetailsController controller = loader.getController();
             controller.setComplaint(selected);

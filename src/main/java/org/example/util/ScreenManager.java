@@ -27,6 +27,7 @@ public class ScreenManager {
             FXMLLoader loader = new FXMLLoader(ScreenManager.class.getResource("/view/" + fxml));
 
             Node view = loader.load();
+            ComboBoxStyleManager.applyTo(view);
             mainContainer.getChildren().setAll(view);
             if (screenChangeListener != null) {
                 screenChangeListener.accept(fxml);

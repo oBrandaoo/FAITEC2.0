@@ -1,5 +1,4 @@
 /* Indicador de foco visível para navegação por teclado. */
-.button:focused,
 .text-field:focused,
 .password-field:focused,
 .text-area:focused,
@@ -7,8 +6,8 @@
 .check-box:focused,
 .table-view:focused,
 .list-view:focused {
-    -fx-border-color: #4876f7;
-    -fx-border-width: 3;
+    -fx-border-color: #398DA7;
+    -fx-border-width: 2;
     -fx-border-radius: 7;
 }
 
