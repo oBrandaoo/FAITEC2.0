@@ -2,8 +2,13 @@ package org.example.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.example.model.Complaint;
+import org.example.model.enums.ComplaintStatus;
+import org.example.service.ComplaintClusterService;
 import org.example.service.ComplaintAnalyticsService;
 import org.example.service.ComplaintAnalyticsService.AnalyticsSummary;
 import org.example.service.ComplaintService;
@@ -24,6 +29,7 @@ public class AnalyticsController {
     @FXML private Label updatedAtLabel;
     @FXML private ListView<String> insightsList;
     @FXML private ListView<Complaint> criticalList;
+    private Map<Complaint, Integer> nearbyReportCounts = new IdentityHashMap<>();
 
     @FXML
     public void initialize() {
@@ -33,8 +39,17 @@ public class AnalyticsController {
 
     private void loadAnalysis() {
         LocalDate today = LocalDate.now();
-        AnalyticsSummary summary = ComplaintAnalyticsService.analyze(
-            ComplaintService.getAllComplaints(), today);
+        List<Complaint> complaints = ComplaintService.getAllComplaints();
+        List<Complaint> openComplaints = complaints.stream()
+            .filter(item -> item.getStatus() != ComplaintStatus.RESOLVIDO
+                && item.getStatus() != ComplaintStatus.CANCELADO)
+            .toList();
+        nearbyReportCounts = new IdentityHashMap<>();
+        for (var cluster : ComplaintClusterService.groupByProximity(openComplaints)) {
+            cluster.complaints().forEach(item -> nearbyReportCounts.put(item, cluster.count()));
+        }
+
+        AnalyticsSummary summary = ComplaintAnalyticsService.analyze(complaints, today);
 
         resolutionRateLabel.setText(String.format("%.0f%%", summary.resolutionRate()));
         averageAgeLabel.setText(String.format("%.1f dias", summary.averageOpenAge()));
@@ -58,7 +73,13 @@ public class AnalyticsController {
                 String address = item.getLocation() == null
                     ? "Local não informado"
                     : item.getLocation().getAddress();
-                setText(item.getPriority() + "  •  " + item.getCategory() + "\n"
+                int nearbyCount = nearbyReportCounts.getOrDefault(item, 1);
+                String groupCount = nearbyCount > 1
+                    ? nearbyCount + " registros abertos  •  "
+                    : "";
+                String issueName = item.getCategory().toString()
+                    + (item.getSubcategory() == null ? "" : " / " + item.getSubcategory());
+                setText(groupCount + item.getPriority() + "  •  " + issueName + "\n"
                     + item.getStatus() + "  •  " + address);
             }
         });

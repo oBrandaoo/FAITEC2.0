@@ -5,8 +5,12 @@ import java.util.function.Consumer;
 import org.example.model.Complaint;
 import org.example.model.Location;
 import org.example.model.enums.MapMode;
+import org.example.model.enums.ComplaintPriority;
+import org.example.service.ComplaintClusterService;
+import org.example.service.ComplaintMapFilterService;
 import org.example.service.ComplaintService;
 import org.example.util.MapBridge;
+import org.example.util.UserSession;
 
 import javafx.concurrent.Worker;
 import javafx.animation.PauseTransition;
@@ -30,8 +34,11 @@ public class MapController {
     private Stage stage;
     private Location selectedLocation;
     private WebEngine engine;
+    private final MapBridge mapBridge = new MapBridge(this);
     private MapMode mode = MapMode.OVERVIEW;
     private Consumer<Location> locationListener;
+    private boolean mineOnly;
+    private ComplaintPriority selectedPriority;
     private boolean loading;
     private final PauseTransition mapResizeDebounce =
             new PauseTransition(Duration.millis(100));
@@ -47,7 +54,13 @@ public class MapController {
         engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
             if (newState == Worker.State.SUCCEEDED) {
                 JSObject window = (JSObject) engine.executeScript("window");
-                window.setMember("javaBridge", new MapBridge(this));
+                // WebEngine keeps only a weak reference to Java objects exposed to
+                // JavaScript. Retaining the bridge here prevents filter callbacks
+                // from disappearing after garbage collection.
+                window.setMember("javaBridge", mapBridge);
+                engine.executeScript("initializeMapViewControls();");
+                engine.executeScript("initializeMapFilters();");
+                engine.executeScript("setMapFiltersVisible(" + (mode == MapMode.OVERVIEW) + ");");
                 updateMapInteraction();
                 Platform.runLater(this::scheduleMapResize);
 
@@ -75,6 +88,7 @@ public class MapController {
     public void setMode(MapMode mode) {
         this.mode = mode;
         boolean selecting = mode == MapMode.SELECT;
+        boolean showFilters = mode == MapMode.OVERVIEW;
         confirmButton.setVisible(selecting);
         confirmButton.setManaged(selecting);
         boolean showCloseButton = selecting || stage != null;
@@ -82,6 +96,16 @@ public class MapController {
         cancelButton.setManaged(showCloseButton);
         cancelButton.setText(selecting ? "Cancelar" : "Fechar");
         updateMapInteraction();
+
+        if (engine != null
+                && engine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
+            engine.executeScript("setMapFiltersVisible(" + showFilters + ");");
+            if (showFilters) {
+                showComplaintMarkers();
+            } else {
+                engine.executeScript("clearComplaintMarkers();");
+            }
+        }
     }
 
     public MapMode getMode() {
@@ -109,11 +133,45 @@ public class MapController {
         this.stage = stage;
     }
 
+    public void setMapFilters(String scope, String priorityName) {
+        mineOnly = "mine".equals(scope);
+        selectedPriority = null;
+        if (priorityName != null && !priorityName.isBlank() && !"ALL".equals(priorityName)) {
+            try {
+                selectedPriority = ComplaintPriority.valueOf(priorityName);
+            } catch (IllegalArgumentException ignored) {
+                selectedPriority = null;
+            }
+        }
+        refreshComplaintMarkers();
+    }
+
+    public void showCityBoundary(String geoJson) {
+        if (engine == null
+                || engine.getLoadWorker().getState() != Worker.State.SUCCEEDED) {
+            return;
+        }
+        if (geoJson == null || geoJson.isBlank()) {
+            engine.executeScript(
+                    "showCityBoundaryError('Não foi possível carregar os limites da cidade.');");
+            return;
+        }
+        engine.executeScript("showCityBoundary(" + jsString(geoJson) + ");");
+    }
+
+    public void showCityBoundaryError() {
+        if (engine != null
+                && engine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
+            engine.executeScript(
+                    "showCityBoundaryError('Não foi possível carregar os limites da cidade.');");
+        }
+    }
+
     public void centerOn(double lat, double lng) {
         engine.executeScript(
                 "centerMap(" + lat + "," + lng + ");"
                         + "addComplaintMarker(" + lat + "," + lng
-                        + ",'Local da reclamação');"
+                        + ",'Local da reclamação','MEDIA',1);"
         );
     }
 
@@ -140,26 +198,47 @@ public class MapController {
     }
 
     private void showComplaintMarkers() {
-        engine.executeScript("showPriorityLegend();");
+        engine.executeScript("clearComplaintMarkers(); showPriorityLegend();");
 
-        for (Complaint complaint : ComplaintService.getAllComplaints()) {
+        var currentUser = UserSession.getLoggedUser();
+        var filteredComplaints = ComplaintMapFilterService.filter(
+            ComplaintService.getAllComplaints(), currentUser, mineOnly, selectedPriority);
+
+        for (var cluster : ComplaintClusterService.groupByProximity(
+                filteredComplaints)) {
+            Complaint complaint = cluster.highestPriorityComplaint();
             Location location = complaint.getLocation();
+            if (location == null) {
+                continue;
+            }
+
             String popup = "<b>" + escapeHtml(complaint.getCategory().toString()) + "</b>"
                     + (complaint.getSubcategory() == null
                             ? ""
                             : "<br>" + escapeHtml(complaint.getSubcategory().toString()))
-                    + "<br>Prioridade: " + escapeHtml(complaint.getPriority().toString())
-                    + "<br>Status: " + escapeHtml(complaint.getStatus().toString())
+                    + "<br>" + cluster.count() + (cluster.count() == 1
+                            ? " registro neste grupo"
+                            : " registros deste problema em um raio de 40 m")
+                    + "<br>Prioridade mais alta: " + escapeHtml(complaint.getPriority().toString())
                     + "<br>" + escapeHtml(location.getAddress());
 
             engine.executeScript(
                     "addComplaintMarker("
-                            + location.getLatitude() + ","
-                            + location.getLongitude() + ","
+                            + cluster.latitude() + ","
+                            + cluster.longitude() + ","
                             + jsString(popup) + ","
-                            + jsString(complaint.getPriority().name())
+                            + jsString(complaint.getPriority().name()) + ","
+                            + cluster.count()
                             + ");"
             );
+        }
+    }
+
+    private void refreshComplaintMarkers() {
+        if (mode == MapMode.OVERVIEW
+                && engine != null
+                && engine.getLoadWorker().getState() == Worker.State.SUCCEEDED) {
+            showComplaintMarkers();
         }
     }
 

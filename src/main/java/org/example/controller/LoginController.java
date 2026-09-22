@@ -36,6 +36,12 @@ public class LoginController {
             new User("USR-003", "Cidadão", "1234", UserStatus.ATIVA, UserRole.CIDADAO)
     );
 
+    public static List<User> getAvailableUsers() {
+        return USERS.stream()
+            .filter(user -> user.getStatus() == UserStatus.ATIVA)
+            .toList();
+    }
+
     @FXML
     private TextField userField;
 
@@ -82,7 +88,7 @@ public class LoginController {
         }
     }
 
-    private User authenticate(String username, String password) {
+    User authenticate(String username, String password) {
         return USERS.stream()
             .filter(user -> username.equals(usernameOf(user)))
             .filter(user -> user.passwordMatches(password))

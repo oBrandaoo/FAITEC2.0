@@ -1,5 +1,8 @@
 package org.example.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.example.model.User;
 import org.example.model.enums.UserRole;
 import org.example.util.AccessibilityManager;
@@ -9,13 +12,18 @@ import org.example.util.UserSession;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class MainController {
 
@@ -60,7 +68,8 @@ public class MainController {
         } else if ((code == KeyCode.DIGIT2 || code == KeyCode.NUMPAD2)
             && newComplaintButton.isVisible()) {
             goComplaint();
-        } else if (code == KeyCode.DIGIT3 || code == KeyCode.NUMPAD3) {
+        } else if ((code == KeyCode.DIGIT3 || code == KeyCode.NUMPAD3)
+            && complaintsButton.isVisible()) {
             goComplaints();
         } else if ((code == KeyCode.DIGIT4 || code == KeyCode.NUMPAD4)
             && mapButton.isVisible()) {
@@ -87,12 +96,10 @@ public class MainController {
         }
 
         setAvailable(newComplaintButton, user.getRole().canCreateComplaint());
+        setAvailable(complaintsButton, user.getRole().canManageComplaints());
         setAvailable(mapButton, user.getRole().canViewMap());
         setAvailable(trackingButton, user.getRole().canViewMap());
         setAvailable(analyticsButton, user.getRole() == UserRole.ADMINISTRADOR);
-        if (!user.getRole().canManageComplaints()) {
-            complaintsButton.setText("📋   Minhas reclamações");
-        }
         loggedUserLabel.setText(user.getName());
         loggedUserRoleLabel.setText(user.getRole().toString());
     }
@@ -140,6 +147,53 @@ public class MainController {
     @FXML
     private void goAbout() {
         ScreenManager.loadScreen("About.fxml");
+    }
+
+    @FXML
+    private void switchUser() {
+        User currentUser = UserSession.getLoggedUser();
+        List<User> availableUsers = LoginController.getAvailableUsers().stream()
+            .filter(user -> currentUser == null || !user.getId().equals(currentUser.getId()))
+            .toList();
+
+        if (availableUsers.isEmpty()) {
+            return;
+        }
+
+        List<String> accountOptions = availableUsers.stream()
+            .map(user -> user.getName() + " (" + user.getRole() + ")")
+            .toList();
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(accountOptions.get(0), accountOptions);
+        dialog.setTitle("Trocar usuário");
+        dialog.setHeaderText("Escolha outro perfil para continuar");
+        dialog.setContentText("Perfil:");
+        ((Button) dialog.getDialogPane().lookupButton(ButtonType.OK)).setText("Entrar");
+        ((Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Cancelar");
+        dialog.initOwner(mainRoot.getScene().getWindow());
+
+        Optional<String> selection = dialog.showAndWait();
+        if (selection.isEmpty()) {
+            return;
+        }
+
+        User selectedUser = availableUsers.get(accountOptions.indexOf(selection.get()));
+        try {
+            UserSession.login(selectedUser);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"));
+            Scene mainScene = new Scene(loader.load());
+            Stage stage = (Stage) mainRoot.getScene().getWindow();
+
+            stage.setScene(mainScene);
+            stage.setFullScreen(true);
+            stage.setMaximized(true);
+        } catch (Exception e) {
+            if (currentUser == null) {
+                UserSession.logout();
+            } else {
+                UserSession.login(currentUser);
+            }
+            e.printStackTrace();
+        }
     }
 
 }

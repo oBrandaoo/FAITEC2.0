@@ -57,8 +57,4 @@ public class CitizenHomeController {
         ScreenManager.loadScreen("ComplaintForm.fxml");
     }
 
-    @FXML
-    private void viewComplaints() {
-        ScreenManager.loadScreen("ComplaintList.fxml");
-    }
 }
