@@ -6,6 +6,103 @@
     -fx-background-color:#F3F6FA;
 }
 
+.urgent-ranking-section {
+    -fx-background-color: white;
+    -fx-background-radius: 13;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 13;
+    -fx-padding: 20;
+}
+
+.urgent-ranking-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.urgent-ranking-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748B;
+}
+
+.urgent-ranking-item {
+    -fx-background-color: #F8FAFC;
+    -fx-background-radius: 11;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 11;
+    -fx-padding: 14;
+    -fx-min-height: 170;
+}
+
+.urgent-card-header {
+    -fx-alignment: center-left;
+}
+
+.urgent-card-position {
+    -fx-background-color: #0F172A;
+    -fx-background-radius: 12;
+    -fx-padding: 3 8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.urgent-card-icon {
+    -fx-font-size: 21px;
+    -fx-text-fill: #334155;
+}
+
+.urgent-card-recurrence {
+    -fx-background-color: #FEE2E2;
+    -fx-background-radius: 11;
+    -fx-padding: 4 8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #B91C1C;
+}
+
+.urgent-card-category {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.urgent-card-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: #475569;
+}
+
+.urgent-card-priority {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.urgent-priority-urgente {
+    -fx-text-fill: #B91C1C;
+}
+
+.urgent-priority-alta {
+    -fx-text-fill: #C2410C;
+}
+
+.urgent-priority-media {
+    -fx-text-fill: #1D4ED8;
+}
+
+.urgent-priority-baixa {
+    -fx-text-fill: #475569;
+}
+
+.urgent-card-address {
+    -fx-font-size: 11px;
+    -fx-text-fill: #64748B;
+}
+
+.urgent-ranking-empty {
+    -fx-padding: 18;
+    -fx-text-fill: #64748B;
+}
+
 .logoCircle{
 
     -fx-background-color:#2563EB;

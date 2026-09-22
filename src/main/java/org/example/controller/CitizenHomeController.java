@@ -7,13 +7,16 @@ import org.example.model.Complaint;
 import org.example.model.User;
 import org.example.model.enums.ComplaintStatus;
 import org.example.service.ComplaintService;
+import org.example.service.ComplaintUrgencyRankingService;
 import org.example.util.ScreenManager;
+import org.example.util.UrgentComplaintCardFactory;
 import org.example.util.UserSession;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 
 public class CitizenHomeController {
 
@@ -22,6 +25,7 @@ public class CitizenHomeController {
     @FXML private Label pendingLabel;
     @FXML private Label inProgressLabel;
     @FXML private Label resolvedLabel;
+    @FXML private HBox urgentRankingContainer;
     @FXML private ListView<String> recentList;
 
     @FXML
@@ -35,6 +39,10 @@ public class CitizenHomeController {
         inProgressLabel.setText(String.valueOf(count(complaints, ComplaintStatus.EM_ANALISE)
             + count(complaints, ComplaintStatus.EM_EXECUCAO)));
         resolvedLabel.setText(String.valueOf(count(complaints, ComplaintStatus.RESOLVIDO)));
+
+        List<Complaint> cityComplaints = ComplaintService.getTrackableComplaints(user);
+        UrgentComplaintCardFactory.populate(urgentRankingContainer,
+            ComplaintUrgencyRankingService.topRecurring(cityComplaints, 3));
 
         List<String> recent = complaints.stream()
             .sorted(Comparator.comparing(Complaint::getDate).reversed()).limit(5)

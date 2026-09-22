@@ -52,6 +52,18 @@
             </VBox>
         </HBox>
 
+        <VBox spacing="14" styleClass="urgent-ranking-section">
+            <VBox spacing="3">
+                <Label text="Top 3 reclamações mais urgentes"
+                       styleClass="urgent-ranking-title"/>
+                <Label text="Problemas abertos ordenados por recorrência, prioridade e antiguidade."
+                       styleClass="urgent-ranking-subtitle"/>
+            </VBox>
+            <HBox fx:id="urgentRankingContainer"
+                  spacing="12"
+                  alignment="TOP_LEFT"/>
+        </VBox>
+
         <GridPane hgap="18">
             <columnConstraints>
                 <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>

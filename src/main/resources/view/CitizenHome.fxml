@@ -45,6 +45,18 @@
             </VBox>
         </HBox>
 
+        <VBox spacing="14" styleClass="urgent-ranking-section">
+            <VBox spacing="3">
+                <Label text="Top 3 reclamações mais urgentes"
+                       styleClass="urgent-ranking-title"/>
+                <Label text="Problemas recorrentes da cidade ordenados por prioridade de atendimento."
+                       styleClass="urgent-ranking-subtitle"/>
+            </VBox>
+            <HBox fx:id="urgentRankingContainer"
+                  spacing="12"
+                  alignment="TOP_LEFT"/>
+        </VBox>
+
         <VBox spacing="14" styleClass="content-card" VBox.vgrow="ALWAYS">
             <HBox alignment="CENTER_LEFT">
                 <VBox spacing="3">

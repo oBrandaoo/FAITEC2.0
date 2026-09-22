@@ -9,7 +9,9 @@ import org.example.model.enums.ComplaintPriority;
 import org.example.model.enums.ComplaintStatus;
 import org.example.controller.complaint.ComplaintListController;
 import org.example.service.ComplaintService;
+import org.example.service.ComplaintUrgencyRankingService;
 import org.example.util.ScreenManager;
+import org.example.util.UrgentComplaintCardFactory;
 import org.example.util.UserSession;
 
 import javafx.collections.FXCollections;
@@ -18,6 +20,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
 public class DashboardController {
 
@@ -27,6 +30,7 @@ public class DashboardController {
     @FXML private Label inProgressLabel;
     @FXML private Label resolvedLabel;
     @FXML private Label urgentLabel;
+    @FXML private HBox urgentRankingContainer;
     @FXML private PieChart categoryChart;
     @FXML private BarChart<String, Number> priorityChart;
 
@@ -56,6 +60,9 @@ public class DashboardController {
         inProgressLabel.setText(String.valueOf(inProgress));
         resolvedLabel.setText(String.valueOf(resolved));
         urgentLabel.setText(String.valueOf(urgent));
+
+        UrgentComplaintCardFactory.populate(urgentRankingContainer,
+            ComplaintUrgencyRankingService.topRecurring(complaints, 3));
 
         loadCategoryChart(complaints);
         loadPriorityChart(complaints);
