@@ -10,6 +10,7 @@ import org.example.service.ComplaintClusterService;
 import org.example.service.ComplaintMapFilterService;
 import org.example.service.ComplaintService;
 import org.example.util.MapBridge;
+import org.example.util.NotificationManager;
 import org.example.util.UserSession;
 
 import javafx.concurrent.Worker;
@@ -220,7 +221,11 @@ public class MapController {
                             ? " registro neste grupo"
                             : " registros deste problema em um raio de 40 m")
                     + "<br>Prioridade mais alta: " + escapeHtml(complaint.getPriority().toString())
-                    + "<br>" + escapeHtml(location.getAddress());
+                    + "<br>" + escapeHtml(location.getAddress())
+                    + "<br>Status: " + escapeHtml(complaint.getStatus().toString());
+
+            boolean hasConfirmed = complaint.hasResolutionConfirmationFrom(
+                    currentUser == null ? null : currentUser.getId());
 
             engine.executeScript(
                     "addComplaintMarker("
@@ -228,10 +233,43 @@ public class MapController {
                             + cluster.longitude() + ","
                             + jsString(popup) + ","
                             + jsString(complaint.getPriority().name()) + ","
-                            + cluster.count()
+                            + cluster.count() + ","
+                            + jsString(complaint.getId()) + ","
+                            + complaint.getResolutionConfirmationCount() + ","
+                            + hasConfirmed + ","
+                            + jsString(complaint.getStatus().name()) + ","
+                            + ComplaintService.REQUIRED_RESOLUTION_CONFIRMATIONS
                             + ");"
             );
         }
+    }
+
+    public void confirmCommunityResolution(String complaintId) {
+        Complaint complaint = ComplaintService.getAllComplaints().stream()
+                .filter(item -> item.getId().equals(complaintId))
+                .findFirst()
+                .orElse(null);
+        var result = ComplaintService.confirmCommunityResolution(
+                complaint, UserSession.getLoggedUser());
+
+        switch (result.status()) {
+            case CONFIRMATION_RECORDED -> NotificationManager.info(
+                    "Confirmação registrada (" + result.confirmations() + "/"
+                            + ComplaintService.REQUIRED_RESOLUTION_CONFIRMATIONS + ").");
+            case ALREADY_CONFIRMED -> NotificationManager.warning(
+                    "Você já confirmou a resolução deste relato.");
+            case RESOLVED -> NotificationManager.success(
+                    "A comunidade confirmou a resolução. Relato concluído!");
+            case ALREADY_RESOLVED -> NotificationManager.info(
+                    "Este relato já está concluído.");
+            case NOT_OPEN -> NotificationManager.warning(
+                    "Relatos cancelados não podem receber confirmações.");
+            case NOT_FOUND -> NotificationManager.error(
+                    "Não foi possível localizar este relato.");
+            case UNAUTHENTICATED -> NotificationManager.warning(
+                    "Entre no sistema para confirmar a resolução.");
+        }
+        refreshComplaintMarkers();
     }
 
     private void refreshComplaintMarkers() {

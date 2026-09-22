@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 import org.example.model.enums.ComplaintCategory;
 import org.example.model.enums.ComplaintPriority;
@@ -13,6 +16,7 @@ import org.example.model.enums.ComplaintStatus;
 import org.example.model.enums.ComplaintSubcategory;
 
 public class Complaint {
+    private final String id = UUID.randomUUID().toString();
     private ComplaintCategory category;
     private ComplaintSubcategory subcategory;
     private Location location;
@@ -24,6 +28,7 @@ public class Complaint {
     private final String creatorName;
     private final List<String> attachmentPaths = new ArrayList<>();
     private final List<ComplaintHistoryEntry> history = new ArrayList<>();
+    private final Set<String> resolutionConfirmationUserIds = new LinkedHashSet<>();
 
     public Complaint(ComplaintCategory category, ComplaintSubcategory subcategory, Location location, 
         String description, ComplaintStatus status, ComplaintPriority priority, LocalDate date) {
@@ -97,6 +102,25 @@ public class Complaint {
 
     public ComplaintCategory getCategory() {
         return category;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public boolean registerResolutionConfirmation(String userId) {
+        if (userId == null || userId.isBlank()) {
+            throw new IllegalArgumentException("O usuário que confirma a resolução é obrigatório.");
+        }
+        return resolutionConfirmationUserIds.add(userId);
+    }
+
+    public boolean hasResolutionConfirmationFrom(String userId) {
+        return userId != null && resolutionConfirmationUserIds.contains(userId);
+    }
+
+    public int getResolutionConfirmationCount() {
+        return resolutionConfirmationUserIds.size();
     }
 
     public ComplaintSubcategory getSubcategory() {

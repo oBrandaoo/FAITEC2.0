@@ -20,6 +20,8 @@ import javafx.util.Duration;
 
 public class ComplaintService {
 
+    public static final int REQUIRED_RESOLUTION_CONFIRMATIONS = 4;
+
     private static final List<Complaint> complaints = new ArrayList<>();
 
     static {
@@ -280,6 +282,22 @@ public class ComplaintService {
         ));
 
         complaints.add(new Complaint(
+                ComplaintCategory.ILUMINACAO_PUBLICA,
+                ComplaintSubcategory.POSTE_APAGADO,
+                new Location(
+                        -22.260118,
+                        -45.699412,
+                        "Rua das Acácias, 24 - Santa Rita do Sapucaí/MG"
+                ),
+                "Poste apagado próximo à faixa de pedestres.",
+                ComplaintStatus.PENDENTE,
+                ComplaintPriority.MEDIA,
+                LocalDate.now().minusDays(2),
+                "USR-004",
+                "Cidadão 2"
+        ));
+
+        complaints.add(new Complaint(
                 ComplaintCategory.BURACO_RUA,
                 ComplaintSubcategory.ASFALTO_DANIFICADO,
                 new Location(
@@ -341,6 +359,50 @@ public class ComplaintService {
 
         String responsibleName = responsible == null ? "Sistema" : responsible.getName();
         complaint.changeStatus(newStatus, responsibleName, note);
+    }
+
+    public static ResolutionConfirmationResult confirmCommunityResolution(
+            Complaint complaint, User user) {
+        if (user == null) {
+            return new ResolutionConfirmationResult(ConfirmationStatus.UNAUTHENTICATED, 0);
+        }
+        if (complaint == null) {
+            return new ResolutionConfirmationResult(ConfirmationStatus.NOT_FOUND, 0);
+        }
+        if (complaint.getStatus() == ComplaintStatus.RESOLVIDO) {
+            return new ResolutionConfirmationResult(ConfirmationStatus.ALREADY_RESOLVED,
+                    complaint.getResolutionConfirmationCount());
+        }
+        if (complaint.getStatus() == ComplaintStatus.CANCELADO) {
+            return new ResolutionConfirmationResult(ConfirmationStatus.NOT_OPEN,
+                    complaint.getResolutionConfirmationCount());
+        }
+        if (!complaint.registerResolutionConfirmation(user.getId())) {
+            return new ResolutionConfirmationResult(ConfirmationStatus.ALREADY_CONFIRMED,
+                    complaint.getResolutionConfirmationCount());
+        }
+
+        int confirmations = complaint.getResolutionConfirmationCount();
+        if (confirmations >= REQUIRED_RESOLUTION_CONFIRMATIONS) {
+            updateStatus(complaint, ComplaintStatus.RESOLVIDO, user,
+                    "Concluída após confirmação de " + confirmations + " pessoas da comunidade.");
+            return new ResolutionConfirmationResult(ConfirmationStatus.RESOLVED, confirmations);
+        }
+        return new ResolutionConfirmationResult(ConfirmationStatus.CONFIRMATION_RECORDED,
+                confirmations);
+    }
+
+    public enum ConfirmationStatus {
+        CONFIRMATION_RECORDED,
+        ALREADY_CONFIRMED,
+        RESOLVED,
+        ALREADY_RESOLVED,
+        NOT_OPEN,
+        NOT_FOUND,
+        UNAUTHENTICATED
+    }
+
+    public record ResolutionConfirmationResult(ConfirmationStatus status, int confirmations) {
     }
 
     public static void aplicarEmTodos(Node node) {

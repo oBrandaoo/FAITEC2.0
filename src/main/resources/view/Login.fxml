@@ -108,6 +108,10 @@
                            GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                     <Label text="cidadao" styleClass="credential"
                            GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Label text="Cidadão 2" styleClass="profile-badge citizen-badge"
+                           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <Label text="cidadao2" styleClass="credential"
+                           GridPane.columnIndex="1" GridPane.rowIndex="3"/>
                 </GridPane>
                 <Label text="Senha para todos os perfis: 1234" styleClass="password-hint"/>
             </VBox>

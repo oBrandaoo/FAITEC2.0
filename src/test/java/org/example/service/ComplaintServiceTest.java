@@ -220,6 +220,34 @@ class ComplaintServiceTest {
     }
 
     @Test
+    void communityConfirmsResolutionOncePerUserAndResolvesAfterFourPeople() {
+        Complaint complaint = complaint();
+        List<User> voters = List.of(
+                user("USR-VOTE-1", UserRole.CIDADAO),
+                user("USR-VOTE-2", UserRole.CIDADAO),
+                user("USR-VOTE-3", UserRole.CIDADAO),
+                user("USR-VOTE-4", UserRole.CIDADAO)
+        );
+
+        for (int index = 0; index < 3; index++) {
+            var result = ComplaintService.confirmCommunityResolution(complaint, voters.get(index));
+            assertEquals(ComplaintService.ConfirmationStatus.CONFIRMATION_RECORDED,
+                    result.status());
+            assertEquals(ComplaintStatus.PENDENTE, complaint.getStatus());
+        }
+
+        var duplicate = ComplaintService.confirmCommunityResolution(complaint, voters.get(0));
+        assertEquals(ComplaintService.ConfirmationStatus.ALREADY_CONFIRMED, duplicate.status());
+        assertEquals(3, complaint.getResolutionConfirmationCount());
+
+        var finalConfirmation = ComplaintService.confirmCommunityResolution(complaint, voters.get(3));
+        assertEquals(ComplaintService.ConfirmationStatus.RESOLVED, finalConfirmation.status());
+        assertEquals(ComplaintStatus.RESOLVIDO, complaint.getStatus());
+        assertEquals(2, complaint.getHistory().size());
+        assertTrue(complaint.getHistory().get(1).getNote().contains("4 pessoas"));
+    }
+
+    @Test
     void invalidStatusUpdateShouldNotThrowOrChangeComplaint() {
         Complaint complaint = complaint();
 

@@ -19,7 +19,8 @@ class LoginControllerTest {
         List<DefaultAccount> defaultAccounts = List.of(
             new DefaultAccount("admin", "USR-001", UserRole.ADMINISTRADOR),
             new DefaultAccount("atendente", "USR-002", UserRole.ATENDENTE),
-            new DefaultAccount("cidadao", "USR-003", UserRole.CIDADAO)
+            new DefaultAccount("cidadao", "USR-003", UserRole.CIDADAO),
+            new DefaultAccount("cidadao2", "USR-004", UserRole.CIDADAO)
         );
 
         for (DefaultAccount account : defaultAccounts) {

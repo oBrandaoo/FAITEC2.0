@@ -25,11 +25,17 @@ class ComplaintMapFilterServiceTest {
     @BeforeEach
     void setUp() {
         defaultUsers = LoginController.getAvailableUsers();
-        complaints = List.of(
-            complaint(defaultUsers.get(0), ComplaintPriority.URGENTE, -22.250),
-            complaint(defaultUsers.get(1), ComplaintPriority.ALTA, -22.252),
-            complaint(defaultUsers.get(2), ComplaintPriority.URGENTE, -22.254)
-        );
+        ComplaintPriority[] priorities = {
+            ComplaintPriority.URGENTE,
+            ComplaintPriority.ALTA,
+            ComplaintPriority.URGENTE,
+            ComplaintPriority.MEDIA
+        };
+        complaints = java.util.stream.IntStream.range(0, defaultUsers.size())
+            .mapToObj(index -> complaint(
+                defaultUsers.get(index), priorities[index % priorities.length],
+                -22.250 - index * 0.002))
+            .toList();
     }
 
     @Test
@@ -48,7 +54,7 @@ class ComplaintMapFilterServiceTest {
         List<Complaint> result = ComplaintMapFilterService.filter(
             complaints, defaultUsers.get(0), false, null);
 
-        assertEquals(3, result.size());
+        assertEquals(defaultUsers.size(), result.size());
     }
 
     @Test

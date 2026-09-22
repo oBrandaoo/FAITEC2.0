@@ -51,6 +51,10 @@ public class MapBridge {
         Platform.runLater(() -> controller.setMapFilters(scope, priority));
     }
 
+    public void onResolutionConfirmed(String complaintId) {
+        Platform.runLater(() -> controller.confirmCommunityResolution(complaintId));
+    }
+
     public void onCityBoundaryRequested() {
         if (cityBoundaryGeoJson != null) {
             Platform.runLater(() -> controller.showCityBoundary(cityBoundaryGeoJson));

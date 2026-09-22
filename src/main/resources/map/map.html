@@ -207,6 +207,42 @@
             box-sizing: border-box;
         }
 
+        .community-confirmation {
+            margin-top: 10px;
+            padding-top: 9px;
+            border-top: 1px solid #E2E8F0;
+            color: #475569;
+            font: 12px Arial, sans-serif;
+        }
+
+        .community-confirmation button {
+            width: 100%;
+            margin-bottom: 5px;
+            padding: 8px 10px;
+            border: 1px solid #15803D;
+            border-radius: 7px;
+            background: #16A34A;
+            color: #FFFFFF;
+            cursor: pointer;
+            font: bold 12px Arial, sans-serif;
+        }
+
+        .community-confirmation button:hover:not(:disabled) {
+            background: #15803D;
+        }
+
+        .community-confirmation button:disabled {
+            border-color: #CBD5E1;
+            background: #E2E8F0;
+            color: #475569;
+            cursor: default;
+        }
+
+        .community-confirmation-status {
+            color: #166534;
+            font-weight: bold;
+        }
+
     </style>
 
 </head>
@@ -468,7 +504,7 @@
         map.setView([lat,lng],17);
     }
 
-    function addComplaintMarker(lat,lng,title,priority,count){
+    function addComplaintMarker(lat,lng,title,priority,count,complaintId,confirmations,hasConfirmed,status,requiredConfirmations){
 
         const colors = {
             BAIXA: "#64748B",
@@ -495,9 +531,47 @@
             popupAnchor: [12, -10]
         });
 
-        L.marker([lat,lng], {icon: icon})
+        let confirmationPanel = '';
+        if (!complaintId) {
+            confirmationPanel = '';
+        } else if (status === 'RESOLVIDO') {
+            confirmationPanel = '<div class="community-confirmation community-confirmation-status">' +
+                'Relato concluído</div>';
+        } else if (status === 'CANCELADO') {
+            confirmationPanel = '<div class="community-confirmation">Relato cancelado</div>';
+        } else {
+            const buttonText = hasConfirmed ? 'Você já confirmou' : 'Confirmar que foi resolvida';
+            confirmationPanel = '<div class="community-confirmation">' +
+                '<button type="button" class="community-confirm-button" ' +
+                (hasConfirmed ? 'disabled' : '') + '>' + buttonText + '</button>' +
+                '<div>' + confirmations + ' de ' + requiredConfirmations +
+                ' confirmações da comunidade</div></div>';
+        }
+
+        const marker = L.marker([lat,lng], {icon: icon})
             .addTo(complaintMarkers)
-            .bindPopup(title);
+            .bindPopup(title + confirmationPanel);
+
+        marker.on('popupopen', function(event){
+            const button = event.popup.getElement().querySelector('.community-confirm-button');
+            if (!button) {
+                return;
+            }
+            L.DomEvent.disableClickPropagation(button);
+            if (button.dataset.listenerAttached === 'true') {
+                return;
+            }
+            button.dataset.listenerAttached = 'true';
+            button.addEventListener('click', function(clickEvent){
+                clickEvent.preventDefault();
+                clickEvent.stopPropagation();
+                button.disabled = true;
+                button.textContent = 'Registrando...';
+                if (window.javaBridge) {
+                    window.javaBridge.onResolutionConfirmed(complaintId);
+                }
+            }, {once: true});
+        });
     }
 
     function clearComplaintMarkers(){

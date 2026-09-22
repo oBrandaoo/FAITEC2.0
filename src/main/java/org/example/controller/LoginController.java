@@ -33,7 +33,8 @@ public class LoginController {
     private static final List<User> USERS = List.of(
             new User("USR-001", "Administrador", "1234", UserStatus.ATIVA, UserRole.ADMINISTRADOR),
             new User("USR-002", "Atendente Municipal", "1234", UserStatus.ATIVA, UserRole.ATENDENTE),
-            new User("USR-003", "Cidadão", "1234", UserStatus.ATIVA, UserRole.CIDADAO)
+            new User("USR-003", "Cidadão", "1234", UserStatus.ATIVA, UserRole.CIDADAO),
+            new User("USR-004", "Cidadão 2", "1234", UserStatus.ATIVA, UserRole.CIDADAO)
     );
 
     public static List<User> getAvailableUsers() {
@@ -100,7 +101,7 @@ public class LoginController {
         return switch (user.getRole()) {
             case ADMINISTRADOR -> "admin";
             case ATENDENTE -> "atendente";
-            case CIDADAO -> "cidadao";
+            case CIDADAO -> "USR-004".equals(user.getId()) ? "cidadao2" : "cidadao";
         };
     }
 
