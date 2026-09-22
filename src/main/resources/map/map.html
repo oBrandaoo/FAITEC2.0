@@ -39,12 +39,172 @@
             line-height: 22px;
         }
 
+        .map-filter-panel {
+            width: 220px;
+            box-sizing: border-box;
+            padding: 14px;
+            border: 1px solid #E2E8F0;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .97);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, .18);
+            color: #0F172A;
+            font: 13px Arial, sans-serif;
+        }
+
+        .map-filter-title {
+            margin-bottom: 11px;
+            color: #0F172A;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .map-filter-row {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 9px;
+        }
+
+        .map-filter-row label {
+            color: #475569;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .map-filter-row select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px 10px;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            background: #FFFFFF;
+            color: #0F172A;
+            font: 13px Arial, sans-serif;
+            outline: none;
+        }
+
+        .map-filter-row select:focus {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+        }
+
+        .map-view-panel {
+            width: 238px;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .97);
+            box-shadow: 0 6px 20px rgba(15, 23, 42, .2);
+            color: #0F172A;
+            font: 13px Arial, sans-serif;
+        }
+
+        .map-view-title {
+            margin-bottom: 9px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .map-view-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+
+        .map-view-button {
+            min-height: 34px;
+            padding: 6px 7px;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            background: #FFFFFF;
+            color: #334155;
+            cursor: pointer;
+            font: 12px Arial, sans-serif;
+        }
+
+        .map-view-button:hover {
+            border-color: #2563EB;
+            color: #1D4ED8;
+        }
+
+        .map-view-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .18);
+        }
+
+        .map-view-button.is-active {
+            border-color: #2563EB;
+            background: #DBEAFE;
+            color: #1D4ED8;
+            font-weight: 700;
+        }
+
+        .map-view-button-wide {
+            grid-column: 1 / -1;
+        }
+
+        .map-view-button:disabled {
+            cursor: wait;
+            opacity: .65;
+        }
+
+        .map-view-status {
+            min-height: 15px;
+            margin-top: 7px;
+            color: #64748B;
+            font-size: 11px;
+            line-height: 15px;
+        }
+
+        @media (max-width: 520px) {
+            .map-filter-panel {
+                width: 190px;
+                padding: 11px;
+            }
+        }
+
         .priority-dot {
             display: inline-block;
             width: 11px;
             height: 11px;
             margin-right: 7px;
             border-radius: 50%;
+        }
+
+        .complaint-marker-icon {
+            background: transparent;
+            border: 0;
+        }
+
+        .complaint-marker-wrap {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            width: max-content;
+            filter: drop-shadow(0 1px 2px rgba(15, 23, 42, .35));
+        }
+
+        .complaint-marker-dot {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 18px;
+            border: 2px solid #FFFFFF;
+            border-radius: 50%;
+            box-sizing: border-box;
+        }
+
+        .complaint-marker-count {
+            min-width: 18px;
+            padding: 2px 5px;
+            border: 1px solid #CBD5E1;
+            border-radius: 11px;
+            background: #FFFFFF;
+            color: #0F172A;
+            text-align: center;
+            font: bold 12px Arial, sans-serif;
+            line-height: 16px;
+            box-sizing: border-box;
         }
 
     </style>
@@ -69,7 +229,9 @@
 
     }).setView([-22.252,-45.703],13);
 
-    const tileLayer = L.tileLayer(
+    const complaintMarkers = L.layerGroup().addTo(map);
+
+    const streetTileLayer = L.tileLayer(
         "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
         maxZoom:19,
@@ -78,7 +240,201 @@
         attribution:'&copy; OpenStreetMap'
     });
 
-    tileLayer.addTo(map);
+    const satelliteTileLayer = L.tileLayer(
+        "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
+        maxZoom:19,
+        updateWhenIdle:true,
+        keepBuffer:2,
+        attribution:'Tiles &copy; Esri'
+    });
+
+    let activeBaseLayer = streetTileLayer;
+    let activeMapStyle = "street";
+    streetTileLayer.addTo(map);
+
+    let mapViewControl = null;
+    let cityBoundaryLayer = null;
+
+    function initializeMapViewControls(){
+        if(mapViewControl){
+            return;
+        }
+
+        mapViewControl = L.control({position: "topleft"});
+        mapViewControl.onAdd = function(){
+            const panel = L.DomUtil.create("div", "map-view-panel");
+            panel.setAttribute("aria-label", "Controles de visualização do mapa");
+            panel.innerHTML =
+                '<div class="map-view-title">Visualização</div>' +
+                '<div class="map-view-actions">' +
+                    '<button type="button" class="map-view-button is-active" data-map-style="street" aria-pressed="true">Mapa</button>' +
+                    '<button type="button" class="map-view-button" data-map-style="satellite" aria-pressed="false">Satélite</button>' +
+                    '<button type="button" id="city-boundary-button" class="map-view-button map-view-button-wide" aria-pressed="false">Limites da cidade</button>' +
+                '</div>' +
+                '<div id="map-view-status" class="map-view-status" aria-live="polite"></div>';
+
+            L.DomEvent.disableClickPropagation(panel);
+            L.DomEvent.disableScrollPropagation(panel);
+            return panel;
+        };
+        mapViewControl.addTo(map);
+
+        document.querySelectorAll("[data-map-style]").forEach(function(button){
+            button.addEventListener("click", function(){
+                setMapStyle(button.getAttribute("data-map-style"));
+            });
+        });
+        document.getElementById("city-boundary-button")
+            .addEventListener("click", toggleCityBoundary);
+    }
+
+    function setMapStyle(style){
+        const nextLayer = style === "satellite" ? satelliteTileLayer : streetTileLayer;
+        if(activeBaseLayer !== nextLayer){
+            map.removeLayer(activeBaseLayer);
+            nextLayer.addTo(map);
+            activeBaseLayer = nextLayer;
+        }
+
+        activeMapStyle = style;
+        document.querySelectorAll("[data-map-style]").forEach(function(button){
+            const active = button.getAttribute("data-map-style") === activeMapStyle;
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+    }
+
+    function toggleCityBoundary(){
+        const button = document.getElementById("city-boundary-button");
+        const status = document.getElementById("map-view-status");
+
+        if(cityBoundaryLayer){
+            if(map.hasLayer(cityBoundaryLayer)){
+                map.removeLayer(cityBoundaryLayer);
+                button.classList.remove("is-active");
+                button.setAttribute("aria-pressed", "false");
+                status.textContent = "Limites ocultos.";
+            }else{
+                cityBoundaryLayer.addTo(map);
+                focusCityBoundary();
+                button.classList.add("is-active");
+                button.setAttribute("aria-pressed", "true");
+                status.textContent = "Limites de Santa Rita do Sapucaí.";
+            }
+            return;
+        }
+
+        button.disabled = true;
+        status.textContent = "Carregando limites da cidade...";
+        if(window.javaBridge){
+            window.javaBridge.onCityBoundaryRequested();
+        }else{
+            showCityBoundaryError("Integração com o mapa indisponível.");
+        }
+    }
+
+    function showCityBoundary(geoJson){
+        try{
+            const geometry = typeof geoJson === "string" ? JSON.parse(geoJson) : geoJson;
+            cityBoundaryLayer = L.geoJSON(geometry, {
+                style: {
+                    color: "#7C3AED",
+                    weight: 4,
+                    opacity: .95,
+                    fillColor: "#8B5CF6",
+                    fillOpacity: .07
+                }
+            }).addTo(map);
+            cityBoundaryLayer.bindTooltip("Limites de Santa Rita do Sapucaí", {
+                sticky: true
+            });
+            focusCityBoundary();
+
+            const button = document.getElementById("city-boundary-button");
+            button.disabled = false;
+            button.classList.add("is-active");
+            button.setAttribute("aria-pressed", "true");
+            document.getElementById("map-view-status").textContent =
+                "Limites de Santa Rita do Sapucaí.";
+        }catch(error){
+            showCityBoundaryError("Não foi possível exibir os limites da cidade.");
+        }
+    }
+
+    function focusCityBoundary(){
+        if(cityBoundaryLayer && cityBoundaryLayer.getBounds().isValid()){
+            map.fitBounds(cityBoundaryLayer.getBounds(), {
+                padding: [24, 24],
+                maxZoom: 13
+            });
+        }
+    }
+
+    function showCityBoundaryError(message){
+        const button = document.getElementById("city-boundary-button");
+        if(button){
+            button.disabled = false;
+        }
+        const status = document.getElementById("map-view-status");
+        if(status){
+            status.textContent = message || "Não foi possível carregar os limites da cidade.";
+        }
+    }
+
+    let mapFilterControl = null;
+
+    function initializeMapFilters(){
+        if(mapFilterControl){
+            return;
+        }
+
+        mapFilterControl = L.control({position: "topright"});
+        mapFilterControl.onAdd = function(){
+            const panel = L.DomUtil.create("div", "map-filter-panel");
+            panel.setAttribute("aria-label", "Filtros do mapa");
+            panel.innerHTML =
+                '<div class="map-filter-title">Filtrar reclamações</div>' +
+                '<div class="map-filter-row">' +
+                    '<label for="map-scope-filter">Exibir</label>' +
+                    '<select id="map-scope-filter" aria-label="Exibir todas ou minhas reclamações">' +
+                        '<option value="all">Todas</option>' +
+                        '<option value="mine">Minhas</option>' +
+                    '</select>' +
+                '</div>' +
+                '<div class="map-filter-row">' +
+                    '<label for="map-priority-filter">Prioridade</label>' +
+                    '<select id="map-priority-filter" aria-label="Filtrar por prioridade">' +
+                        '<option value="ALL">Todas</option>' +
+                        '<option value="BAIXA">Baixa</option>' +
+                        '<option value="MEDIA">Média</option>' +
+                        '<option value="ALTA">Alta</option>' +
+                        '<option value="URGENTE">Urgente</option>' +
+                    '</select>' +
+                '</div>';
+
+            L.DomEvent.disableClickPropagation(panel);
+            L.DomEvent.disableScrollPropagation(panel);
+            return panel;
+        };
+        mapFilterControl.addTo(map);
+
+        const scopeFilter = document.getElementById("map-scope-filter");
+        const priorityFilter = document.getElementById("map-priority-filter");
+        const notifyFilterChange = function(){
+            if(window.javaBridge){
+                window.javaBridge.onMapFiltersChanged(scopeFilter.value, priorityFilter.value);
+            }
+        };
+        scopeFilter.addEventListener("change", notifyFilterChange);
+        priorityFilter.addEventListener("change", notifyFilterChange);
+    }
+
+    function setMapFiltersVisible(visible){
+        if(mapFilterControl && mapFilterControl.getContainer()){
+            mapFilterControl.getContainer().style.display = visible ? "" : "none";
+        }
+    }
 
     map.on("click",function(e){
 
@@ -112,7 +468,7 @@
         map.setView([lat,lng],17);
     }
 
-    function addComplaintMarker(lat,lng,title,priority){
+    function addComplaintMarker(lat,lng,title,priority,count){
 
         const colors = {
             BAIXA: "#64748B",
@@ -122,23 +478,43 @@
         };
 
         const color = colors[priority] || "#2563EB";
+        const hasMultipleReports = count > 1;
+        const countBadge = hasMultipleReports
+            ? '<span class="complaint-marker-count">' + count + '</span>'
+            : '';
+        const markerHeight = hasMultipleReports ? 24 : 20;
 
-        L.circleMarker([lat,lng], {
-            radius: 9,
-            color: "#FFFFFF",
-            weight: 2,
-            fillColor: color,
-            fillOpacity: 0.95
-        })
-            .addTo(map)
+        const icon = L.divIcon({
+            className: "complaint-marker-icon",
+            html: '<div class="complaint-marker-wrap">' +
+                '<span class="complaint-marker-dot" style="background-color:' + color + '"></span>' +
+                countBadge +
+                '</div>',
+            iconSize: [hasMultipleReports ? 48 : 20, markerHeight],
+            iconAnchor: [10, markerHeight / 2],
+            popupAnchor: [12, -10]
+        });
+
+        L.marker([lat,lng], {icon: icon})
+            .addTo(complaintMarkers)
             .bindPopup(title);
     }
 
+    function clearComplaintMarkers(){
+        complaintMarkers.clearLayers();
+    }
+
+    let priorityLegend = null;
+
     function showPriorityLegend(){
 
-        const legend = L.control({position: "bottomright"});
+        if(priorityLegend){
+            return;
+        }
 
-        legend.onAdd = function(){
+        priorityLegend = L.control({position: "bottomright"});
+
+        priorityLegend.onAdd = function(){
             const div = L.DomUtil.create("div", "priority-legend");
             div.innerHTML =
                 "<b>Prioridade</b><br>" +
@@ -149,7 +525,7 @@
             return div;
         };
 
-        legend.addTo(map);
+        priorityLegend.addTo(map);
     }
 
     let loadingPopup = null;

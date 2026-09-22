@@ -12,6 +12,8 @@ import javafx.application.Platform;
 public class MapBridge {
 
     private final MapController controller;
+    private String cityBoundaryGeoJson;
+    private boolean cityBoundaryRequestInProgress;
 
     public MapBridge(MapController controller) {
         this.controller = controller;
@@ -43,5 +45,32 @@ public class MapBridge {
                         }
                     });
                 });
+    }
+
+    public void onMapFiltersChanged(String scope, String priority) {
+        Platform.runLater(() -> controller.setMapFilters(scope, priority));
+    }
+
+    public void onCityBoundaryRequested() {
+        if (cityBoundaryGeoJson != null) {
+            Platform.runLater(() -> controller.showCityBoundary(cityBoundaryGeoJson));
+            return;
+        }
+        if (cityBoundaryRequestInProgress) {
+            return;
+        }
+
+        cityBoundaryRequestInProgress = true;
+        CompletableFuture
+                .supplyAsync(GeocodingService::searchCityBoundaryGeoJson)
+                .thenAccept(geoJson -> Platform.runLater(() -> {
+                    cityBoundaryRequestInProgress = false;
+                    if (geoJson == null || geoJson.isBlank()) {
+                        controller.showCityBoundaryError();
+                        return;
+                    }
+                    cityBoundaryGeoJson = geoJson;
+                    controller.showCityBoundary(geoJson);
+                }));
     }
 }

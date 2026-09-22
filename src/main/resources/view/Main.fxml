@@ -99,6 +99,11 @@
                     onAction="#goAbout"
                     styleClass="menuButton"/>
 
+            <Button text="⇄   Trocar usuário"
+                    accessibleText="Trocar usuário. Escolher outro perfil para entrar automaticamente"
+                    onAction="#switchUser"
+                    styleClass="menuButton"/>
+
             <VBox spacing="2">
                 <Label fx:id="loggedUserLabel"
                        text="Usuário"

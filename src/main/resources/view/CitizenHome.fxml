@@ -28,7 +28,7 @@
 
         <HBox spacing="16">
             <VBox styleClass="summary-card" HBox.hgrow="ALWAYS">
-                <Label text="MINHAS RECLAMAÇÕES" styleClass="summary-name"/>
+                <Label text="REGISTRADAS POR VOCÊ" styleClass="summary-name"/>
                 <Label fx:id="totalLabel" text="0" styleClass="summary-value"/>
             </VBox>
             <VBox styleClass="summary-card" HBox.hgrow="ALWAYS">
@@ -53,9 +53,6 @@
                            styleClass="section-subtitle"/>
                 </VBox>
                 <Pane HBox.hgrow="ALWAYS"/>
-                <Button text="Ver todas"
-                        onAction="#viewComplaints"
-                        styleClass="secondary-action"/>
             </HBox>
             <ListView fx:id="recentList"
                       prefHeight="290"
