@@ -13,7 +13,7 @@
             stylesheets="@../css/about.css">
     <VBox spacing="24" styleClass="about-page">
         <padding>
-            <Insets top="42" right="48" bottom="42" left="48"/>
+            <Insets top="30" right="32" bottom="32" left="32"/>
         </padding>
 
         <VBox alignment="CENTER" spacing="12" styleClass="hero-card">
@@ -57,11 +57,11 @@
                 <GridPane hgap="20" vgap="12">
                     <Label text="Linguagem" styleClass="info-label"
                            GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <Label text="Java 17" styleClass="info-value"
+                    <Label text="Java 21" styleClass="info-value"
                            GridPane.columnIndex="1" GridPane.rowIndex="0"/>
                     <Label text="Interface" styleClass="info-label"
                            GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <Label text="JavaFX 17 + FXML" styleClass="info-value"
+                    <Label text="JavaFX 21.0.10 + FXML" styleClass="info-value"
                            GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                     <Label text="Mapa" styleClass="info-label"
                            GridPane.columnIndex="0" GridPane.rowIndex="2"/>

@@ -6,17 +6,17 @@
 
 <HBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.controller.complaint.ComplaintTrackingController"
-      spacing="22"
+      spacing="16"
       styleClass="tracking-page"
       stylesheets="@../css/complaint.css,@../css/tracking.css">
     <padding>
-        <Insets top="28" right="28" bottom="28" left="28"/>
+        <Insets top="24" right="24" bottom="24" left="24"/>
     </padding>
 
     <VBox spacing="14"
           minWidth="280"
-          prefWidth="310"
-          maxWidth="340"
+          prefWidth="280"
+          maxWidth="310"
           styleClass="tracking-navigation">
         <VBox spacing="4">
             <Label text="Problemas da cidade" styleClass="tracking-navigation-title"/>

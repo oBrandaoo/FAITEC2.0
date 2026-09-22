@@ -9,9 +9,9 @@
             fitToWidth="true"
             styleClass="citizen-scroll"
             stylesheets="@../css/citizen-home.css">
-    <VBox spacing="24" styleClass="citizen-page">
+    <VBox spacing="20" styleClass="citizen-page">
         <padding>
-            <Insets top="40" right="46" bottom="40" left="46"/>
+            <Insets top="30" right="32" bottom="32" left="32"/>
         </padding>
 
         <HBox alignment="CENTER_LEFT">

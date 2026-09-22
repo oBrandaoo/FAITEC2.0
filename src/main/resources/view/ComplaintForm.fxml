@@ -14,7 +14,7 @@
               maxWidth="980"
               styleClass="complaint-form-page">
             <padding>
-                <Insets top="38" right="38" bottom="38" left="38"/>
+                <Insets top="28" right="28" bottom="28" left="28"/>
             </padding>
 
             <HBox alignment="CENTER_LEFT">

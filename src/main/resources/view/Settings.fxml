@@ -11,7 +11,7 @@
             stylesheets="@../css/settings.css">
     <VBox spacing="24" styleClass="settingsPage">
         <padding>
-            <Insets top="42" right="48" bottom="42" left="48"/>
+            <Insets top="30" right="32" bottom="32" left="32"/>
         </padding>
 
         <VBox spacing="6">

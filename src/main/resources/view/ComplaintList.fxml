@@ -10,12 +10,12 @@
 
     <VBox alignment="CENTER">
 
-        <VBox spacing="18"
-              maxWidth="1180"
+        <VBox spacing="15"
+              maxWidth="1280"
               styleClass="card">
 
             <padding>
-                <Insets top="25" right="25" bottom="25" left="25"/>
+                <Insets top="22" right="22" bottom="22" left="22"/>
             </padding>
 
             <Label text="Lista de Reclamações"

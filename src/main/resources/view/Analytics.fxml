@@ -10,9 +10,9 @@
             styleClass="analytics-scroll"
             stylesheets="@../css/analytics.css">
     <StackPane styleClass="analytics-page">
-        <VBox spacing="24" maxWidth="1120" styleClass="analytics-content">
+        <VBox spacing="20" maxWidth="1200" styleClass="analytics-content">
             <padding>
-                <Insets top="32" right="36" bottom="36" left="36"/>
+                <Insets top="28" right="30" bottom="30" left="30"/>
             </padding>
 
             <HBox alignment="CENTER_LEFT" spacing="16">

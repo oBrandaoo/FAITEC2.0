@@ -9,22 +9,22 @@
 <BorderPane fx:id="mainRoot"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.controller.MainController"
-            stylesheets="@../css/main.css,@../css/accessibility.css">
+            stylesheets="@../css/main.css,@../css/accessibility.css,@../css/app-theme.css">
 
     <left>
 
-        <VBox prefWidth="260"
-              spacing="18"
+        <VBox prefWidth="244" minWidth="228" maxWidth="258"
+              spacing="11"
               styleClass="sidebar">
 
             <padding>
-                <Insets top="25" right="18" bottom="20" left="18"/>
+                <Insets top="22" right="14" bottom="16" left="14"/>
             </padding>
 
             <HBox spacing="12" alignment="CENTER_LEFT">
 
-                <StackPane>
-                    <ImageView fitWidth="50"
+                <StackPane styleClass="sidebar-logo-mark">
+                    <ImageView fitWidth="38"
                                preserveRatio="true"
                                smooth="true">
                         <image>
@@ -52,6 +52,7 @@
 
             <Button text="🏠   Início"
                     accessibleText="Início. Atalho Alt mais 1"
+                    fx:id="homeButton"
                     onAction="#goHome"
                     styleClass="menuButton"/>
 
@@ -91,20 +92,23 @@
 
             <Button text="⚙   Configurações"
                     accessibleText="Configurações e acessibilidade. Atalho Alt mais 6"
+                    fx:id="settingsButton"
                     onAction="#goSettings"
                     styleClass="menuButton"/>
 
             <Button text="ⓘ   Sobre o sistema"
                     accessibleText="Sobre o sistema. Atalho Alt mais zero"
+                    fx:id="aboutButton"
                     onAction="#goAbout"
                     styleClass="menuButton"/>
 
             <Button text="⇄   Trocar usuário"
                     accessibleText="Trocar usuário. Escolher outro perfil para entrar automaticamente"
+                    fx:id="switchUserButton"
                     onAction="#switchUser"
                     styleClass="menuButton"/>
 
-            <VBox spacing="2">
+            <VBox spacing="4" styleClass="sidebar-user-card">
                 <Label fx:id="loggedUserLabel"
                        text="Usuário"
                        styleClass="footerTitle"/>
@@ -113,7 +117,7 @@
                        styleClass="footer"/>
             </VBox>
 
-            <VBox spacing="3">
+            <VBox spacing="3" styleClass="sidebar-version">
 
                 <Label text="Sistema Cidade em Dia"
                        styleClass="footerTitle"/>
