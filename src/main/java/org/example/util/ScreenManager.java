@@ -3,6 +3,8 @@ package org.example.util;
 import org.example.model.User;
 import org.example.model.enums.UserRole;
 
+import java.util.function.Consumer;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -10,9 +12,14 @@ import javafx.scene.layout.Pane;
 public class ScreenManager {
 
     private static Pane mainContainer;
+    private static Consumer<String> screenChangeListener;
 
     public static void setMainContainer(Pane container) {
         mainContainer = container;
+    }
+
+    public static void setScreenChangeListener(Consumer<String> listener) {
+        screenChangeListener = listener;
     }
 
     public static <T> T loadScreen(String fxml) {
@@ -21,6 +28,9 @@ public class ScreenManager {
 
             Node view = loader.load();
             mainContainer.getChildren().setAll(view);
+            if (screenChangeListener != null) {
+                screenChangeListener.accept(fxml);
+            }
 
             return loader.getController();
 

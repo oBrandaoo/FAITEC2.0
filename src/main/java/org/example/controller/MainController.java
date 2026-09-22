@@ -36,17 +36,22 @@ public class MainController {
     @FXML
     private VBox toastLayer;
 
+    @FXML private Button homeButton;
     @FXML private Button newComplaintButton;
     @FXML private Button complaintsButton;
     @FXML private Button analyticsButton;
     @FXML private Button mapButton;
     @FXML private Button trackingButton;
+    @FXML private Button settingsButton;
+    @FXML private Button aboutButton;
+    @FXML private Button switchUserButton;
     @FXML private Label loggedUserLabel;
     @FXML private Label loggedUserRoleLabel;
 
     @FXML
     public void initialize() {
         ScreenManager.setMainContainer(contentArea);
+        ScreenManager.setScreenChangeListener(this::updateActiveNavigation);
         NotificationManager.setContainer(toastLayer);
         AccessibilityManager.setApplicationRoot(mainRoot);
 
@@ -147,6 +152,32 @@ public class MainController {
     @FXML
     private void goAbout() {
         ScreenManager.loadScreen("About.fxml");
+    }
+
+    private void updateActiveNavigation(String screen) {
+        Button activeButton = switch (screen) {
+            case "home.fxml", "CitizenHome.fxml" -> homeButton;
+            case "ComplaintForm.fxml" -> newComplaintButton;
+            case "ComplaintList.fxml" -> complaintsButton;
+            case "Analytics.fxml" -> analyticsButton;
+            case "map/MapView.fxml" -> mapButton;
+            case "ComplaintTracking.fxml" -> trackingButton;
+            case "Settings.fxml" -> settingsButton;
+            case "About.fxml" -> aboutButton;
+            default -> null;
+        };
+        if (activeButton != null) {
+            setActiveNavigation(activeButton);
+        }
+    }
+
+    private void setActiveNavigation(Button activeButton) {
+        List.of(homeButton, newComplaintButton, complaintsButton, analyticsButton,
+                mapButton, trackingButton, settingsButton, aboutButton, switchUserButton)
+            .forEach(button -> button.getStyleClass().remove("menuButtonActive"));
+        if (activeButton != null && !activeButton.getStyleClass().contains("menuButtonActive")) {
+            activeButton.getStyleClass().add("menuButtonActive");
+        }
     }
 
     @FXML
