@@ -1,11 +1,16 @@
 package org.example.controller.maps;
 
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.example.model.Complaint;
 import org.example.model.Location;
 import org.example.model.enums.MapMode;
 import org.example.model.enums.ComplaintPriority;
+import org.example.model.enums.ComplaintStatus;
 import org.example.service.ComplaintClusterService;
 import org.example.service.ComplaintMapFilterService;
 import org.example.service.ComplaintService;
@@ -40,6 +45,9 @@ public class MapController {
     private Consumer<Location> locationListener;
     private boolean mineOnly;
     private ComplaintPriority selectedPriority;
+    private ComplaintStatus selectedStatus;
+    private LocalDate filterStartDate;
+    private LocalDate filterEndDate;
     private boolean loading;
     private final PauseTransition mapResizeDebounce =
             new PauseTransition(Duration.millis(100));
@@ -134,7 +142,8 @@ public class MapController {
         this.stage = stage;
     }
 
-    public void setMapFilters(String scope, String priorityName) {
+    public void setMapFilters(String scope, String priorityName, String statusName,
+            String period, String customStart, String customEnd) {
         mineOnly = "mine".equals(scope);
         selectedPriority = null;
         if (priorityName != null && !priorityName.isBlank() && !"ALL".equals(priorityName)) {
@@ -144,7 +153,42 @@ public class MapController {
                 selectedPriority = null;
             }
         }
+
+        selectedStatus = null;
+        if (statusName != null && !statusName.isBlank() && !"ALL".equals(statusName)) {
+            try {
+                selectedStatus = ComplaintStatus.valueOf(statusName);
+            } catch (IllegalArgumentException ignored) {
+                selectedStatus = null;
+            }
+        }
+
+        filterStartDate = null;
+        filterEndDate = null;
+        if ("7".equals(period) || "30".equals(period) || "90".equals(period)) {
+            int days = Integer.parseInt(period);
+            filterStartDate = LocalDate.now().minusDays(days - 1L);
+            filterEndDate = LocalDate.now();
+        } else if ("CUSTOM".equals(period)) {
+            filterStartDate = parseDate(customStart);
+            filterEndDate = parseDate(customEnd);
+            if (filterStartDate != null && filterEndDate != null
+                    && filterStartDate.isAfter(filterEndDate)) {
+                NotificationManager.warning("A data inicial deve ser anterior à data final.");
+            }
+        }
         refreshComplaintMarkers();
+    }
+
+    private LocalDate parseDate(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        try {
+            return LocalDate.parse(value);
+        } catch (java.time.format.DateTimeParseException ignored) {
+            return null;
+        }
     }
 
     public void showCityBoundary(String geoJson) {
@@ -202,8 +246,7 @@ public class MapController {
         engine.executeScript("clearComplaintMarkers(); showPriorityLegend();");
 
         var currentUser = UserSession.getLoggedUser();
-        var filteredComplaints = ComplaintMapFilterService.filter(
-            ComplaintService.getAllComplaints(), currentUser, mineOnly, selectedPriority);
+        var filteredComplaints = getFilteredComplaints(currentUser);
 
         for (var cluster : ComplaintClusterService.groupByProximity(
                 filteredComplaints)) {
@@ -242,6 +285,56 @@ public class MapController {
                             + ");"
             );
         }
+
+        String heatPoints = filteredComplaints.stream()
+                .map(Complaint::getLocation)
+                .filter(location -> location != null
+                        && Double.isFinite(location.getLatitude())
+                        && Double.isFinite(location.getLongitude()))
+                .map(location -> "[" + location.getLatitude() + ","
+                        + location.getLongitude() + "]")
+                .collect(Collectors.joining(","));
+        engine.executeScript("setHeatPoints([" + heatPoints + "]);");
+    }
+
+    private java.util.List<Complaint> getFilteredComplaints(org.example.model.User user) {
+        return ComplaintMapFilterService.filter(
+                ComplaintService.getAllComplaints(), user, mineOnly, selectedPriority,
+                selectedStatus, filterStartDate, filterEndDate);
+    }
+
+    public void showAreaSummary(double latitude, double longitude, double radiusMeters) {
+        var visibleComplaints = getFilteredComplaints(UserSession.getLoggedUser());
+        var nearbyComplaints = visibleComplaints.stream()
+                .filter(complaint -> complaint.getLocation() != null)
+                .filter(complaint -> ComplaintClusterService.distanceMeters(
+                        latitude, longitude,
+                        complaint.getLocation().getLatitude(),
+                        complaint.getLocation().getLongitude()) <= radiusMeters)
+                .toList();
+
+        Map<String, Long> categories = nearbyComplaints.stream()
+                .collect(Collectors.groupingBy(item -> item.getCategory().toString(),
+                        Collectors.counting()));
+        Map<String, Long> statuses = nearbyComplaints.stream()
+                .collect(Collectors.groupingBy(item -> item.getStatus().toString(),
+                        Collectors.counting()));
+        String summary = "Resumo em um raio de " + (int) radiusMeters + " m"
+                + "\n" + nearbyComplaints.size() + " reclamações"
+                + "\n\nPor categoria\n" + formatBreakdown(categories)
+                + "\n\nPor situação\n" + formatBreakdown(statuses);
+        engine.executeScript("showAreaSummary(" + latitude + "," + longitude + ","
+                + radiusMeters + "," + jsString(summary) + ");");
+    }
+
+    private String formatBreakdown(Map<String, Long> counts) {
+        if (counts.isEmpty()) {
+            return "Nenhuma ocorrência";
+        }
+        return counts.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue(Comparator.reverseOrder()))
+                .map(entry -> "• " + entry.getKey() + ": " + entry.getValue())
+                .collect(Collectors.joining("\n"));
     }
 
     public void confirmCommunityResolution(String complaintId) {

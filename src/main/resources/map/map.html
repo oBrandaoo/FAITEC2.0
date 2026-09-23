@@ -29,6 +29,13 @@
             height:100%;
         }
 
+        .heatmap-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 420;
+            pointer-events: none;
+        }
+
         .priority-legend {
             background: white;
             padding: 10px 12px;
@@ -37,10 +44,51 @@
             color: #334155;
             font: 13px Arial, sans-serif;
             line-height: 22px;
+            min-width: 145px;
         }
 
+        .legend-section-title {
+            margin: 6px 0 2px;
+            font-weight: 700;
+        }
+
+        .status-legend-mark,
+        .status-marker-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            font-weight: bold;
+        }
+
+        .status-legend-mark {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+            font-size: 10px;
+            vertical-align: middle;
+        }
+
+        .status-marker-badge {
+            width: 15px;
+            height: 15px;
+            margin-left: -7px;
+            margin-right: 2px;
+            border: 1px solid white;
+            font: bold 9px Arial, sans-serif;
+        }
+
+        .status-pendente { background: #64748B; }
+        .status-em-analise { background: #7C3AED; }
+        .status-em-execucao { background: #D97706; }
+        .status-resolvido { background: #16A34A; }
+        .status-cancelado { background: #334155; }
+
         .map-filter-panel {
-            width: 220px;
+            width: 238px;
+            max-height: calc(100vh - 36px);
+            overflow-y: auto;
             box-sizing: border-box;
             padding: 14px;
             border: 1px solid #E2E8F0;
@@ -81,6 +129,35 @@
             color: #0F172A;
             font: 13px Arial, sans-serif;
             outline: none;
+        }
+
+        .map-filter-row input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 7px 8px;
+            border: 1px solid #CBD5E1;
+            border-radius: 7px;
+            background: white;
+            color: #0F172A;
+            font: 12px Arial, sans-serif;
+        }
+
+        .map-date-range {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+            margin-top: 8px;
+        }
+
+        .map-date-range.is-visible {
+            display: grid;
+        }
+
+        .map-date-field label {
+            display: block;
+            margin-bottom: 4px;
+            color: #64748B;
+            font-size: 10px;
         }
 
         .map-filter-row select:focus {
@@ -149,12 +226,31 @@
             opacity: .65;
         }
 
+        .map-view-button.is-active[data-toggle] {
+            border-color: #0F766E;
+            background: #CCFBF1;
+            color: #115E59;
+        }
+
         .map-view-status {
             min-height: 15px;
             margin-top: 7px;
             color: #64748B;
             font-size: 11px;
             line-height: 15px;
+        }
+
+        .area-summary-circle {
+            fill: rgba(14, 116, 144, .12);
+            stroke: #0E7490;
+            stroke-width: 2;
+            stroke-dasharray: 7 5;
+        }
+
+        .area-summary-popup {
+            white-space: pre-line;
+            color: #334155;
+            font: 12px/1.55 Arial, sans-serif;
         }
 
         @media (max-width: 520px) {
@@ -266,6 +362,14 @@
     }).setView([-22.252,-45.703],13);
 
     const complaintMarkers = L.layerGroup().addTo(map);
+    const AREA_SUMMARY_RADIUS_METERS = 500;
+    let heatPoints = [];
+    let heatmapEnabled = false;
+    let heatmapCanvas = null;
+    let areaSummaryEnabled = false;
+    let areaSummaryCircle = null;
+    let areaSummaryPopup = null;
+    let userLocationMarker = null;
 
     const streetTileLayer = L.tileLayer(
         "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -307,6 +411,9 @@
                     '<button type="button" class="map-view-button is-active" data-map-style="street" aria-pressed="true">Mapa</button>' +
                     '<button type="button" class="map-view-button" data-map-style="satellite" aria-pressed="false">Satélite</button>' +
                     '<button type="button" id="city-boundary-button" class="map-view-button map-view-button-wide" aria-pressed="false">Limites da cidade</button>' +
+                    '<button type="button" id="heatmap-button" class="map-view-button" data-toggle aria-pressed="false">Mapa de calor</button>' +
+                    '<button type="button" id="my-location-button" class="map-view-button">Minha localização</button>' +
+                    '<button type="button" id="area-summary-button" class="map-view-button map-view-button-wide" data-toggle aria-pressed="false">Resumo desta área</button>' +
                 '</div>' +
                 '<div id="map-view-status" class="map-view-status" aria-live="polite"></div>';
 
@@ -315,6 +422,7 @@
             return panel;
         };
         mapViewControl.addTo(map);
+        initializeHeatmapCanvas();
 
         document.querySelectorAll("[data-map-style]").forEach(function(button){
             button.addEventListener("click", function(){
@@ -323,6 +431,12 @@
         });
         document.getElementById("city-boundary-button")
             .addEventListener("click", toggleCityBoundary);
+        document.getElementById("heatmap-button")
+            .addEventListener("click", toggleHeatmap);
+        document.getElementById("my-location-button")
+            .addEventListener("click", centerOnMyLocation);
+        document.getElementById("area-summary-button")
+            .addEventListener("click", toggleAreaSummary);
     }
 
     function setMapStyle(style){
@@ -339,6 +453,150 @@
             button.classList.toggle("is-active", active);
             button.setAttribute("aria-pressed", active ? "true" : "false");
         });
+    }
+
+    function initializeHeatmapCanvas(){
+        if (heatmapCanvas) {
+            return;
+        }
+        heatmapCanvas = document.createElement('canvas');
+        heatmapCanvas.className = 'heatmap-layer';
+        map.getContainer().appendChild(heatmapCanvas);
+        map.on('moveend zoomend resize', renderHeatmap);
+        renderHeatmap();
+    }
+
+    function setHeatPoints(points){
+        heatPoints = Array.isArray(points) ? points : [];
+        renderHeatmap();
+    }
+
+    function renderHeatmap(){
+        if (!heatmapCanvas) {
+            return;
+        }
+        const size = map.getSize();
+        const ratio = window.devicePixelRatio || 1;
+        heatmapCanvas.width = Math.round(size.x * ratio);
+        heatmapCanvas.height = Math.round(size.y * ratio);
+        heatmapCanvas.style.width = size.x + 'px';
+        heatmapCanvas.style.height = size.y + 'px';
+        const context = heatmapCanvas.getContext('2d');
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        context.clearRect(0, 0, size.x, size.y);
+        if (!heatmapEnabled) {
+            return;
+        }
+
+        heatPoints.forEach(function(coordinates){
+            const point = map.latLngToContainerPoint(coordinates);
+            if (point.x < -70 || point.y < -70 || point.x > size.x + 70 || point.y > size.y + 70) {
+                return;
+            }
+            const radius = 58;
+            const gradient = context.createRadialGradient(
+                point.x, point.y, 2, point.x, point.y, radius);
+            gradient.addColorStop(0, 'rgba(220, 38, 38, 0.42)');
+            gradient.addColorStop(0.28, 'rgba(249, 115, 22, 0.30)');
+            gradient.addColorStop(0.62, 'rgba(250, 204, 21, 0.16)');
+            gradient.addColorStop(1, 'rgba(250, 204, 21, 0)');
+            context.fillStyle = gradient;
+            context.fillRect(point.x - radius, point.y - radius, radius * 2, radius * 2);
+        });
+    }
+
+    function toggleHeatmap(){
+        heatmapEnabled = !heatmapEnabled;
+        const button = document.getElementById('heatmap-button');
+        button.classList.toggle('is-active', heatmapEnabled);
+        button.setAttribute('aria-pressed', String(heatmapEnabled));
+        renderHeatmap();
+        setMapViewStatus(heatmapEnabled
+            ? 'Mapa de calor ligado; os filtros atuais são aplicados.'
+            : 'Mapa de calor desligado.');
+    }
+
+    function centerOnMyLocation(){
+        const button = document.getElementById('my-location-button');
+        if (!navigator.geolocation) {
+            setMapViewStatus('Localização não disponível neste dispositivo.');
+            return;
+        }
+        button.disabled = true;
+        setMapViewStatus('Buscando sua localização…');
+        navigator.geolocation.getCurrentPosition(function(position){
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            map.setView([latitude, longitude], 16);
+            if (userLocationMarker) {
+                map.removeLayer(userLocationMarker);
+            }
+            userLocationMarker = L.circleMarker([latitude, longitude], {
+                radius: 8,
+                color: '#FFFFFF',
+                weight: 3,
+                fillColor: '#0E7490',
+                fillOpacity: 1
+            }).addTo(map).bindPopup('Você está aqui.');
+            userLocationMarker.openPopup();
+            button.disabled = false;
+            setMapViewStatus('Mapa centralizado na sua localização.');
+        }, function(error){
+            button.disabled = false;
+            const message = error.code === 1
+                ? 'Permita o acesso à localização para usar este recurso.'
+                : 'Não foi possível obter sua localização neste dispositivo.';
+            setMapViewStatus(message);
+        }, {enableHighAccuracy: true, timeout: 12000, maximumAge: 60000});
+    }
+
+    function toggleAreaSummary(){
+        areaSummaryEnabled = !areaSummaryEnabled;
+        const button = document.getElementById('area-summary-button');
+        button.classList.toggle('is-active', areaSummaryEnabled);
+        button.setAttribute('aria-pressed', String(areaSummaryEnabled));
+        map.getContainer().style.cursor = areaSummaryEnabled ? 'crosshair' : '';
+        if (!areaSummaryEnabled) {
+            clearAreaSummary();
+        }
+        setMapViewStatus(areaSummaryEnabled
+            ? 'Clique no mapa para resumir as reclamações em um raio de 500 m.'
+            : 'Resumo da área removido.');
+    }
+
+    function setMapViewStatus(message){
+        const status = document.getElementById('map-view-status');
+        if (status) {
+            status.textContent = message;
+        }
+    }
+
+    function showAreaSummary(latitude, longitude, radiusMeters, summary){
+        const center = L.latLng(latitude, longitude);
+        clearAreaSummary();
+        areaSummaryCircle = L.circle(center, {
+            radius: radiusMeters,
+            className: 'area-summary-circle',
+            interactive: false
+        }).addTo(map);
+        const content = document.createElement('div');
+        content.className = 'area-summary-popup';
+        content.textContent = summary;
+        areaSummaryPopup = L.popup({maxWidth: 300})
+            .setLatLng(center)
+            .setContent(content)
+            .openOn(map);
+    }
+
+    function clearAreaSummary(){
+        if (areaSummaryCircle && map.hasLayer(areaSummaryCircle)) {
+            map.removeLayer(areaSummaryCircle);
+        }
+        if (areaSummaryPopup) {
+            map.closePopup(areaSummaryPopup);
+        }
+        areaSummaryCircle = null;
+        areaSummaryPopup = null;
     }
 
     function toggleCityBoundary(){
@@ -448,6 +706,34 @@
                         '<option value="URGENTE">Urgente</option>' +
                     '</select>' +
                 '</div>';
+            panel.innerHTML +=
+                '<div class="map-filter-row">' +
+                    '<label for="map-status-filter">Situação</label>' +
+                    '<select id="map-status-filter" aria-label="Filtrar por situação">' +
+                        '<option value="ALL">Todas</option>' +
+                        '<option value="PENDENTE">Pendente</option>' +
+                        '<option value="EM_ANALISE">Em análise</option>' +
+                        '<option value="EM_EXECUCAO">Em execução</option>' +
+                        '<option value="RESOLVIDO">Resolvido</option>' +
+                        '<option value="CANCELADO">Cancelado</option>' +
+                    '</select>' +
+                '</div>' +
+                '<div class="map-filter-row">' +
+                    '<label for="map-period-filter">Período</label>' +
+                    '<select id="map-period-filter" aria-label="Filtrar por período">' +
+                        '<option value="ALL">Todo o período</option>' +
+                        '<option value="7">Últimos 7 dias</option>' +
+                        '<option value="30">Últimos 30 dias</option>' +
+                        '<option value="90">Últimos 90 dias</option>' +
+                        '<option value="CUSTOM">Personalizado</option>' +
+                    '</select>' +
+                '</div>' +
+                '<div id="map-date-range" class="map-date-range">' +
+                    '<div class="map-date-field"><label for="map-start-date">De</label>' +
+                        '<input id="map-start-date" type="date" aria-label="Data inicial"></div>' +
+                    '<div class="map-date-field"><label for="map-end-date">Até</label>' +
+                        '<input id="map-end-date" type="date" aria-label="Data final"></div>' +
+                '</div>';
 
             L.DomEvent.disableClickPropagation(panel);
             L.DomEvent.disableScrollPropagation(panel);
@@ -457,13 +743,29 @@
 
         const scopeFilter = document.getElementById("map-scope-filter");
         const priorityFilter = document.getElementById("map-priority-filter");
+        const statusFilter = document.getElementById("map-status-filter");
+        const periodFilter = document.getElementById("map-period-filter");
+        const startDate = document.getElementById("map-start-date");
+        const endDate = document.getElementById("map-end-date");
+        const dateRange = document.getElementById("map-date-range");
+        const updateCustomDateVisibility = function(){
+            dateRange.classList.toggle("is-visible", periodFilter.value === "CUSTOM");
+        };
         const notifyFilterChange = function(){
             if(window.javaBridge){
-                window.javaBridge.onMapFiltersChanged(scopeFilter.value, priorityFilter.value);
+                window.javaBridge.onMapFiltersChanged(scopeFilter.value, priorityFilter.value,
+                    statusFilter.value, periodFilter.value, startDate.value, endDate.value);
             }
         };
         scopeFilter.addEventListener("change", notifyFilterChange);
         priorityFilter.addEventListener("change", notifyFilterChange);
+        statusFilter.addEventListener("change", notifyFilterChange);
+        periodFilter.addEventListener("change", function(){
+            updateCustomDateVisibility();
+            notifyFilterChange();
+        });
+        startDate.addEventListener("change", notifyFilterChange);
+        endDate.addEventListener("change", notifyFilterChange);
     }
 
     function setMapFiltersVisible(visible){
@@ -473,30 +775,38 @@
     }
 
     map.on("click",function(e){
-
-        if(!selectionEnabled){
+        if(selectionEnabled){
+            if(selectedMarker){
+                map.removeLayer(selectedMarker);
+            }
+            selectedMarker = L.marker(e.latlng).addTo(map);
+            if(window.javaBridge){
+                window.javaBridge.onLocationSelected(e.latlng.lat, e.latlng.lng);
+            }
             return;
         }
 
-        if(selectedMarker){
-
-            map.removeLayer(selectedMarker);
-        }
-
-        selectedMarker = L.marker(e.latlng).addTo(map);
-
-        if(window.javaBridge){
-
-            window.javaBridge.onLocationSelected(
-                e.latlng.lat,
-                e.latlng.lng
-            );
+        if(areaSummaryEnabled){
+            if(window.javaBridge){
+                window.javaBridge.onAreaSummarySelected(
+                    e.latlng.lat, e.latlng.lng, AREA_SUMMARY_RADIUS_METERS);
+            }
         }
     });
 
     function setSelectionEnabled(enabled){
         selectionEnabled = enabled;
         map.getContainer().style.cursor = enabled ? "crosshair" : "";
+        const areaButton = document.getElementById('area-summary-button');
+        if (areaButton) {
+            areaButton.disabled = enabled;
+            if (enabled && areaSummaryEnabled) {
+                areaSummaryEnabled = false;
+                areaButton.classList.remove('is-active');
+                areaButton.setAttribute('aria-pressed', 'false');
+                clearAreaSummary();
+            }
+        }
     }
 
     function centerMap(lat,lng){
@@ -512,22 +822,32 @@
             ALTA: "#EA580C",
             URGENTE: "#DC2626"
         };
+        const statusMetadata = {
+            PENDENTE: {symbol: '!', className: 'pendente'},
+            EM_ANALISE: {symbol: '?', className: 'em-analise'},
+            EM_EXECUCAO: {symbol: '↗', className: 'em-execucao'},
+            RESOLVIDO: {symbol: '✓', className: 'resolvido'},
+            CANCELADO: {symbol: '×', className: 'cancelado'}
+        };
 
         const color = colors[priority] || "#2563EB";
+        const statusVisual = statusMetadata[status] || statusMetadata.PENDENTE;
         const hasMultipleReports = count > 1;
         const countBadge = hasMultipleReports
             ? '<span class="complaint-marker-count">' + count + '</span>'
             : '';
-        const markerHeight = hasMultipleReports ? 24 : 20;
+        const markerHeight = 26;
 
         const icon = L.divIcon({
             className: "complaint-marker-icon",
             html: '<div class="complaint-marker-wrap">' +
                 '<span class="complaint-marker-dot" style="background-color:' + color + '"></span>' +
+                '<span class="status-marker-badge status-' + statusVisual.className + '">' +
+                    statusVisual.symbol + '</span>' +
                 countBadge +
                 '</div>',
-            iconSize: [hasMultipleReports ? 48 : 20, markerHeight],
-            iconAnchor: [10, markerHeight / 2],
+            iconSize: [hasMultipleReports ? 64 : 28, markerHeight],
+            iconAnchor: [14, markerHeight / 2],
             popupAnchor: [12, -10]
         });
 
@@ -595,7 +915,13 @@
                 '<span class="priority-dot" style="background:#64748B"></span>Baixa<br>' +
                 '<span class="priority-dot" style="background:#2563EB"></span>Média<br>' +
                 '<span class="priority-dot" style="background:#EA580C"></span>Alta<br>' +
-                '<span class="priority-dot" style="background:#DC2626"></span>Urgente';
+                '<span class="priority-dot" style="background:#DC2626"></span>Urgente' +
+                '<div class="legend-section-title">Situação</div>' +
+                '<span class="status-legend-mark status-pendente">!</span>Pendente<br>' +
+                '<span class="status-legend-mark status-em-analise">?</span>Em análise<br>' +
+                '<span class="status-legend-mark status-em-execucao">↗</span>Em execução<br>' +
+                '<span class="status-legend-mark status-resolvido">✓</span>Resolvido<br>' +
+                '<span class="status-legend-mark status-cancelado">×</span>Cancelado';
             return div;
         };
 

@@ -69,19 +69,42 @@ class ComplaintMapFilterServiceTest {
     }
 
     @Test
+    void statusAndDateFiltersCanBeCombined() {
+        User creator = defaultUsers.get(2);
+        Complaint recentResolved = complaint(creator, ComplaintPriority.MEDIA, -22.250,
+                ComplaintStatus.RESOLVIDO, LocalDate.now().minusDays(2));
+        Complaint oldResolved = complaint(creator, ComplaintPriority.MEDIA, -22.252,
+                ComplaintStatus.RESOLVIDO, LocalDate.now().minusDays(20));
+        Complaint recentOpen = complaint(creator, ComplaintPriority.MEDIA, -22.254,
+                ComplaintStatus.PENDENTE, LocalDate.now().minusDays(1));
+
+        List<Complaint> result = ComplaintMapFilterService.filter(
+                List.of(recentResolved, oldResolved, recentOpen), creator, false, null,
+                ComplaintStatus.RESOLVIDO, LocalDate.now().minusDays(7), LocalDate.now());
+
+        assertEquals(List.of(recentResolved), result);
+    }
+
+    @Test
     void mineFilterWithoutALoggedInUserShowsNoReports() {
         assertTrue(ComplaintMapFilterService.filter(complaints, null, true, null).isEmpty());
     }
 
     private Complaint complaint(User creator, ComplaintPriority priority, double latitude) {
+        return complaint(creator, priority, latitude, ComplaintStatus.PENDENTE,
+                LocalDate.of(2026, 9, 21));
+    }
+
+    private Complaint complaint(User creator, ComplaintPriority priority, double latitude,
+            ComplaintStatus status, LocalDate date) {
         return new Complaint(
             ComplaintCategory.BURACO_RUA,
             ComplaintSubcategory.BURACO_EM_VIA,
             new Location(latitude, -45.703, "Centro"),
             "Teste",
-            ComplaintStatus.PENDENTE,
+            status,
             priority,
-            LocalDate.of(2026, 9, 21),
+            date,
             creator.getId(),
             creator.getName()
         );

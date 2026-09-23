@@ -47,12 +47,18 @@ public class MapBridge {
                 });
     }
 
-    public void onMapFiltersChanged(String scope, String priority) {
-        Platform.runLater(() -> controller.setMapFilters(scope, priority));
+    public void onMapFiltersChanged(String scope, String priority, String status,
+            String period, String customStart, String customEnd) {
+        Platform.runLater(() -> controller.setMapFilters(
+                scope, priority, status, period, customStart, customEnd));
     }
 
     public void onResolutionConfirmed(String complaintId) {
         Platform.runLater(() -> controller.confirmCommunityResolution(complaintId));
+    }
+
+    public void onAreaSummarySelected(double latitude, double longitude, double radiusMeters) {
+        Platform.runLater(() -> controller.showAreaSummary(latitude, longitude, radiusMeters));
     }
 
     public void onCityBoundaryRequested() {
